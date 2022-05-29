@@ -1,0 +1,147 @@
+.loginArea{
+    width: 360px;
+    height: 700px;
+    background-color: white;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    background-image: url("../../../assets/vegetables.jpg");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 100% 380px;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.brand>p{ 
+     text-align: center;
+     color: #60be04;
+}
+.brand{
+    padding-top: 43%;
+    font-size: 40px;
+}
+.information_login{
+  margin-top: 34%;
+  padding-right: 6%;
+  padding-left: 6%;
+}
+#p_login{
+  font-weight: 600;
+  font-size: 22px;
+  color: #686868;
+}
+.login_method{
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+}
+.login_social{
+    width: 50%;
+}
+.login_trandition{
+    width: 50%;
+}
+
+#email,#password,#email:focus {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #f5f4f5;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+#email:focus,#password:focus{
+    outline: none;
+}
+#loginFacebook{
+    margin-bottom: 5px !important;
+}
+#loginFacebook>button{
+    width: 80%;
+    height: 30px;
+    background-color: #3b5998;
+    border: none;
+    color: white;
+    transition: 0.4s;
+    cursor: pointer;
+    border-radius: 3px;
+}
+#loginFacebook>button:hover{
+    background-color:#1f3460;
+    transition: 0.4s;
+}
+#loginGoogle>button{
+    width: 80%;
+    height: 30px;
+    background-color: #ea4335;
+    border: none;
+    color: white;
+    transition: 0.4s;
+    cursor: pointer;
+    border-radius:  3px;
+}
+#loginGoogle>button:hover{
+    background-color: #952319;
+    transition: 0.4s;
+}
+.icon_submit{
+   background-color: #60be04;
+   width: 40px;
+   height: 40px;
+   border-radius: 7px;
+   color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 30px;
+   float: right;
+   cursor: pointer;
+   transition: 0.4s;
+}
+.icon_submit:hover{
+    background-color: #407b07;
+    transition: 0.4s;
+}
+.forgot_signup{
+    margin-top: 35px;
+    clear: both;
+    float: right;
+}
+#p_forgot{
+    padding: 0;
+    margin: 0;
+    color: #968e8e;
+    cursor: pointer;
+   
+}
+#p_forgot>*{
+    text-decoration: none !important;
+    color: gray !important;
+}
+#p_signup{
+    font-weight: 550;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+#p_signup>*{
+    text-decoration: none !important;
+    color: black !important;
+}
+@media screen and (max-width: 480px) {
+    .loginArea{
+        width: 100%;
+        border-radius:0px;
+        margin-top: 0px;
+        min-height: 100vh;
+        background-size: 100% 300px;
+    }
+    .information_login{
+        margin-top: 35%;
+    }
+  }
