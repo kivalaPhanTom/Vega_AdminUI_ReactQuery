@@ -13,7 +13,14 @@ function RouterURL(props) {
     <Routes>
         <Route exact path="/login" element={<Login/>}></Route>    
         <Route exact path="/register" element={<Register/> }></Route>   
-        <Route exact path="/forgot" element={<ForgotPassword/> }></Route>         
+        <Route exact path="/forgot" element={<ForgotPassword/> }></Route>      
+
+          {/* <Route exact path="/" 
+                       element={ 
+                        <PrivateRoute >
+                           <Layout component_ui={<CheckinCheckout/>} />
+                        </PrivateRoute>}>
+                </Route>    */}
     </Routes> 
 </div>
   )

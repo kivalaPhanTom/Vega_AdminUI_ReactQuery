@@ -4,8 +4,18 @@ import { BsArrowRightShort } from "react-icons/bs";
 import {
     Link,
 } from "react-router-dom";
+import * as loginActions  from "../../Redux/Actions/Login.action";
+import { useSelector, useDispatch } from 'react-redux';
 
 function Login(props) {
+    const dispatch = useDispatch();
+    const handleLoginFaceBook=()=>{
+        console.log("fb")
+        dispatch(loginActions.loginFacebook({}))
+    }
+    const handleLoginGoogle=()=>{
+        console.log("gg")
+    }
   return (
     <div className={styles['loginArea']}>
          <div className={styles['brand']}>
@@ -24,10 +34,10 @@ function Login(props) {
               <div className={styles['login_method']}>
                    <div className={styles['login_social']}>
                        <div id={styles['loginFacebook']} >
-                         <button>Facebook</button>
+                         <button onClick={handleLoginFaceBook}>Facebook</button>
                        </div>
                        <div id={styles['loginGoogle']}>
-                          <button>Google</button>
+                          <button onClick={handleLoginGoogle}>Google</button>
                        </div>
                         
                    </div>
