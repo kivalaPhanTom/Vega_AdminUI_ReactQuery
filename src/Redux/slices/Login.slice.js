@@ -3,7 +3,8 @@ import { createSlice} from "@reduxjs/toolkit";
 import { Service } from '../../components/Login/Services/Services';
 import { MessageCommon } from "../../components/Common/message";
 import * as actionLogin from '../Actions/Login.action';
-
+// import { API_URL } from '../../../config';
+import { API_URL } from '../../config';
 const initialState = {
     // isShowPopUp:false,
     // isShowPopUpEdit:false,
@@ -13,15 +14,18 @@ const initialState = {
     // totalDataState:0
 }
 function* handleLoginFaceBook(action) {
-    console.log("action.:",action)
     try {
-        const data = yield call(Service.loginFaceBook, action.payload);
-        console.log("data:",data)
-        // yield put(actionVocabulary.addVocabularySucsess("Thêm  từ vựng thành công"));
-        // yield put(actionVocabulary.getVocabulary(action.payload.pagination_and_search))
+        // window.open("http://localhost:4000/user/login_fb", "_self");
+        window.open(`${API_URL}/user/login_fb`, "_self");
       } catch (error) {
-        // yield put(actionVocabulary.addVocabularyFail("Thêm từ vựng thất bại"));
-      }
+    }
+}
+function* handleLoginGoogle(action) {
+  try {
+    // window.open("http://localhost:4000/user/login_gg", "_self");
+    window.open(`${API_URL}/user/login_gg`, "_self");
+  } catch (error) {
+}
 }
 // function* handleCreateVocabulary(action) {
 //     try {
@@ -76,6 +80,9 @@ function* handleLoginFaceBook(action) {
 
 export function* loginFaceBook() {
     yield takeEvery(actionLogin.loginFacebook, handleLoginFaceBook);
+}
+export function* loginGoogle() {
+  yield takeEvery(actionLogin.loginGoogle, handleLoginGoogle);
 }
 const loginSlice = createSlice({
     name: "login",

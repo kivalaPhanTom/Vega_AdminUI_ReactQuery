@@ -9,5 +9,5 @@ export const Service = {
 // }
 
 function loginFaceBook(data) {
-    return axios.post(`${API_URL}/user/login_fb`,data)
+    return axios.get(`${API_URL}/user/login_fb`,data)
 }

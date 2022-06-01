@@ -10,11 +10,11 @@ import { useSelector, useDispatch } from 'react-redux';
 function Login(props) {
     const dispatch = useDispatch();
     const handleLoginFaceBook=()=>{
-        console.log("fb")
         dispatch(loginActions.loginFacebook({}))
     }
     const handleLoginGoogle=()=>{
         console.log("gg")
+        dispatch(loginActions.loginGoogle({}))
     }
   return (
     <div className={styles['loginArea']}>
