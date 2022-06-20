@@ -13,7 +13,6 @@ function Login(props) {
         dispatch(loginActions.loginFacebook({}))
     }
     const handleLoginGoogle=()=>{
-        console.log("gg")
         dispatch(loginActions.loginGoogle({}))
     }
   return (

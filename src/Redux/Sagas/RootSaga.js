@@ -5,11 +5,14 @@ import {
     loginFaceBook,
     loginGoogle
 } from "../slices/Login.slice"
-
+import { 
+    signUp
+} from "../slices/SignUp.slice"
 
 const sagasList = [
     loginFaceBook(),
     loginGoogle(),
+    signUp()
     // addVocabularySaga(),
     // handleGetVocabularySaga(),
     // handleDeleteVocabularySaga(),
