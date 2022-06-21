@@ -14,12 +14,38 @@ const initialState = {
     // totalDataState:0
 }
 function* handleSignUp(action){
-    console.log("action:",action)
     try {
-        const data = yield call(Service.handleSignUp, action.payload);
-        console.log("data:",data)
+        const res = yield call(Service.handleSignUp, action.payload);
+        const status = res.data
+        switch (status.result) {
+            case 1:
+                yield put(actionSignUp.signUpSuccess("Đăng ký thành công"));
+                break;
+            case 3:
+                yield put(actionSignUp.signUpFail("Email đã tồn tại"));
+                break;
+            case 7:
+                yield put(actionSignUp.signUpFail("Lỗi hệ thống"));
+                break;
+            default:
+                yield put(actionSignUp.signUpSuccess("Đăng ký thành công"));
+                break;
+        }
+        // if(status.result === 1 ){ 
+        //   console.log(1)
+        //   yield put(actionSignUp.signUpSuccess("Đăng ký thành công"));
+        // } 
+        // if(status.result === 3 ){
+        //     console.log(3)
+        //     yield put(actionSignUp.signUpFail("Email đã tồn tại"));
+        // }
+        // if(status.result === 3 ){
+        //     console.log(3)
+        //     yield put(actionSignUp.signUpFail("Email đã tồn tại"));
+        // }
    } catch (error) {
-    }
+     yield put(actionSignUp.signUpFail("Lỗi hệ thống"));
+   }
 }
 // function* handleLoginFaceBook(action) {
 //     try {
@@ -109,12 +135,12 @@ const signupSlice = createSlice({
     //     newState.totalDataState=action.payload.totalData
     //     return newState
     //   },
-    //   [actionVocabulary.addVocabularyFail]: (state, action) => {
-    //     MethodCommon.openNotificationError(action.payload)
-    //   },
-    //   [actionVocabulary.deleteVocabularySuccess]: (state, action) => {
-    //     MethodCommon.openNotificationSuccess(action.payload)
-    //   },
+      [actionSignUp.signUpFail]: (state, action) => {
+        MessageCommon.openNotificationError(action.payload)
+      },
+      [actionSignUp.signUpSuccess]: (state, action) => {
+        MessageCommon.openNotificationSuccess(action.payload)
+      },
     //   [actionVocabulary.deleteVocabularyFail]: (state, action) => {
     //     MethodCommon.openNotificationError(action.payload)
     //   },

@@ -88,8 +88,8 @@ function Register(props) {
                   ></input>
 
                    {errorPassword === true ? (
-                  <span  className={styles['error']}>Mật khẩu không được để trống</span>
-                ):''}
+                      <span  className={styles['error']}>Mật khẩu không được để trống</span>
+                    ):''}
                 
              </div>
               
