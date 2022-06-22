@@ -13,37 +13,25 @@ const initialState = {
     // totalDataState:0
 }
 function* handleForgotPassword(action){
-    console.log("action:",action)
     try {
         const res = yield call(Service.forgotPassword, action.payload);
         const status = res.data
-        console.log("status:",status)
-        // switch (status.result) {
-        //     case 1:
-        //         yield put(actionForgotPassword.signUpSuccess("Đăng ký thành công"));
-        //         break;
-        //     case 3:
-        //         yield put(actionForgotPassword.signUpFail("Email đã tồn tại"));
-        //         break;
-        //     case 7:
-        //         yield put(actionForgotPassword.signUpFail("Lỗi hệ thống"));
-        //         break;
-        //     default:
-        //         yield put(actionForgotPassword.signUpSuccess("Đăng ký thành công"));
-        //         break;
-        // }
-
-
-        // const res = yield call(Service.handleSignUp, action.payload);
-        // const status = res.data
-        // if(status.result === 1 ){ 
-        //   yield put(actionForgotPassword.forgotFail("Thực hiện quên mật khẩu thành công, vui lòng kiểm tra email của bạn."));
-        // } 
-        // if(status.result === 3 ){
-        //     yield put(actionForgotPassword.forgotUpSuccess("Thực hiện quên mật khẩu thất bại"));
-        // }
-        // console.log("data:",data.data)
-   } catch (error) {
+        switch (status.result) {
+            case 1:
+                yield put(actionForgotPassword.forgotUpSuccess("Bạn đã được cấp mật khẩu mới, vui lòng kiểm tra email"));
+                break;
+            case 6:
+                yield put(actionForgotPassword.forgotFail("Email không tồn tại trong hệ thống"));
+                break;
+            case 7:
+                yield put(actionForgotPassword.forgotFail("Lỗi hệ thống"));
+                break;
+            default:
+                yield put(actionForgotPassword.forgotUpSuccess("Đăng ký thành công"));
+                break;
+        }
+    } catch (error) {
+        yield put(actionForgotPassword.forgotFail("Lỗi hệ thống"));
     }
 }
 
