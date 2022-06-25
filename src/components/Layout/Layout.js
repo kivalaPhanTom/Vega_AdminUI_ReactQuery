@@ -1,61 +1,36 @@
 import React,{useEffect} from 'react'
-// import { login_Service } from './Services/Grammar_Service';
 import { Service } from '../Login/Services/Services';
-function Layout(props) {
-    useEffect(() => {
+import { MessageCommon } from "../Common/message";
+import { MethodCommon } from "../Common/methods";
+import { useNavigate } from "react-router-dom";
+import { RESULT_STATUS } from "../Common/Common_Parameter";
 
-        Service.loginSuccess({}).then((response)=>{
+function Layout(props) {
+    const navigate = useNavigate();
+    const ln = MethodCommon.getLanguage()
+  
+    useEffect(() => {
+        const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+       
+        Service.loginAuthenticate(userLocalStorage).then((response)=>{
          console.log("response:",response)
+         const status =response.data
+         switch (status.result) {
+          case RESULT_STATUS.SUCCESS:
+            MethodCommon.saveLocalStorage("UserVega",status.data)
+            break;
+          case RESULT_STATUS.REFRESH_TOKEN_SUCCESS:
+            break;
+          case RESULT_STATUS.ERROR_AUTHENTICATE:
+              MessageCommon.openNotificationError(ln.messageModule.ERROR_AUTHENTICATE)
+              navigate("/login");
+              break;
+        default:
+              MessageCommon.openNotificationError(ln.messageModule.ERROR_SYSTEM)
+              break;
+         }
         })
-        // const getUser = () => {
-        //     fetch("http://localhost:4000/user/login_success", {
-        //       method: "GET",
-        //       credentials: "include",
-        //       headers: {
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json",
-        //         "Access-Control-Allow-Credentials": true,
-        //       },
-        //     })
-        //       .then((response) => {
-        //         if (response.status === 200) {
-        //             console.log("thành côn")
-        //         }
-        //         throw new Error("authentication has been failed!");
-        //       })
-        //       .then((resObject) => {
-        //         console.log("resObject.user:",resObject.user)
-        //         // setUser(resObject.user);
-        //       })
-        //       .catch((err) => {
-        //         console.log(err);
-        //       });
-        //   };
-        //   getUser();
         
-        // const getUser = () => {
-        //   fetch("http://localhost:5000/auth/login/success", {
-        //     method: "GET",
-        //     credentials: "include",
-        //     headers: {
-        //       Accept: "application/json",
-        //       "Content-Type": "application/json",
-        //       "Access-Control-Allow-Credentials": true,
-        //     },
-        //   })
-        //     .then((response) => {
-        //       if (response.status === 200) return response.json();
-        //       throw new Error("authentication has been failed!");
-        //     })
-        //     .then((resObject) => {
-        //       console.log("resObject.user:",resObject.user)
-        //       setUser(resObject.user);
-        //     })
-        //     .catch((err) => {
-        //       console.log(err);
-        //     });
-        // };
-        // getUser();
       }, []);
   return (
     <div>Layout</div>

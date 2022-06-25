@@ -1,31 +1,54 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery,delay } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
 import { Service } from '../../components/Login/Services/Services';
 import { MessageCommon } from "../../components/Common/message";
+import { MethodCommon } from "../../components/Common/methods";
+import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
 import * as actionLogin from '../Actions/Login.action';
-// import { API_URL } from '../../../config';
 import { API_URL } from '../../config';
-const initialState = {
-    // isShowPopUp:false,
-    // isShowPopUpEdit:false,
-    // data:[],
-    // signalAddSuccess:false,
-    // signnalEditSucces:false,
-    // totalDataState:0
-}
+
+const ln = MethodCommon.getLanguage()
+const initialState = {}
 function* handleLoginFaceBook(action) {
     try {
-        // window.open("http://localhost:4000/user/login_fb", "_self");
         window.open(`${API_URL}/user/login_fb`, "_self");
       } catch (error) {
     }
 }
 function* handleLoginGoogle(action) {
   try {
-    // window.open("http://localhost:4000/user/login_gg", "_self");
     window.open(`${API_URL}/user/login_gg`, "_self");
   } catch (error) {
+  }
 }
+
+function* handleLoginTrandition(action){
+  try {
+    const res = yield call(Service.loginTrandition, action.payload);
+    const status = res.data
+    switch (status.result) {
+
+        case RESULT_STATUS.SUCCESS:
+            MethodCommon.saveLocalStorage("UserVega",status.data)
+            yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
+            break;
+
+        case RESULT_STATUS.ACCOUNT_NOT_FOUND:
+            yield put(actionLogin.loginTranditionFail(ln.messageModule.ACCOUNT_NOT_FOUND));
+            break;
+
+        case RESULT_STATUS.PASSWORD_ERROR:
+            yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_PASSWORD));
+            break;
+
+        default:
+              yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_SYSTEM));
+              break;
+          }
+  } catch (error) {
+    yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_SYSTEM));
+  }
+  
 }
 // function* handleCreateVocabulary(action) {
 //     try {
@@ -84,6 +107,9 @@ export function* loginFaceBook() {
 export function* loginGoogle() {
   yield takeEvery(actionLogin.loginGoogle, handleLoginGoogle);
 }
+export function* loginTrandition() {
+  yield takeEvery(actionLogin.loginTrandition, handleLoginTrandition);
+}
 const loginSlice = createSlice({
     name: "login",
     initialState,
@@ -101,12 +127,12 @@ const loginSlice = createSlice({
     //     newState.totalDataState=action.payload.totalData
     //     return newState
     //   },
-    //   [actionVocabulary.addVocabularyFail]: (state, action) => {
-    //     MethodCommon.openNotificationError(action.payload)
-    //   },
-    //   [actionVocabulary.deleteVocabularySuccess]: (state, action) => {
-    //     MethodCommon.openNotificationSuccess(action.payload)
-    //   },
+      [actionLogin.loginTranditionFail]: (state, action) => {
+        MessageCommon.openNotificationError(action.payload)
+      },
+      [actionLogin.loginTranditionSuccess]: (state, action) => {
+        window.location.href = "/";
+      },
     //   [actionVocabulary.deleteVocabularyFail]: (state, action) => {
     //     MethodCommon.openNotificationError(action.payload)
     //   },

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styles from "./css/index.module.css"
 import { BsArrowRightShort } from "react-icons/bs";
 import {
@@ -9,12 +9,62 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function Login(props) {
     const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [errorEmail, setErrorEmail] = useState(false)
+    const [errorPassword, setErrorPassword] = useState(false)
+    
+
     const handleLoginFaceBook=()=>{
         dispatch(loginActions.loginFacebook({}))
     }
     const handleLoginGoogle=()=>{
         dispatch(loginActions.loginGoogle({}))
     }
+
+    // change email
+   const handleChangeEmail =(e)=>{
+        if(e.target.value === ''){
+        setErrorEmail(true)
+        }else{
+        setErrorEmail(false)
+        }
+        setEmail(e.target.value)
+    }
+
+    // change password
+    const handleChangePassword =(e)=>{
+        if(e.target.value === ''){
+        setErrorPassword(true)
+        }
+        else{
+        setErrorPassword(false)
+        }
+        setPassword(e.target.value)
+    }
+      // sign up
+  const handleLogin=()=>{
+    if(email === ''){
+      setErrorEmail(true)
+    }else{
+      setErrorEmail(false)
+    }
+
+    if(password === ''){
+      setErrorPassword(true)
+    }
+    else{
+      setErrorPassword(false)
+    }
+    if(email !== '' && password !== ''){
+       const payload ={
+        email,
+        password
+       }
+       dispatch(loginActions.loginTrandition(payload))
+    }
+  }
+
   return (
     <div className={styles['loginArea']}>
          <div className={styles['brand']}>
@@ -23,11 +73,17 @@ function Login(props) {
          <div  className={styles['information_login']}>
              <p id={styles['p_login']}>Đăng nhập</p>
              <div>
-               <input id={styles['email']}  placeholder='Email'></input>
+               <input id={styles['email']}  placeholder='Email' onChange={(e)=>handleChangeEmail(e)}></input>
+               {errorEmail === true? (
+                  <span className={styles['error']}>Email không được để trống</span>
+                ):''}
              </div>
 
              <div>
-                <input id={styles['password']} type="password"  placeholder='Mật khẩu'></input>
+                <input id={styles['password']} type="password"  placeholder='Mật khẩu' onChange={(e)=>handleChangePassword(e)}></input>
+                {errorPassword === true ? (
+                      <span  className={styles['error']}>Mật khẩu không được để trống</span>
+                    ):''}
              </div>
               
               <div className={styles['login_method']}>
@@ -42,7 +98,7 @@ function Login(props) {
                    </div>
                    <div className={styles['login_trandition']}>
                         <div className={styles['icon_submit']}>
-                            <BsArrowRightShort/>
+                            <BsArrowRightShort onClick ={handleLogin}/>
                         </div>
                         <div className={styles['forgot_signup']}>
                             <p id={styles['p_forgot']}>

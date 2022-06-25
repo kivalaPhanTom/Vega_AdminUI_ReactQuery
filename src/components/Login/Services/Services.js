@@ -3,16 +3,15 @@ import axios from 'axios';
 
 export const Service = {
     loginFaceBook,
-    loginSuccess
+    loginAuthenticate,
+    loginTrandition
 };
-// function getList(searchModel) {
-//     return axios.post(`${API_URL}/Grammar/getList`,searchModel)
-// }
-
 function loginFaceBook(data) {
     return axios.get(`${API_URL}/user/login_fb`, data)
 }
-
-function loginSuccess(data) {
-    return axios.get(`${API_URL}/user/login_success`, { withCredentials: true })
+function loginAuthenticate(data) {
+    return axios.post(`${API_URL}/user/authenticate`, data, { withCredentials: true })
+}
+function loginTrandition(data) {
+    return axios.post(`${API_URL}/user/login_trandition`, data, { withCredentials: true })
 }

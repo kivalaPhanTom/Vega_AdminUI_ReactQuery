@@ -1,4 +1,3 @@
-// const ALPHABET = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 // const SCREEN_NO={
     
 //     Admin_User_List:"User_List",
@@ -23,14 +22,7 @@
 //     Speaking_Opinion:'Speaking_Opinion',
 //     Speaking_Picture:'Speaking_Picture'
 // }
-// const METHOD_LOGIN={
-//     NORMAL:"NORMAL",
-//     SOCIAL:"SOCIAL"
-// }
-// const USER_ROLE={
-//     ADMIN:"ADMIN",
-//     NORMAL:"NORMAL"
-// }
+
 const RESULT_STATUS= {
     SUCCESS: 1,
     ERROR:2,
@@ -39,6 +31,8 @@ const RESULT_STATUS= {
     PASSWORD_ERROR:5,
     EMAIL_NOT_FOUND:6,
     ERROR_SYSTEM:7,
+    REFRESH_TOKEN_SUCCESS:8,
+    ERROR_AUTHENTICATE:9,
 };
 
 const METHOD_LOGIN = {
@@ -49,8 +43,13 @@ const USER_ROLE = {
     ADMIN:0,
     USER:1
 }
+const LANGUAGE = {
+    VI:0,
+    EN:1
+}
 module.exports = {
     RESULT_STATUS ,
     METHOD_LOGIN,
-    USER_ROLE
+    USER_ROLE,
+    LANGUAGE 
 };

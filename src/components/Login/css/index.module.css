@@ -133,6 +133,10 @@
     text-decoration: none !important;
     color: black !important;
 }
+.error{
+    color: red;
+    font-size: 13px;
+}
 @media screen and (max-width: 480px) {
     .loginArea{
         width: 100%;

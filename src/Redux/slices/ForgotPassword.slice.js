@@ -3,35 +3,31 @@ import { createSlice} from "@reduxjs/toolkit";
 import { Service } from '../../components/ForgotPassword/Services/Services'
 import { MessageCommon } from "../../components/Common/message";
 import * as actionForgotPassword from '../Actions/ForgotPassword';
-import { API_URL } from '../../config';
-const initialState = {
-    // isShowPopUp:false,
-    // isShowPopUpEdit:false,
-    // data:[],
-    // signalAddSuccess:false,
-    // signnalEditSucces:false,
-    // totalDataState:0
-}
+import { RESULT_STATUS } from '../../components/Common/Common_Parameter';
+import { MethodCommon } from "../../components/Common/methods";
+
+const ln = MethodCommon.getLanguage()
+const initialState = {}
 function* handleForgotPassword(action){
     try {
         const res = yield call(Service.forgotPassword, action.payload);
         const status = res.data
         switch (status.result) {
-            case 1:
-                yield put(actionForgotPassword.forgotUpSuccess("Bạn đã được cấp mật khẩu mới, vui lòng kiểm tra email"));
+            case RESULT_STATUS.SUCCESS:
+                yield put(actionForgotPassword.forgotUpSuccess(ln.messageModule.RESET_PASSWORD_SUCCESS));
                 break;
-            case 6:
-                yield put(actionForgotPassword.forgotFail("Email không tồn tại trong hệ thống"));
+            case RESULT_STATUS.EMAIL_NOT_FOUND:
+                yield put(actionForgotPassword.forgotFail(ln.messageModule.EMAIL_NOT_EXIST));
                 break;
-            case 7:
-                yield put(actionForgotPassword.forgotFail("Lỗi hệ thống"));
+            case RESULT_STATUS.ERROR_SYSTEM:
+                yield put(actionForgotPassword.forgotFail(ln.messageModule.ERROR_SYSTEM));
                 break;
             default:
-                yield put(actionForgotPassword.forgotUpSuccess("Đăng ký thành công"));
+                yield put(actionForgotPassword.forgotFail(ln.messageModule.ERROR_SYSTEM));
                 break;
         }
     } catch (error) {
-        yield put(actionForgotPassword.forgotFail("Lỗi hệ thống"));
+        yield put(actionForgotPassword.forgotFail(ln.messageModule.ERROR_SYSTEM));
     }
 }
 
