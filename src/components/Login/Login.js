@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import * as loginActions  from "../../Redux/Actions/Login.action";
 import { useSelector, useDispatch } from 'react-redux';
+import Loading from '../Loading/Loading';
 
 function Login(props) {
     const dispatch = useDispatch();
