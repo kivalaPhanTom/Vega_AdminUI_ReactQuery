@@ -4,7 +4,8 @@ import axios from 'axios';
 export const Service = {
     loginFaceBook,
     loginAuthenticate,
-    loginTrandition
+    loginTrandition,
+    loginAuthorization
 };
 function loginFaceBook(data) {
     return axios.get(`${API_URL}/user/login_fb`, data)
@@ -14,4 +15,7 @@ function loginAuthenticate(data) {
 }
 function loginTrandition(data) {
     return axios.post(`${API_URL}/user/login_trandition`, data, { withCredentials: true })
+}
+function loginAuthorization(data) {
+    return axios.post(`${API_URL}/user/authorization`, data, { withCredentials: true })
 }

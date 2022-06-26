@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
+body {
+  font-family: 'Anek Latin', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-family: 'Source Sans Pro', sans-serif !important;
+}

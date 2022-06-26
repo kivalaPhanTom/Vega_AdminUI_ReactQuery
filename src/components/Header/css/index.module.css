@@ -1,0 +1,35 @@
+.header_area{
+    /* background-color: red; */
+}
+.topHeader{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #0000000f;
+}
+.menu{
+    width: 100%;
+}
+.brand_header{
+  
+}
+#name_brand,#brand_note{
+    text-align: center;
+}
+#name_brand{
+    color: #93b55e;
+    font-weight: 600;
+    font-size: 30px;
+    margin-bottom: 0 !important;
+    text-transform: uppercase;
+}
+#brand_note{
+    font-style: italic;
+    color: #797876;
+    font-size: 15px;
+}
+.menu{
+    border-bottom: none !important;
+}
