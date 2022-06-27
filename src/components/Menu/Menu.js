@@ -7,13 +7,20 @@ import { BiCartAlt } from "react-icons/bi";
 import * as authorizationActions  from "../../Redux/Actions/Authorization";
 import { useSelector, useDispatch } from 'react-redux';
 import { MethodCommon } from "../Common/methods";
+// import { LANGUAGE } from "./Common_Parameter";
+import { USER_ROLE } from "../Common/Common_Parameter";
 
 function Menu(props) {
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+  const userROLE = useSelector(state=> state.authorizationSlice.Role)
+  console.log("USER_ROLE:",userROLE)
+  console.log("USER_ROLE.ADMIN:",USER_ROLE.ADMIN)
+   
   useEffect(() => {
     dispatch(authorizationActions.getAuthorization(userLocalStorage))
   }, []);
+
   return (
     <div className={styles['menu_area']}>
          <ul className ={styles['vega_menu']}> 
@@ -25,6 +32,14 @@ function Menu(props) {
                 <span className={styles['name_menu_item']}>LIÊN HỆ</span>
                 {/* <div className={styles['dot_menu_item']}></div> */}
             </li>
+            {
+                userROLE === USER_ROLE.ADMIN ?
+                ( <li>
+                    <span className={styles['name_menu_item']}>TRANG QUẢN LÝ</span>
+                    {/* <div className={styles['dot_menu_item']}></div> */}
+                </li>)
+                : ''
+            }
              <li>
                 <span className={styles['name_menu_item']}>TÀI KHOẢN</span>
                 {/* <div className={styles['dot_menu_item']}></div> */}
