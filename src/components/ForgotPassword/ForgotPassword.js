@@ -4,12 +4,15 @@ import { BsArrowRightShort } from "react-icons/bs";
 import { Link, } from "react-router-dom";
 import * as forgotPasswordActions  from "../../Redux/Actions/ForgotPassword";
 import { useSelector, useDispatch } from 'react-redux';
+import Loading from '../Loading/Loading';
+
 function ForgotPassword(props) {
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState('')
   const [errorEmail, setErrorEmail] = useState(false)
-  
+  const {isLoading} = useSelector((state)=> state.loadingSlice)
+
   // change email
   const handleChangeEmail =(e)=>{
     if(e.target.value === ''){
@@ -61,6 +64,7 @@ function ForgotPassword(props) {
 
               </div>
          </div>
+         { isLoading ? ( <Loading/> ) :''}
     </div>
   )
 }

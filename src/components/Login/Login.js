@@ -14,7 +14,7 @@ function Login(props) {
     const [password, setPassword] = useState('')
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
-    
+    const {isLoading} = useSelector((state)=> state.loadingSlice)
 
     const handleLoginFaceBook=()=>{
         dispatch(loginActions.loginFacebook({}))
@@ -113,6 +113,8 @@ function Login(props) {
 
               </div>
          </div>
+         { isLoading ? ( <Loading/> ) :''}
+        
     </div>
   )
 }

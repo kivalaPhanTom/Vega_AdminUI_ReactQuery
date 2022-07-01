@@ -13,28 +13,31 @@ function Layout(props) {
   
     useEffect(() => {
       try {
-        Service.loginAuthenticate(userLocalStorage).then((response, err)=>{
-          const status = response.data
-          switch (status.result) {
-           case RESULT_STATUS.SUCCESS:
-             MethodCommon.saveLocalStorage("UserVega",status.data)
-             break;
-           case RESULT_STATUS.REFRESH_TOKEN_SUCCESS:
-             break;
-           case RESULT_STATUS.ERROR_AUTHENTICATE:
-               navigate("/login");
-               break;
-         default:
-               MessageCommon.openNotificationError(ln.messageModule.ERROR_SYSTEM)
-               break;
-          }
-         })
-        
-      } catch (error) {
-          MessageCommon.openNotificationError(ln.messageModule.ERROR_SYSTEM)
-      }
-        
-        
+          Service.loginAuthenticate(userLocalStorage).then((response, err)=>{
+            const status = response.data
+            
+            switch (status.result) {
+                case RESULT_STATUS.SUCCESS:
+                  MethodCommon.saveLocalStorage("UserVega",status.data)
+                  break;
+                case RESULT_STATUS.REFRESH_TOKEN_SUCCESS:
+                  break;
+                case RESULT_STATUS.ERROR_AUTHENTICATE:
+                    navigate("/login");
+                    break;
+                case RESULT_STATUS.ACCOUNT_NOT_FOUND:
+                      navigate("/login");
+                      break;
+                default:
+                    MessageCommon.openNotificationError(ln.messageModule.ERROR_SYSTEM)
+                    break;
+            }
+
+          })
+          
+        } catch (error) {
+            MessageCommon.openNotificationError(ln.messageModule.ERROR_SYSTEM)
+        }
       }, []);
   return (
     <div>

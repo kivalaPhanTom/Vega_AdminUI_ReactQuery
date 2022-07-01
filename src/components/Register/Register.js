@@ -7,6 +7,7 @@ import {
 
 import * as signUpActions  from "../../Redux/Actions/SignUp.action";
 import { useSelector, useDispatch } from 'react-redux';
+import Loading from '../Loading/Loading';
 
 function Register(props) {
   const [email, setEmail] = useState('')
@@ -14,6 +15,8 @@ function Register(props) {
   const [errorEmail, setErrorEmail] = useState(false)
   const [errorPassword, setErrorPassword] = useState(false)
   const dispatch = useDispatch();
+  const {isLoading} = useSelector((state)=> state.loadingSlice)
+
   // change email
   const handleChangeEmail =(e)=>{
         if(e.target.value === ''){
@@ -106,6 +109,7 @@ function Register(props) {
                    </div>
               </div>
          </div>
+         { isLoading ? ( <Loading/> ) :''}
     </div>
   )
 }

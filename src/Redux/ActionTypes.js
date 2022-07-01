@@ -20,3 +20,7 @@ export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 // --------------- USER---------------------//
 export const CHECK_AUTHORIZATION = 'CHECK_AUTHORIZATION';
 export const CHECK_AUTHORIZATION_SUCCESS = 'CHECK_AUTHORIZATION_SUCCESS';
+
+// --------------- LOADING---------------------//
+export const LOADING = 'LOADING';
+export const CLOSE_LOADING = 'CLOSE_LOADING';

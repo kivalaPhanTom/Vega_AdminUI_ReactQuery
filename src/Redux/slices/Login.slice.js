@@ -5,43 +5,53 @@ import { MessageCommon } from "../../components/Common/message";
 import { MethodCommon } from "../../components/Common/methods";
 import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
 import * as actionLogin from '../Actions/Login.action';
+import * as actionLoading from '../Actions/Loading.action';
 import { API_URL } from '../../config';
 
 const ln = MethodCommon.getLanguage()
 const initialState = {}
 function* handleLoginFaceBook(action) {
     try {
+        yield put(actionLoading.loading({}))
         window.open(`${API_URL}/user/login_fb`, "_self");
+        yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
       } catch (error) {
     }
 }
 function* handleLoginGoogle(action) {
   try {
+    yield put(actionLoading.loading({}))
     window.open(`${API_URL}/user/login_gg`, "_self");
+    yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
   } catch (error) {
   }
 }
 
 function* handleLoginTrandition(action){
   try {
+    yield put(actionLoading.loading({}))
     const res = yield call(Service.loginTrandition, action.payload);
     const status = res.data
     switch (status.result) {
 
         case RESULT_STATUS.SUCCESS:
+            yield put(actionLoading.closeLoading({}))
             MethodCommon.saveLocalStorage("UserVega",status.data)
             yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
             break;
 
         case RESULT_STATUS.ACCOUNT_NOT_FOUND:
+            yield put(actionLoading.closeLoading({}))
             yield put(actionLogin.loginTranditionFail(ln.messageModule.ACCOUNT_NOT_FOUND));
             break;
 
         case RESULT_STATUS.PASSWORD_ERROR:
+            yield put(actionLoading.closeLoading({}))
             yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_PASSWORD));
             break;
 
         default:
+              yield put(actionLoading.closeLoading({}))
               yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_SYSTEM));
               break;
           }
@@ -131,7 +141,9 @@ const loginSlice = createSlice({
         MessageCommon.openNotificationError(action.payload)
       },
       [actionLogin.loginTranditionSuccess]: (state, action) => {
-        window.location.href = "/";
+        MessageCommon.openNotificationSuccess(action.payload)
+        setTimeout(() => window.location.href = "/", 400);
+        // window.location.href = "/";
       },
     //   [actionVocabulary.deleteVocabularyFail]: (state, action) => {
     //     MethodCommon.openNotificationError(action.payload)

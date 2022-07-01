@@ -23,7 +23,6 @@ function* handleAuthorization(action){
   } catch (error) {
     
   }
-
 }
 export function* checkAuthenticationSaga() {
   yield takeEvery(actionAuthorization.getAuthorization, handleAuthorization);
