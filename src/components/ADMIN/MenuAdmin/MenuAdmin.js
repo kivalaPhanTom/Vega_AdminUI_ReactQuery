@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./css/index.module.css"
 import { Link } from "react-router-dom";
 import { HiOutlineHome } from "react-icons/hi";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser,AiOutlineUngroup } from "react-icons/ai";
 import { RiPlantFill } from "react-icons/ri";
 import { AiOutlineAreaChart } from "react-icons/ai";
 
@@ -13,6 +13,11 @@ function MenuAdmin(props) {
             name:"Trang chủ",
             url:'/adminVega',
             icon:<HiOutlineHome />
+        },
+        {
+            name:"Nhóm hàng",
+            url:'/adminVega/mainGroups',
+            icon: <AiOutlineUngroup/>
         },
         {
             name:"Sản phẩm",
