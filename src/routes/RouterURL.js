@@ -3,7 +3,7 @@ import {
     Routes,
     Route,
 } from 'react-router-dom'
-// import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
+import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
 import Layout from '../components/Layout/Layout'
 import Loading from '../components/Loading/Loading'
 
@@ -17,9 +17,9 @@ const Register = React.lazy(() => {
 const ForgotPassword = React.lazy(() => {
   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ForgotPassword/ForgotPassword'))
 });
-const LayoutAdmin = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
-});
+// const LayoutAdmin = React.lazy(() => {
+//   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
+// });
 
 function RouterURL(props) {
   return (

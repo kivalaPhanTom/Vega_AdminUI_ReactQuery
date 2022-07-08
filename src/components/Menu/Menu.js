@@ -29,7 +29,7 @@ function Menu(props) {
                 {/* <div className={styles['dot_menu_item']}></div> */}
             </li>
              <li>
-                <span className={styles['name_menu_item']}>LIÊN HỆ</span>
+                <span  to="/bb" className={styles['name_menu_item']}>LIÊN HỆ</span>
                 {/* <div className={styles['dot_menu_item']}></div> */}
             </li>
             {
