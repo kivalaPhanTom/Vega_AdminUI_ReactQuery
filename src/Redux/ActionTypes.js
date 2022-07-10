@@ -16,6 +16,10 @@ export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 
+// --------------- CHANGE PASSWORD---------------------//
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS';
+export const CHANGE_PASSWORD_FAIL = 'CHANGE_PASSWORD_FAIL';
 
 // --------------- USER---------------------//
 export const CHECK_AUTHORIZATION = 'CHECK_AUTHORIZATION';

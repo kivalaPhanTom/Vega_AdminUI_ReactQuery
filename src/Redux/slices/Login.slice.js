@@ -14,17 +14,17 @@ function* handleLoginFaceBook(action) {
     try {
         yield put(actionLoading.loading({}))
         window.open(`${API_URL}/user/login_fb`, "_self");
-        yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
+        // yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
       } catch (error) {
     }
 }
 function* handleLoginGoogle(action) {
-  try {
-    yield put(actionLoading.loading({}))
-    window.open(`${API_URL}/user/login_gg`, "_self");
-    yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
-  } catch (error) {
-  }
+    try {
+      yield put(actionLoading.loading({}))
+      window.open(`${API_URL}/user/login_gg`, "_self");
+      // yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
+    } catch (error) {
+    }
 }
 
 function* handleLoginTrandition(action){

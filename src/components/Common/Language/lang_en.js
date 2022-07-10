@@ -12,6 +12,8 @@ const LANGUAGE_STATE_EN = {
         EMAIL_NOT_EXIST:"Email does not exist in the system",
         RESET_PASSWORD_SUCCESS:"You have just been given a new password, please check your email",
         ERROR_AUTHENTICATE:"Authentication error. Please log in again",
+        CHANGE_PASSWORD_SUCCESS:"Change your password successfully, please login again",
+       
     }
 };
 module.exports = {

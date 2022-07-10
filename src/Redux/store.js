@@ -5,7 +5,7 @@ import signUpSlice from './slices/SignUp.slice';
 import authorizationSlice from './slices/Authorization.slice'
 import forgotPasswordSlice from './slices/ForgotPassword.slice';
 import loadingSlice from './slices/Loading.slice';
-
+import changePasswordSlice from './slices/ChangePassword.slice';
 
 import rootSaga from "./Sagas/RootSaga";
 let sagaMiddleware = createSagaMiddleware();
@@ -15,7 +15,8 @@ const allReducer = {
     signUpSlice,
     forgotPasswordSlice,
     authorizationSlice,
-    loadingSlice
+    loadingSlice,
+    changePasswordSlice
   }
 const store = configureStore({
     reducer: allReducer,

@@ -19,3 +19,7 @@ function loginTrandition(data) {
 function loginAuthorization(data) {
     return axios.post(`${API_URL}/user/authorization`, data, { withCredentials: true })
 }
+// function loginAuthorization(data) {
+//     return axios.post(`${API_URL}/user/changePassword`, data, { withCredentials: true })
+// }
+

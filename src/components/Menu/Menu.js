@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState,useEffect} from 'react'
 import styles from "./css/index.module.css"
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -10,15 +10,24 @@ import { MethodCommon } from "../Common/methods";
 // import { LANGUAGE } from "./Common_Parameter";
 import { USER_ROLE } from "../Common/Common_Parameter";
 import { Link } from "react-router-dom";
+import { Button, Divider, Tooltip } from 'antd';
+import UserInfo from '../UserInfo/UserInfo';
 
 function Menu(props) {
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
   const userROLE = useSelector(state=> state.authorizationSlice.Role)
-   
+  const [isToolTip, setIsToolTip] = useState(false)
   useEffect(() => {
     dispatch(authorizationActions.getAuthorization(userLocalStorage))
   }, []);
+  
+  const handleOnMouseEnter =()=>{
+    setIsToolTip(true)
+  }
+  const handleCloseTooltip =()=>{
+    setIsToolTip(false)
+  }
 
   return (
     <div className={styles['menu_area']}>
@@ -43,7 +52,10 @@ function Menu(props) {
                 : ''
             }
              <li>
-                <span className={styles['name_menu_item']}>TÀI KHOẢN</span>
+               <Tooltip visible={isToolTip} title={<UserInfo handleCloseTooltip={handleCloseTooltip}/>} color={'#93b55e'} key={'account'}>
+                  <span className={styles['name_menu_item']} onMouseEnter={handleOnMouseEnter} >TÀI KHOẢN</span>
+                </Tooltip>
+                
                 {/* <div className={styles['dot_menu_item']}></div> */}
             </li>
              <li>

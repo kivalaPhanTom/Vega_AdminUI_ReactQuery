@@ -12,6 +12,7 @@ const LANGUAGE_STATE_VI = {
         EMAIL_NOT_EXIST:"Email không tồn tại trong hệ thống",
         RESET_PASSWORD_SUCCESS:"Bạn đã được cấp mật khẩu mới, vui lòng kiểm tra email",
         ERROR_AUTHENTICATE:"Lỗi xác thực. Vui lòng đăng nhập lại",
+        CHANGE_PASSWORD_SUCCESS:"Đổi mật khẩu thành công, vui lòng đăng nhập lại",
     }
 };
 module.exports = {
