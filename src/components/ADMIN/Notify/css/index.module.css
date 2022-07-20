@@ -1,0 +1,17 @@
+.mainGroup_area{
+    width: 100%;
+}
+.search_and_notify{
+    width: 100%;
+}
+.search_and_notify_container{
+    width: 40%;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    background-color: red;
+    margin-right: 5%;
+}
+.search{
+    background-color: #edf0f9;
+}

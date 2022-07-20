@@ -4,6 +4,7 @@ import {
     Route,
 } from 'react-router-dom'
 import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
+// import MainGroup from '../components/ADMIN/MainGroup/MainGroup';
 import Layout from '../components/Layout/Layout'
 import Loading from '../components/Loading/Loading'
 
@@ -16,6 +17,10 @@ const Register = React.lazy(() => {
 });
 const ForgotPassword = React.lazy(() => {
   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ForgotPassword/ForgotPassword'))
+});
+
+const MainGroup = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/MainGroup/MainGroup'))
 });
 // const LayoutAdmin = React.lazy(() => {
 //   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
@@ -45,6 +50,12 @@ function RouterURL(props) {
                                 {/* <Layout component_ui={<CheckinCheckout/>} /> */}
                                 <LayoutAdmin/>
                             </PrivateRoute>
+                        }
+                >
+                </Route>
+                <Route exact path="/adminVega/mainGroups" 
+                        element={ 
+                          <LayoutAdmin component_ui={<MainGroup/>}/>
                         }
                 >
                 </Route>   

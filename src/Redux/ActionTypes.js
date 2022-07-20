@@ -28,3 +28,8 @@ export const CHECK_AUTHORIZATION_SUCCESS = 'CHECK_AUTHORIZATION_SUCCESS';
 // --------------- LOADING---------------------//
 export const LOADING = 'LOADING';
 export const CLOSE_LOADING = 'CLOSE_LOADING';
+
+
+// --------------- MAIN GROUP---------------------//
+export const OPEN_ADD_MAINGOURP = 'OPEN_ADD_MAINGOURP';
+export const CLOSE_ADD_MAINGOURP = 'CLOSE_ADD_MAINGOURP';

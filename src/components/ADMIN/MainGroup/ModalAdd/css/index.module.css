@@ -1,0 +1,10 @@
+.nameAndIdMainGroup{
+    display: flex;
+    width: 100%;
+}
+.id_field,.name_field{
+    width: 50%;
+}
+.status_field{
+  display: flex;
+}

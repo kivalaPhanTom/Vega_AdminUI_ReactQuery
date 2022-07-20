@@ -7,7 +7,7 @@ import styles from "./css/index.module.css"
 import MenuAdmin from '../MenuAdmin/MenuAdmin';
 
 function LayoutAdmin(props) {
-
+  const {component_ui} =props
   // const ln = MethodCommon.getLanguage()
 
   const dispatch = useDispatch();
@@ -24,7 +24,20 @@ function LayoutAdmin(props) {
 
   return (
     <div className={styles['layoutAdmin']}>
-       <MenuAdmin/>
+      <div className={styles['menuAdminLeft']}>
+        <MenuAdmin/>
+      </div>
+      <div className={styles['componentRight']}>
+          <div className={styles['emptyLeft']}>
+
+          </div>
+          <div className={styles['mainContent']}>
+            {component_ui}
+          </div>
+          
+      </div>
+       
+      
     </div>
   )
 }

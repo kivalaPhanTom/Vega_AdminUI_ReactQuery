@@ -6,6 +6,7 @@ import { HiOutlineHome } from "react-icons/hi";
 import { AiOutlineUser,AiOutlineUngroup } from "react-icons/ai";
 import { RiPlantFill } from "react-icons/ri";
 import { AiOutlineAreaChart } from "react-icons/ai";
+import { BiExit } from "react-icons/bi";
 
 function MenuAdmin(props) {
     const fakeMenu= [
@@ -33,6 +34,11 @@ function MenuAdmin(props) {
             name:"Báo cáo",
             url:'/adminVega/report',
             icon:<AiOutlineAreaChart/>
+        },
+        {
+            name:"Thoát",
+            url:'/',
+            icon:<BiExit/>
         }
         
     ]
