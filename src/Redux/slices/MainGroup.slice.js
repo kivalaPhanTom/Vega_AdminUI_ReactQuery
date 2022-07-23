@@ -1,16 +1,42 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../components/Register/Services/Services'
+// import { Service } from '../../components/Register/Services/Services'
+import { Service } from '../../Services/MainGroup/MainGroup'
 import { MessageCommon } from "../../components/Common/message";
 import * as actionMainGroup from '../Actions/MainGroup.action';
 import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
 import { MethodCommon } from "../../components/Common/methods";
 import * as actionLoading from '../Actions/Loading.action';
+import { SocketContext } from '../../SocketConfig/socket';
+import { useContext } from 'react';
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:4000";
+// import io from 'socket.io-client';
+// const socket = io();
 
 const ln = MethodCommon.getLanguage()
 const initialState = {
     isOpenAddMainGroup:false,
 }
+function* handleCreateMainGroup(action){
+      const { data } = action.payload
+      const socket = socketIOClient(ENDPOINT);
+      // const socket = useContext(SocketContext);
+      try {
+         yield put(actionLoading.loading({}))
+         const res = yield call(Service.createMainGroup, data);
+         console.log("res:",res)
+         socket.emit("fetchMainGroup", {} )
+      // //    socket.emit("createMainGroup", data => {
+      // //       console.log("data:",data)
+      // //       // setResponse(data);
+      // //     });
+      //    console.log("res:",res)
+      } catch (error) {
+            
+      }
+}
+
 // function* handleSignUp(action){
 // //     try {
 // //         yield put(actionLoading.loading({}))
@@ -39,9 +65,9 @@ const initialState = {
 // //    }
 // }
 
-// export function* signUp() {
-//     // yield takeEvery(actionSignUp.signUp, handleSignUp);
-// }
+export function* createMainGroup() {
+    yield takeEvery(actionMainGroup.createMainGroup, handleCreateMainGroup);
+}
 
 const mainGroupSlice = createSlice({
     name: "maingroup",

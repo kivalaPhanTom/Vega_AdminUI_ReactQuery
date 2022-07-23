@@ -4,7 +4,7 @@ import { signUp } from "../slices/SignUp.slice"
 import { forgotPasswordSaga } from "../slices/ForgotPassword.slice"
 import { checkAuthenticationSaga } from "../slices/Authorization.slice"
 import { changePasswordSaga } from "../slices/ChangePassword.slice"
-
+import { createMainGroup } from "../slices/MainGroup.slice"
 const sagasList = [
     loginFaceBook(),
     loginGoogle(),
@@ -12,7 +12,8 @@ const sagasList = [
     signUp(),
     forgotPasswordSaga(),
     checkAuthenticationSaga(),
-    changePasswordSaga()
+    changePasswordSaga(),
+    createMainGroup()
 ]
 export default function* () {
     yield all(sagasList);

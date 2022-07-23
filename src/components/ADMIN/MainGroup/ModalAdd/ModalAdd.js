@@ -6,6 +6,8 @@ import { Button, Modal } from 'antd';
 // import * as mainGroupActions  from "../../Redux/Actions/Login.action";
 import { useSelector, useDispatch } from 'react-redux';
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
+// import { MethodCommon } from "../../Common/methods";
+import { MethodCommon } from "../../../Common/methods";
 import { Input } from 'antd';
 import { Switch } from 'antd';
 const { TextArea } = Input;
@@ -16,16 +18,21 @@ function ModalAdd(props) {
     const [name, setName] = useState('')
     const [isActive, setIsActive] = useState(false)
     const [note, setNote] = useState('')
-
+    const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+    console.log("userLocalStorage:",userLocalStorage )
     const handleOk = () => {
         // setIsModalVisible(false);
         const data ={
-            mainGroupId:id,
-            mainGroupName:name,
-            mainGroupIsActive:isActive,
-            mainGroupNote:note,
+            mainGroupId: id,
+            mainGroupName: name,
+            mainGroupIsActive: isActive,
+            mainGroupNote: note,
+            UserCreated: userLocalStorage.id,
+            UserUpdated: null,
+            CreatedDate:null,
+            UpdatedDate:null
         }
-        console.log("data:",data)
+        dispatch(mainGroupActions.createMainGroup({data:data}))
     };
 
     const handleCancel = () => {
