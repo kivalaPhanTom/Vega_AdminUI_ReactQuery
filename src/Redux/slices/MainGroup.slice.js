@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery, take,fork } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
 // import { Service } from '../../components/Register/Services/Services'
 import { Service } from '../../Services/MainGroup/MainGroup'
@@ -6,68 +6,121 @@ import { MessageCommon } from "../../components/Common/message";
 import * as actionMainGroup from '../Actions/MainGroup.action';
 import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
 import { MethodCommon } from "../../components/Common/methods";
+// import {searchMainGroupSuccess } from "../Actions/MainGroup.action"
 import * as actionLoading from '../Actions/Loading.action';
-import { SocketContext } from '../../SocketConfig/socket';
-import { useContext } from 'react';
+
+
+import {eventChannel} from 'redux-saga'
 import socketIOClient from "socket.io-client";
+import { AiOutlineConsoleSql } from 'react-icons/ai';
+
 const ENDPOINT = "http://127.0.0.1:4000";
 // import io from 'socket.io-client';
 // const socket = io();
 
 const ln = MethodCommon.getLanguage()
 const initialState = {
+     mainGroupList:[],
     isOpenAddMainGroup:false,
 }
-function* handleCreateMainGroup(action){
-      const { data } = action.payload
+
+
+
+// const socket = socketIOClient(ENDPOINT);
+function connect() {
       const socket = socketIOClient(ENDPOINT);
-      // const socket = useContext(SocketContext);
-      try {
-         yield put(actionLoading.loading({}))
-         const res = yield call(Service.createMainGroup, data);
-         console.log("res:",res)
-         socket.emit("fetchMainGroup", {} )
-      // //    socket.emit("createMainGroup", data => {
-      // //       console.log("data:",data)
-      // //       // setResponse(data);
-      // //     });
-      //    console.log("res:",res)
-      } catch (error) {
-            
+      return new Promise(resolve => {
+        socket.on('connect', () => { 
+          resolve(socket);
+          console.log("Socket connected");
+          
+        });
+      });
+}
+function getMainGroupBySocket(socket){
+      return new Promise(resolve => {
+            socket.on('fetchMainGroup', (maingroup) => { 
+              resolve(maingroup);
+            });
+      })
+}
+export function* fetchchMainGroupList(socket){
+      while (true) { 
+            const  resultSearch = yield call(getMainGroupBySocket,socket)
+            yield put(actionMainGroup.searchMainGroupSuccess(resultSearch));
       }
 }
-
-// function* handleSignUp(action){
-// //     try {
-// //         yield put(actionLoading.loading({}))
-// //         const res = yield call(Service.handleSignUp, action.payload);
-// //         const status = res.data
-// //         switch (status.result) {
-// //             case RESULT_STATUS.SUCCESS:
-// //                 yield put(actionLoading.closeLoading({}))
-// //                 yield put(actionSignUp.signUpSuccess(ln.messageModule.SIGNUP_SUCCESS));
-// //                 break;
-// //             case RESULT_STATUS.DATA_EXIST:
-// //                 yield put(actionLoading.closeLoading({}))
-// //                 yield put(actionSignUp.signUpFail(ln.messageModule.EMAIL_EXIST));
-// //                 break;
-// //             case RESULT_STATUS.ERROR_SYSTEM:
-// //                 yield put(actionLoading.closeLoading({}))
-// //                 yield put(actionSignUp.signUpFail(ln.messageModule.ERROR_SYSTEM));
-// //                 break;
-// //             default:
-// //                 yield put(actionSignUp.signUpFail(ln.messageModule.ERROR_SYSTEM));
-// //                 break;
-// //         }
-
-// //    } catch (error) {
-// //      yield put(actionSignUp.signUpFail(ln.messageModule.ERROR_SYSTEM));
-// //    }
-// }
-
-export function* createMainGroup() {
-    yield takeEvery(actionMainGroup.createMainGroup, handleCreateMainGroup);
+export function handleSearchMainGroup(socket){
+      socket.emit("fetchMainGroup", {} )
 }
+
+// function* handleCreateMainGroup(action){
+//       const { data } = action.payload
+//       // socket.emit("insert-todo", data )
+//       // const socket = useContext(SocketContext);
+//       try {
+//          yield put(actionLoading.loading({}))
+//          const res = yield call(Service.createMainGroup, data);
+//          yield fork(fetchchMainGroupList, socket)
+//       //    yield call(handleSearchMainGroup,{})
+//       //    const a = yield call(getMainGroupBySocket)
+//       //    console.log("a:",a)
+//       //    yield put(actionMainGroup.searchMainGroupSuccess(a));
+//       //    console.log("res:",res)
+        
+//          yield put(actionMainGroup.closeModalAddMainGroup({}));
+       
+//       //    yield put(actionMainGroup.searchMainGroup({}));
+//       // //    socket.emit("createMainGroup", data => {
+//       // //       console.log("data:",data)
+//       // //       // setResponse(data);
+//       // //     });
+//       //    console.log("res:",res)
+//       } catch (error) {
+            
+//       }
+// }
+function* handleCreateMainGroup(socket){
+      const { payload } = yield take(actionMainGroup.createMainGroup)
+      const { data }  =  payload
+      try {
+            
+            yield put(actionLoading.loading({}))
+            // socket.emit("create-maingroup", data )
+            const res = yield call(Service.createMainGroup, data);
+            // yield put(actionMainGroup.searchMainGroup({}));
+            yield fork(handleSearchMainGroup, socket)
+
+
+
+            // yield fork(handleSearchMainGroup, socket)
+            // console.log("tao api xong")
+            // // yield fork(fetchchMainGroupList, socket)
+            // // console.log("vô nưazz")
+            // console.log("socketAfter:",socket)
+            // const  a = yield call(getMainGroupBySocket,socket)
+            // console.log("a",a)
+            // yield put(actionMainGroup.searchMainGroupSuccess(a));
+            yield put(actionMainGroup.closeModalAddMainGroup({}));
+         } catch (error) {
+               
+         }
+}
+// export function* createMainGroup() {
+//     yield takeEvery(actionMainGroup.createMainGroup, handleCreateMainGroup);
+// }
+export function* flowMainGroup() {
+      // yield take(GET_TODOS)
+      // yield take('SEARCH_MAIN_GROUP')
+      const socket = yield call(connect)
+      console.log("socketFirst:",socket)
+      yield fork(handleSearchMainGroup, socket)
+      // yield fork(handleCreateMainGroup, socket)
+      yield fork(handleCreateMainGroup, socket)
+      yield fork(fetchchMainGroupList, socket)
+      
+      // yield fork(write, socket)
+    }
 
 const mainGroupSlice = createSlice({
     name: "maingroup",
@@ -80,7 +133,11 @@ const mainGroupSlice = createSlice({
     //     MessageCommon.openNotificationSuccess(action.payload)
     //     setTimeout(() => window.location.href = "/login", 400);
     //   },
-
+      [actionMainGroup.searchMainGroupSuccess]: (state, action) => {
+            let newState={...state}
+            newState.mainGroupList = action.payload.docs
+            return newState
+      },
       [actionMainGroup.openModalAddMainGroup]: (state, action) => {
             let newState={...state}
             newState.isOpenAddMainGroup = true

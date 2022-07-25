@@ -19,9 +19,7 @@ function ModalAdd(props) {
     const [isActive, setIsActive] = useState(false)
     const [note, setNote] = useState('')
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-    console.log("userLocalStorage:",userLocalStorage )
     const handleOk = () => {
-        // setIsModalVisible(false);
         const data ={
             mainGroupId: id,
             mainGroupName: name,
@@ -39,7 +37,6 @@ function ModalAdd(props) {
         dispatch(mainGroupActions.closeModalAddMainGroup({}))
     };
     const handleChangeID =(e)=>{
-        console.log("e.target.value:",e.target.value)
         setID(e.target.value)
     }
     const handleChangeName =(e)=>{
@@ -51,10 +48,7 @@ function ModalAdd(props) {
     const handleChangeNote =(e)=>{
         setNote(e.target.value)
     }
-// const onChange = (checked) => {
-    
-//     console.log(`switch to ${checked}`);
-//   };
+
   return (
     <>
       <Modal 

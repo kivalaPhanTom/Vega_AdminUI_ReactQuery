@@ -7,13 +7,13 @@ import { socket, SocketContext } from './SocketConfig/socket';
 
 function App() {
   return (
-    // <SocketContext.Provider  value={socket}>
+    <SocketContext.Provider  value={socket}>
       <Router>
           <div className="App">
               <RouterURL></RouterURL>
           </div>
       </Router>
-    // </SocketContext.Provider>
+    </SocketContext.Provider>
   );
 }
 

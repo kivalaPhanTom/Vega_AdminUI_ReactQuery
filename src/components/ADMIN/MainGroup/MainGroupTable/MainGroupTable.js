@@ -1,68 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Divider, Radio, Table } from 'antd';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./css/index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
 // import * as mainGroupActions  from "../../Redux/Actions/Login.action";
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
+import TableData from '../../../../commonComponent/TableData/TableData';
+import { FaPen,FaTrash } from "react-icons/fa";
 
 const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      render: (text) => <a>{text}</a>,
+      title: 'Mã ngành hàng',
+      dataIndex: 'mainGroupId',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
+      title: 'Tên ngành hàng',
+      dataIndex: 'mainGroupName',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
+      title: 'Trạng thái',
+      dataIndex: 'mainGroupIsActive',
+      render: (status) => {
+        let resultStatus = null
+        if( status === true)
+        {
+          resultStatus =<p className={styles['active']}>Đang hoạt động</p>
+        }else{
+          resultStatus =<p className={styles['inactive']}>Ngừng hoạt động</p>
+        }
+        return resultStatus
+      }
+    },
+    {
+      title: 'Mô tả',
+      dataIndex: 'mainGroupNote',
+    },
+    {
+      title: 'Người tạo',
+      render: (data) => {
+        let userCreateResult = <></>
+        if( data.UserCreated !== null){
+              const {UserCreated_Object} = data
+              userCreateResult = <p>{UserCreated_Object.user_name}</p>
+        }
+        return userCreateResult
+      }
+    },
+    {
+      title: 'Ngày tạo',
+      dataIndex: 'CreatedDate',
+      render: (createdDate) => {
+           let createdDateResult = <></>
+           if( createdDate !== null){
+
+           }
+           return createdDateResult
+      }
+    },
+    {
+      title: 'Người cập nhật',
+      render: (data) => {
+        let userUpdateResult = <></>
+        if( data.UserUpdated !== null){
+              const {UserUpdated_Object} = data
+              userUpdateResult = <p>{UserUpdated_Object.user_name}</p>
+        }
+        return userUpdateResult
+      }
+    },
+    {
+      title: 'Ngày cập nhật',
+      dataIndex: 'UpdatedDate',
+      render: (UpdatedDate) => {
+           let updatedDateResult = <></>
+           if( UpdatedDate !== null){
+
+           }
+           return updatedDateResult
+      }
+    },
+    {
+      title: 'Hành động',
+      // dataIndex: 'address',
+      render: () => {
+        return(
+          <div className={styles['icon_actions']}>
+            <FaPen className={styles['icon_edit']}/>
+            <FaTrash className={styles['icon_delete']}/>
+          </div>
+        )
+      },
     },
   ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    },
-    {
-      key: '4',
-      name: 'Disabled User',
-      age: 99,
-      address: 'Sidney No. 1 Lake Park',
-    },
-  ]; // rowSelection object indicates the need for row selection
+
   
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      // Column configuration not to be checked
-      name: record.name,
-    }),
-  };
-
-
 function MainGroupTable(props) {
   const dispatch = useDispatch();
   const [selectionType, setSelectionType] = useState('checkbox');
+  const {mainGroupList} = useSelector((state)=> state.mainGroupSlice)
+  console.log("mainGroupList:",mainGroupList)
+  useEffect(() => {
+    dispatch(mainGroupActions.searchMainGroup({}))
+  },[])
   const handleDelete=()=>{
 
   }
@@ -91,14 +130,10 @@ function MainGroupTable(props) {
 
       {/* <Divider /> */}
        <div className={styles["table"]}>
-          <Table
-            rowSelection={{
-              type: selectionType,
-              ...rowSelection,
-            }}
-            columns={columns}
-            dataSource={data}
-          />
+           <TableData
+              columns={columns}
+              dataRow={mainGroupList}
+           />
        </div>
       
     </div>
