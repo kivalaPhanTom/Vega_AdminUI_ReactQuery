@@ -4,22 +4,20 @@ import { Divider, Radio, Table } from 'antd';
 function TableData(props) {
   const {columns, dataRow} = props
   const [selectionType, setSelectionType] = useState('checkbox');
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const onSelectChange = (newSelectedRowKeys,selectedRows) => {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    console.log('selectedRows: ', selectedRows);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    // getCheckboxProps: (record) => ({
-    //   disabled: record.name === 'Disabled User',
-    //   // Column configuration not to be checked
-    //   name: record.name,
-    // }),
+    selectedRowKeys,
+    onChange: onSelectChange,
   };
   return (
     <Table
-        rowSelection={{
-        type: selectionType,
-        ...rowSelection,
-        }}
+        rowSelection={rowSelection}
         columns={columns}
         dataSource={dataRow}
         pagination={false}

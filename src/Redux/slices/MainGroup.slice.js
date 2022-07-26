@@ -135,6 +135,9 @@ const mainGroupSlice = createSlice({
     //   },
       [actionMainGroup.searchMainGroupSuccess]: (state, action) => {
             let newState={...state}
+            action.payload.docs.forEach((element,index) => {
+                  element.key = index
+            });
             newState.mainGroupList = action.payload.docs
             return newState
       },
