@@ -5,8 +5,8 @@ import styles from "./css/index.module.css"
 import { Service } from '../Login/Services/Services';
 import { API_URL } from '../../config';
 import PopupChangePassword from '../PopupChangePassword/PopupChangePassword';
-import { MethodCommon } from "../Common/methods";
-import { METHOD_LOGIN } from "../Common/Common_Parameter";
+import { MethodCommon } from "../../Common/methods";
+import { METHOD_LOGIN } from "../../Common/Common_Parameter";
 
 function UserInfo(props) {
     const  {handleCloseTooltip} =props

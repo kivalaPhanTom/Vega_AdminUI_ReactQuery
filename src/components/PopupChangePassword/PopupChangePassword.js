@@ -2,8 +2,7 @@ import React, {useState} from 'react'
 import { Button, Modal } from 'antd';
 import styles from "./css/index.module.css"
 import useThrottledEffect  from 'use-throttled-effect';
-import { MethodCommon } from "../Common/methods";
-// import * as loginActions  from "../../Redux/Actions/Login.action";
+import { MethodCommon } from "../../Common/methods";
 import * as changePasswordActions  from "../../Redux/Actions/ChangePassword";
 import { useSelector, useDispatch } from 'react-redux';
 

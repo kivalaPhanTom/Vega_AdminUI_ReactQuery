@@ -2,7 +2,7 @@ import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
 import * as actionAuthorization from '../Actions/Authorization';
 import { Service } from '../../components/Login/Services/Services';
-import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
+import { RESULT_STATUS } from "../../Common/Common_Parameter";
 
 const initialState = {
     Role:null

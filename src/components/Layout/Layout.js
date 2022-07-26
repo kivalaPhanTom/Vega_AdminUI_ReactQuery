@@ -1,9 +1,9 @@
 import React,{useEffect} from 'react'
 import { Service } from '../Login/Services/Services';
-import { MessageCommon } from "../Common/message";
-import { MethodCommon } from "../Common/methods";
+import { MessageCommon } from "../../Common/message";
+import { MethodCommon } from "../../Common/methods";
 import { useNavigate } from "react-router-dom";
-import { RESULT_STATUS } from "../Common/Common_Parameter";
+import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import Header from '../Header/Header';
 
 function Layout(props) {

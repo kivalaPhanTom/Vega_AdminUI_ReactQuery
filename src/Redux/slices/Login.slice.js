@@ -1,9 +1,9 @@
 import { call, put, takeLatest, takeEvery,delay } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
 import { Service } from '../../components/Login/Services/Services';
-import { MessageCommon } from "../../components/Common/message";
-import { MethodCommon } from "../../components/Common/methods";
-import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
+import { MessageCommon } from "../../Common/message";
+import { MethodCommon } from "../../Common/methods";
+import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import * as actionLogin from '../Actions/Login.action';
 import * as actionLoading from '../Actions/Loading.action';
 import { API_URL } from '../../config';

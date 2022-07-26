@@ -2,10 +2,10 @@ import { call, put, takeLatest, takeEvery, take,fork } from 'redux-saga/effects'
 import { createSlice} from "@reduxjs/toolkit";
 // import { Service } from '../../components/Register/Services/Services'
 import { Service } from '../../Services/MainGroup/MainGroup'
-import { MessageCommon } from "../../components/Common/message";
+import { MessageCommon } from "../../Common/message";
 import * as actionMainGroup from '../Actions/MainGroup.action';
-import { RESULT_STATUS } from "../../components/Common/Common_Parameter";
-import { MethodCommon } from "../../components/Common/methods";
+import { RESULT_STATUS } from "../../Common/Common_Parameter";
+import { MethodCommon } from "../../Common/methods";
 // import {searchMainGroupSuccess } from "../Actions/MainGroup.action"
 import * as actionLoading from '../Actions/Loading.action';
 

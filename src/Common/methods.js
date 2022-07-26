@@ -2,10 +2,12 @@ import { LANGUAGE_STATE_EN } from './Language/lang_en'
 import { LANGUAGE_STATE_VI } from './Language/lang_vi'
 import { MessageCommon } from "../Common/message";
 import { LANGUAGE } from "./Common_Parameter";
+var moment = require('moment'); 
 export const MethodCommon = {
     saveLocalStorage,
     getLocalStorage,
-    getLanguage
+    getLanguage,
+    formatTime
 };
 
 //save to local storage
@@ -40,4 +42,15 @@ function getLanguage(){
             break;
     }
     return result_ln
+  }
+
+  //format time
+  function formatTime(value){
+      if(value === "") {
+        return 
+      }else if (value === null) {
+        return
+      }else{
+        return moment(value).utc(0).format("DD-MM-YYYY HH:mm")
+      }
   }

@@ -3,12 +3,10 @@ import styles from "./css/index.module.css"
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiCartAlt } from "react-icons/bi";
-// import * as loginActions  from "../../Redux/Actions/Login.action";
 import * as authorizationActions  from "../../Redux/Actions/Authorization";
 import { useSelector, useDispatch } from 'react-redux';
-import { MethodCommon } from "../Common/methods";
-// import { LANGUAGE } from "./Common_Parameter";
-import { USER_ROLE } from "../Common/Common_Parameter";
+import { MethodCommon } from "../../Common/methods";
+import { USER_ROLE } from "../../Common/Common_Parameter";
 import { Link } from "react-router-dom";
 import { Button, Divider, Tooltip } from 'antd';
 import UserInfo from '../UserInfo/UserInfo';

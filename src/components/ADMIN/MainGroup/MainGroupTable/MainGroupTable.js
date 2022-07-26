@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // import * as mainGroupActions  from "../../Redux/Actions/Login.action";
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import TableData from '../../../../commonComponent/TableData/TableData';
+import { MethodCommon } from "../../../../Common/methods";
 import { FaPen,FaTrash } from "react-icons/fa";
 
 const columns = [
@@ -52,7 +53,7 @@ const columns = [
       render: (createdDate) => {
            let createdDateResult = <></>
            if( createdDate !== null){
-
+            createdDateResult = <p>{MethodCommon.formatTime(createdDate)}</p>
            }
            return createdDateResult
       }
@@ -74,14 +75,13 @@ const columns = [
       render: (UpdatedDate) => {
            let updatedDateResult = <></>
            if( UpdatedDate !== null){
-
+             updatedDateResult = <p>{MethodCommon.formatTime(UpdatedDate)}</p>
            }
            return updatedDateResult
       }
     },
     {
       title: 'Hành động',
-      // dataIndex: 'address',
       render: () => {
         return(
           <div className={styles['icon_actions']}>
