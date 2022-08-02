@@ -5,11 +5,12 @@ import * as authorizationActions  from "../../../Redux/Actions/Authorization";
 import { USER_ROLE } from "../../../Common/Common_Parameter";
 import styles from "./css/index.module.css"
 import MenuAdmin from '../MenuAdmin/MenuAdmin';
+import Loading from '../../Loading/Loading';
 
 function LayoutAdmin(props) {
   const {component_ui} =props
   // const ln = MethodCommon.getLanguage()
-
+  const {isLoading} = useSelector((state)=> state.loadingSlice)
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
   const userROLE = useSelector(state=> state.authorizationSlice.Role)
@@ -32,11 +33,11 @@ function LayoutAdmin(props) {
 
           </div>
           <div className={styles['mainContent']}>
-            {component_ui}
+              {component_ui}
           </div>
           
       </div>
-       
+      { isLoading ? ( <Loading/> ) :''}
       
     </div>
   )

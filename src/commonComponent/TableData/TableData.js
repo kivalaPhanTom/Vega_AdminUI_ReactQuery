@@ -1,18 +1,25 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Divider, Radio, Table } from 'antd';
 
 function TableData(props) {
-  const {columns, dataRow} = props
-  const [selectionType, setSelectionType] = useState('checkbox');
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const onSelectChange = (newSelectedRowKeys,selectedRows) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    console.log('selectedRows: ', selectedRows);
-    setSelectedRowKeys(newSelectedRowKeys);
+  const {columns, dataRow, handleUpdateSelectedRows, selectedRows, selectedRowKeysProp, handleUpdateSelectedRowsKey} = props
+  // const [selectionType, setSelectionType] = useState('checkbox');
+  // const [selectedRowKeys, setSelectedRowKeys] = useState(selectedRowKeysProp);
+
+  const onSelectChange = (newSelectedRowKeys, selectedRows) => {
+    // console.log('selectedRowKeys changed: ', selectedRowKeys);
+    // console.log('selectedRows: ', selectedRows);
+    // setSelectedRowKeys(selectedRowKeys);
+    handleUpdateSelectedRows(selectedRows)
+    handleUpdateSelectedRowsKey(newSelectedRowKeys)
   };
+  // console.log("selectedRowKeys:",selectedRowKeys)
+  useEffect(()=>{
+    // setSelectedRowKeys(selectedRows)
+  },[selectedRows])
 
   const rowSelection = {
-    selectedRowKeys,
+    selectedRowKeysProp,
     onChange: onSelectChange,
   };
   return (

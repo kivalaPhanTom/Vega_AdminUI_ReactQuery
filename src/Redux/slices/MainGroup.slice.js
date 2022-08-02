@@ -22,6 +22,10 @@ const ln = MethodCommon.getLanguage()
 const initialState = {
      mainGroupList:[],
     isOpenAddMainGroup:false,
+    isOpenConfirmDelete:false,
+    isOpenConfirmEdit:false,
+//     titleConfirm:"",
+//     dataConfirm:null
 }
 
 
@@ -106,6 +110,34 @@ function* handleCreateMainGroup(socket){
                
          }
 }
+function* handleDeleteMainGroup(socket){
+      const { payload } = yield take(actionMainGroup.deleteMainGroup)
+      const { data }  =  payload
+      console.log("data:",data)
+      try {
+            
+            yield put(actionLoading.loading({}))
+            const res = yield call(Service.deleteMainGroup, data);
+            if(res.data.result === RESULT_STATUS.SUCCESS ){
+                  yield fork(handleSearchMainGroup, socket)
+                  yield put(actionMainGroup.deleteMainGroupSuccess("Xóa thành công"))
+                  // ln.messageModule.RESET_PASSWORD_SUCCESS
+                  yield put(actionLoading.closeLoading({}))
+                  yield put(actionMainGroup.closeConfirmDelete())
+                  // yield put(actionMainGroup.closeModalAddMainGroup({}));
+            }else{
+                  yield put(actionMainGroup.deleteMainGroupFail("Xóa không thành công"))
+                  
+            }
+            console.log("res:",res)
+            // yield fork(handleSearchMainGroup, socket)
+            // yield put(actionMainGroup.closeModalAddMainGroup({}));
+            
+         } catch (error) {
+               
+         }
+}
+
 // export function* createMainGroup() {
 //     yield takeEvery(actionMainGroup.createMainGroup, handleCreateMainGroup);
 // }
@@ -113,8 +145,9 @@ export function* flowMainGroup() {
       // yield take(GET_TODOS)
       // yield take('SEARCH_MAIN_GROUP')
       const socket = yield call(connect)
-      console.log("socketFirst:",socket)
+      // console.log("socketFirst:",socket)
       yield fork(handleSearchMainGroup, socket)
+      yield fork(handleDeleteMainGroup, socket)
       // yield fork(handleCreateMainGroup, socket)
       yield fork(handleCreateMainGroup, socket)
       yield fork(fetchchMainGroupList, socket)
@@ -126,13 +159,6 @@ const mainGroupSlice = createSlice({
     name: "maingroup",
     initialState,
     extraReducers: {
-    //   [actionSignUp.signUpFail]: (state, action) => {
-    //     MessageCommon.openNotificationError(action.payload)
-    //   },
-    //   [actionSignUp.signUpSuccess]: (state, action) => {
-    //     MessageCommon.openNotificationSuccess(action.payload)
-    //     setTimeout(() => window.location.href = "/login", 400);
-    //   },
       [actionMainGroup.searchMainGroupSuccess]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
@@ -150,7 +176,32 @@ const mainGroupSlice = createSlice({
             let newState={...state}
             newState.isOpenAddMainGroup = false
             return newState
-       
+      },
+      [actionMainGroup.deleteMainGroupSuccess]: (state, action) => {
+            MessageCommon.openNotificationSuccess(action.payload)
+      },
+      [actionMainGroup.deleteMainGroupFail]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
+      [actionMainGroup.openConfirmDelete]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmDelete = true
+            return newState
+      },
+      [actionMainGroup.closeConfirmDelete]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmDelete = false
+            return newState
+      },
+      [actionMainGroup.openConfirmEdit]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmEdit = true
+            return newState
+      },
+      [actionMainGroup.closeConfirmEdit]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmEdit = false
+            return newState
       },
     },
   });

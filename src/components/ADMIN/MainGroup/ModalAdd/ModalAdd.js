@@ -1,9 +1,6 @@
 import React,{useState} from 'react'
 import styles from "./css/index.module.css"
 import { Button, Modal } from 'antd';
-// import { useSelector, useDispatch } from 'react-redux';
-// // import * as mainGroupActions  from "../../Redux/Actions/Login.action";
-// import * as mainGroupActions  from "../../Redux/Actions/Login.action";
 import { useSelector, useDispatch } from 'react-redux';
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import { MethodCommon } from "../../../../Common/methods";

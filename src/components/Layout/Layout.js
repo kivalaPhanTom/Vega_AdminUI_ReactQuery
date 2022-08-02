@@ -5,12 +5,13 @@ import { MethodCommon } from "../../Common/methods";
 import { useNavigate } from "react-router-dom";
 import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import Header from '../Header/Header';
+import Loading from '../Loading/Loading';
 
 function Layout(props) {
     const navigate = useNavigate();
     const ln = MethodCommon.getLanguage()
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-  
+    
     useEffect(() => {
       try {
           Service.loginAuthenticate(userLocalStorage).then((response, err)=>{

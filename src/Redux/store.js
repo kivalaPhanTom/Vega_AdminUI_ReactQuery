@@ -18,7 +18,7 @@ const allReducer = {
     authorizationSlice,
     loadingSlice,
     changePasswordSlice,
-    mainGroupSlice
+    mainGroupSlice,
   }
 const store = configureStore({
     reducer: allReducer,
