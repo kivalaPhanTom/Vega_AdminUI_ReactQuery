@@ -1,6 +1,7 @@
 
 .mainGroupTable{
     width: 100%;
+    background-color: white !important;
 }
 .table_heaader{
     padding:20px 15px;
@@ -101,5 +102,6 @@
     color:#8d2c2a; 
     transition: 0.4; 
 }
-
-
+.table_pagination{
+    margin-top: 10px;
+}

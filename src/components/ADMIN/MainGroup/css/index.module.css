@@ -38,7 +38,7 @@
 }
 .table_maingroup_container{
     clear: both;
-    background-color: white;
+    /* background-color: white; */
     width: 90%;
     margin-left: auto;
     margin-right: auto;

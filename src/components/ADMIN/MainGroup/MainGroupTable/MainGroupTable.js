@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
-import styles from "./css/index.module.css"
+import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import TableData from '../../../../commonComponent/TableData/TableData';
 import { MethodCommon } from "../../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
+import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
   
 function MainGroupTable(props) {
 
@@ -127,7 +128,8 @@ function MainGroupTable(props) {
     }
     
     return (
-      <div className={styles["mainGroupTable"]}>
+      <>
+       <div className={styles["mainGroupTable"]}>
           <div className={styles["table_heaader"]}>
                   <div className={styles["table_heaader_container"]}>
                       <div className={styles["table_title"]}>
@@ -157,7 +159,13 @@ function MainGroupTable(props) {
               />
           </div>
         
+          
+        
       </div>
+      <div className={styles["table_pagination"]}>
+             <PaginationData/>
+          </div>
+      </>
     )
 }
 export default MainGroupTable

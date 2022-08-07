@@ -7,7 +7,7 @@ import { MethodCommon } from "../../../../Common/methods";
 import { Input } from 'antd';
 import { Switch } from 'antd';
 const { TextArea } = Input;
-function ModalAdd(props) {
+function ModalEdit(props) {
     const dispatch = useDispatch();
     const {isOpenAddMainGroup,data} = useSelector((state)=> state.mainGroupSlice)
     const { code, name, isActive, note }= data
@@ -113,4 +113,4 @@ function ModalAdd(props) {
 }
 
 
-export default ModalAdd
+export default ModalEdit

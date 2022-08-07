@@ -1,5 +1,4 @@
 // --------------- LOGIN---------------------//
-
 export const LOGIN_FACEBOOK = 'LOGIN_FACEBOOK';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const LOGIN_TRANDITION = 'LOGIN_TRANDITION';
@@ -32,6 +31,7 @@ export const CLOSE_LOADING = 'CLOSE_LOADING';
 
 
 // --------------- MAIN GROUP---------------------//
+export const UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA';
 export const OPEN_ADD_MAINGOURP = 'OPEN_ADD_MAINGOURP';
 export const CLOSE_ADD_MAINGOURP = 'CLOSE_ADD_MAINGOURP';
 export const CREATE_MAIN_GROUP = 'CREATE_MAIN_GROUP';
@@ -46,3 +46,4 @@ export const OPEN_CONFIRM_DELETE = 'OPEN_CONFIRM_DELETE';
 export const CLOSE_CONFIRM_DELETE = 'LOSE_CONFIRM_DELETE';
 export const OPEN_CONFIRM_EDIT = 'OPEN_CONFIRM_EDIT';
 export const CLOSE_CONFIRM_EDIT = 'LOSE_CONFIRM_EDIT';
+export const RESSET_DATA = 'RESSET_DATA';

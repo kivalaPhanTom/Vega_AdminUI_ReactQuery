@@ -13,6 +13,12 @@ const LANGUAGE_STATE_VI = {
         RESET_PASSWORD_SUCCESS:"Bạn đã được cấp mật khẩu mới, vui lòng kiểm tra email",
         ERROR_AUTHENTICATE:"Lỗi xác thực. Vui lòng đăng nhập lại",
         CHANGE_PASSWORD_SUCCESS:"Đổi mật khẩu thành công, vui lòng đăng nhập lại",
+
+        CREATE_MAINGROUP_SUCCESS: "Tạo ngành hàng thành công",
+        CREATE_MAINGROUP_FAIL: "Tạo ngành hàng thất bại",
+        MAINGROUP_CODE_EXIST: "Mã ngành hàng đã tồn tại",
+        DELETE_MAINGROUP_SUCCESS: "Xóa ngành hàng thành công",
+        DELETE_MAINGROUP_FAIL: "Xóa ngành hàng thất bại",
     }
 };
 module.exports = {

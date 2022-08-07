@@ -24,8 +24,6 @@ function ConfirmDeleteMainGroup(props) {
           visible={isOpenConfirmDelete} 
           onOk={handleOk}
           onCancel={handleCancel}
-          // cancelText={"Hủy"}
-          // okText={"Lưu"}
           footer={null}
       >
          <div className={styles['btn_action']}>
@@ -33,7 +31,7 @@ function ConfirmDeleteMainGroup(props) {
                 <button onClick={handleCancel}>Hủy</button>
              </div>
              <div className={styles['btnSave']}>
-                <button onClick={handleOk}>Lưu</button>
+                <button onClick={handleOk}>Xóa</button>
              </div>
          </div>
       </Modal>
