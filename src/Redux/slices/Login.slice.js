@@ -14,17 +14,15 @@ function* handleLoginFaceBook(action) {
     try {
         yield put(actionLoading.loading({}))
         MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.SOCIAL)
-        // const res = yield call(Service.loginFaceBook, {});
         window.open(`${API_URL}/user/login_fb`, "_self");
-        // yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
       } catch (error) {
     }
 }
 function* handleLoginGoogle(action) {
     try {
       yield put(actionLoading.loading({}))
+      MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.SOCIAL)
       window.open(`${API_URL}/user/login_gg`, "_self");
-      // yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
     } catch (error) {
     }
 }

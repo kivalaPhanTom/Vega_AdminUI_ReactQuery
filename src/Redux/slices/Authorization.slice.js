@@ -8,14 +8,11 @@ const initialState = {
     Role:2
 }
 function* handleAuthorization(action){
-  console.log("action.payload:",action.payload)
   try {
     const res = yield call(Service.loginAuthorization, action.payload);
-    console.log("res:",res)
     const status = res.data
     switch (status.result) {
         case RESULT_STATUS.SUCCESS:
-          console.log("status:",status)
             yield put(actionAuthorization.getAuthorizationSuccess(status.data));
             break;
 

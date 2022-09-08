@@ -12,6 +12,7 @@ function UserInfo(props) {
     const  {handleCloseTooltip} =props
     const [isPopup, setIsPopup] = useState(false)
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+    const typelogin = MethodCommon.getLocalStorage('TypeLoginVega')
 
     const handleLogout =()=>{
         window.open(`${API_URL}/logout`, "_self");
@@ -28,14 +29,24 @@ function UserInfo(props) {
     const handleOnMouseLeave =()=>{
         handleCloseTooltip()
     }
+   console.log("userLocalStorage.Avarta:",userLocalStorage.Avarta)
     return (
         <div className={styles['userInfo_area']} onMouseLeave={handleOnMouseLeave}>
             <div className={styles['avatar_and_name']}>
+                
                  <div className={styles['avatar']}>
-                      <img className={styles['avatar_img']} src="https://cdn.iconscout.com/icon/free/png-256/face-1659511-1410033.png" alt=""/>
+                        {
+                        typelogin === METHOD_LOGIN.TRANDITIONAL ? (
+                            <img className={styles['avatar_img']} src="https://cdn.iconscout.com/icon/free/png-256/face-1659511-1410033.png" alt=""/>
+                        ):
+                        (
+                            <img className={styles['avatar_img']} src={userLocalStorage.Avarta} alt=""/>
+                        )
+                        }
+                      
                  </div>
                  <div className={styles['userName']}>
-                     <p>Duy</p>
+                     <p>{userLocalStorage.user_name}</p>
                  </div>
             </div>
             {
