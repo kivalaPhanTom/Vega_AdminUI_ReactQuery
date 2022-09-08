@@ -3,18 +3,28 @@ import { Service } from '../Login/Services/Services';
 import { MessageCommon } from "../../Common/message";
 import { MethodCommon } from "../../Common/methods";
 import { useNavigate } from "react-router-dom";
-import { RESULT_STATUS } from "../../Common/Common_Parameter";
+import { RESULT_STATUS, METHOD_LOGIN } from "../../Common/Common_Parameter";
 import Header from '../Header/Header';
 import Loading from '../Loading/Loading';
+import { USER_ROLE } from "../../Common/Common_Parameter";
 
 function Layout(props) {
     const navigate = useNavigate();
     const ln = MethodCommon.getLanguage()
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-    
+    let typelogin = null
+    if( MethodCommon.getLocalStorage('TypeLoginVega') === null){
+      typelogin = METHOD_LOGIN.GUESS
+    }else{
+      typelogin = Number(MethodCommon.getLocalStorage('TypeLoginVega'))
+    }
+    const data ={
+      userLocalStorage,
+      typelogin
+    }
     useEffect(() => {
       try {
-          Service.loginAuthenticate(userLocalStorage).then((response, err)=>{
+          Service.loginAuthenticate(data).then((response, err)=>{
             const status = response.data
             
             switch (status.result) {
@@ -22,6 +32,8 @@ function Layout(props) {
                   MethodCommon.saveLocalStorage("UserVega",status.data)
                   break;
                 case RESULT_STATUS.REFRESH_TOKEN_SUCCESS:
+                  break;
+                case RESULT_STATUS.GUESS_ACCOUNT:
                   break;
                 case RESULT_STATUS.ERROR_AUTHENTICATE:
                     navigate("/login");

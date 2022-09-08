@@ -3,7 +3,7 @@ import { createSlice} from "@reduxjs/toolkit";
 import { Service } from '../../components/Login/Services/Services';
 import { MessageCommon } from "../../Common/message";
 import { MethodCommon } from "../../Common/methods";
-import { RESULT_STATUS } from "../../Common/Common_Parameter";
+import { RESULT_STATUS, METHOD_LOGIN} from "../../Common/Common_Parameter";
 import * as actionLogin from '../Actions/Login.action';
 import * as actionLoading from '../Actions/Loading.action';
 import { API_URL } from '../../config';
@@ -13,6 +13,8 @@ const initialState = {}
 function* handleLoginFaceBook(action) {
     try {
         yield put(actionLoading.loading({}))
+        MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.SOCIAL)
+        // const res = yield call(Service.loginFaceBook, {});
         window.open(`${API_URL}/user/login_fb`, "_self");
         // yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
       } catch (error) {
@@ -28,6 +30,7 @@ function* handleLoginGoogle(action) {
 }
 
 function* handleLoginTrandition(action){
+  MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.TRANDITIONAL)
   try {
     yield put(actionLoading.loading({}))
     const res = yield call(Service.loginTrandition, action.payload);

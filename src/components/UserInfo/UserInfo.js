@@ -15,6 +15,8 @@ function UserInfo(props) {
 
     const handleLogout =()=>{
         window.open(`${API_URL}/logout`, "_self");
+        MethodCommon.clearLocalStorage("UserVega")
+        MethodCommon.clearLocalStorage("TypeLoginVega")
     }
     const handleChangePassword =()=>{
         setIsPopup(true)

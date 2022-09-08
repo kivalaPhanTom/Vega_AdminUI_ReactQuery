@@ -6,7 +6,7 @@ import { BiCartAlt } from "react-icons/bi";
 import * as authorizationActions  from "../../Redux/Actions/Authorization";
 import { useSelector, useDispatch } from 'react-redux';
 import { MethodCommon } from "../../Common/methods";
-import { USER_ROLE } from "../../Common/Common_Parameter";
+import { USER_ROLE, METHOD_LOGIN } from "../../Common/Common_Parameter";
 import { Link } from "react-router-dom";
 import { Button, Divider, Tooltip } from 'antd';
 import UserInfo from '../UserInfo/UserInfo';
@@ -14,10 +14,23 @@ import UserInfo from '../UserInfo/UserInfo';
 function Menu(props) {
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+  let typelogin = null
+  if( MethodCommon.getLocalStorage('TypeLoginVega') === null){
+    typelogin = METHOD_LOGIN.GUESS
+  }else{
+    typelogin = Number(MethodCommon.getLocalStorage('TypeLoginVega'))
+  }
+  console.log("userLocalStorage:",userLocalStorage)
+  console.log("typelogin:",typelogin)
   const userROLE = useSelector(state=> state.authorizationSlice.Role)
+  console.log(" userROLE:", userROLE)
   const [isToolTip, setIsToolTip] = useState(false)
   useEffect(() => {
-    dispatch(authorizationActions.getAuthorization(userLocalStorage))
+    const data ={
+      userLocalStorage,
+      typelogin
+    }
+    dispatch(authorizationActions.getAuthorization(data))
   }, []);
   
   const handleOnMouseEnter =()=>{
@@ -26,7 +39,7 @@ function Menu(props) {
   const handleCloseTooltip =()=>{
     setIsToolTip(false)
   }
-
+  console.log("userROLE:",userROLE)
   return (
     <div className={styles['menu_area']}>
          <ul className ={styles['vega_menu']}> 
@@ -49,13 +62,27 @@ function Menu(props) {
                 </li>)
                 : ''
             }
-             <li>
-               <Tooltip visible={isToolTip} title={<UserInfo handleCloseTooltip={handleCloseTooltip}/>} color={'#93b55e'} key={'account'}>
-                  <span className={styles['name_menu_item']} onMouseEnter={handleOnMouseEnter} >TÀI KHOẢN</span>
-                </Tooltip>
-                
-                {/* <div className={styles['dot_menu_item']}></div> */}
-            </li>
+            {
+                userROLE !== USER_ROLE.GUESS ? 
+                (
+                  <li>
+                  <Tooltip visible={isToolTip} title={<UserInfo handleCloseTooltip={handleCloseTooltip}/>} color={'#93b55e'} key={'account'}>
+                      <span className={styles['name_menu_item']} onMouseEnter={handleOnMouseEnter} >TÀI KHOẢN</span>
+                    </Tooltip>
+                    
+                    {/* <div className={styles['dot_menu_item']}></div> */}
+                </li>
+                ):""
+            }
+            {
+                userROLE === USER_ROLE.GUESS ? 
+                (
+                  <li>
+                      <Link to="/login"><span className={styles['name_menu_item']}>ĐĂNG NHẬP</span></Link>
+                  </li>
+                ):""
+            }
+             
              <li>
                  <div className= {styles['list_icon']}>
 

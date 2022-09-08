@@ -6,6 +6,7 @@ var moment = require('moment');
 export const MethodCommon = {
     saveLocalStorage,
     getLocalStorage,
+    clearLocalStorage,
     getLanguage,
     formatTime
 };
@@ -20,7 +21,10 @@ function getLocalStorage(name_localstorage){
   result = JSON.parse(result)
   return result
 }
-
+//clear localStorage
+function clearLocalStorage(name_localstorage){
+  localStorage.removeItem(name_localstorage);
+}
 //get language system
 function getLanguage(){
     let ln = getLocalStorage("langVega")

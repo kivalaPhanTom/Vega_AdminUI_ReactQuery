@@ -33,15 +33,18 @@ const RESULT_STATUS= {
     ERROR_SYSTEM:7,
     REFRESH_TOKEN_SUCCESS:8,
     ERROR_AUTHENTICATE:9,
+    GUESS_ACCOUNT:10
 };
 
 const METHOD_LOGIN = {
      TRANDITIONAL:0,
-     SOCIAL:1
+     SOCIAL:1,
+     GUESS:2,
 }
 const USER_ROLE = {
     ADMIN:0,
-    USER:1
+    USER:1,
+    GUESS:2
 }
 const LANGUAGE = {
     VI:0,
