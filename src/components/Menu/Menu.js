@@ -14,15 +14,16 @@ import UserInfo from '../UserInfo/UserInfo';
 function Menu(props) {
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+  const [isToolTip, setIsToolTip] = useState(false)
+  const userROLE = useSelector(state=> state.authorizationSlice.Role)
   let typelogin = null
   if( MethodCommon.getLocalStorage('TypeLoginVega') === null){
     typelogin = METHOD_LOGIN.GUESS
   }else{
     typelogin = Number(MethodCommon.getLocalStorage('TypeLoginVega'))
   }
-  const userROLE = useSelector(state=> state.authorizationSlice.Role)
-  console.log(" userROLE:", userROLE)
-  const [isToolTip, setIsToolTip] = useState(false)
+ 
+  
   useEffect(() => {
     const data ={
       userLocalStorage,
@@ -37,7 +38,7 @@ function Menu(props) {
   const handleCloseTooltip =()=>{
     setIsToolTip(false)
   }
-  console.log("userROLE:",userROLE)
+
   return (
     <div className={styles['menu_area']}>
          <ul className ={styles['vega_menu']}> 

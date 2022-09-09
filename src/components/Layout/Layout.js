@@ -25,7 +25,7 @@ function Layout(props) {
     useEffect(() => {
       try {
           Service.loginAuthenticate(data).then((response, err)=>{
-            const status = response.data
+          const status = response.data
             
             switch (status.result) {
                 case RESULT_STATUS.SUCCESS:

@@ -34,11 +34,11 @@ function* handleLoginTrandition(action){
     yield put(actionLoading.loading({}))
     const res = yield call(Service.loginTrandition, action.payload);
     const status = res.data
-    console.log("status:",status)
     switch (status.result) {
 
         case RESULT_STATUS.SUCCESS:
             yield put(actionLoading.closeLoading({}))
+            console.log("status.data:",status.data)
             MethodCommon.saveLocalStorage("UserVega",status.data)
             yield put(actionLogin.loginTranditionSuccess(ln.messageModule.LOGIN_SUCCESS));
             break;
