@@ -7,7 +7,7 @@ import { RESULT_STATUS, METHOD_LOGIN } from "../../Common/Common_Parameter";
 import Header from '../Header/Header';
 import Loading from '../Loading/Loading';
 import { USER_ROLE } from "../../Common/Common_Parameter";
-
+import env from "react-dotenv";
 function Layout(props) {
     const navigate = useNavigate();
     const ln = MethodCommon.getLanguage()
@@ -56,6 +56,7 @@ function Layout(props) {
     <div>
        <Header/>
          Layout
+         <div>{env.API_URL}</div>
       </div>
   )
 }
