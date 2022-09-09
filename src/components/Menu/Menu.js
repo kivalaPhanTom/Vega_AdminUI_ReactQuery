@@ -20,8 +20,6 @@ function Menu(props) {
   }else{
     typelogin = Number(MethodCommon.getLocalStorage('TypeLoginVega'))
   }
-  console.log("userLocalStorage:",userLocalStorage)
-  console.log("typelogin:",typelogin)
   const userROLE = useSelector(state=> state.authorizationSlice.Role)
   console.log(" userROLE:", userROLE)
   const [isToolTip, setIsToolTip] = useState(false)

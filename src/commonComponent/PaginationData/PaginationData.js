@@ -2,11 +2,19 @@ import React from 'react'
 import { Pagination } from 'antd';
 
 function PaginationData(props) {
-  const onChange = (pageNumber) => {
-    console.log('Page: ', pageNumber);
+  const { total, handleChangePagination } =props
+  const onChange = (pageNumber, pageSize) => {
+    handleChangePagination(pageNumber, pageSize )
   };
+
   return (
-    <Pagination showQuickJumper defaultCurrent={2} total={500} onChange={onChange} />
+    <Pagination 
+      showQuickJumper 
+      defaultCurrent={1} 
+      total={total} 
+      onChange={onChange} 
+      showSizeChanger
+    />
   )
 }
 

@@ -1,6 +1,6 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../components/PopupChangePassword/Services/Services'
+import { Service } from '../../Services/ChangePassword/ChangePassword'
 import { MessageCommon } from "../../Common/message";
 import * as actionChangePassword from '../Actions/ChangePassword';
 import { RESULT_STATUS } from '../../Common/Common_Parameter';

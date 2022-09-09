@@ -1,8 +1,6 @@
 import React,{useState} from 'react'
 import 'antd/dist/antd.css';
-import { Button, message, Popconfirm } from 'antd';
 import styles from "./css/index.module.css"
-import { Service } from '../Login/Services/Services';
 import { API_URL } from '../../config';
 import PopupChangePassword from '../PopupChangePassword/PopupChangePassword';
 import { MethodCommon } from "../../Common/methods";
@@ -29,7 +27,7 @@ function UserInfo(props) {
     const handleOnMouseLeave =()=>{
         handleCloseTooltip()
     }
-   console.log("userLocalStorage.Avarta:",userLocalStorage.Avarta)
+
     return (
         <div className={styles['userInfo_area']} onMouseLeave={handleOnMouseLeave}>
             <div className={styles['avatar_and_name']}>

@@ -3,7 +3,8 @@ import axios from 'axios';
 
 export const Service = {
     createMainGroup,
-    deleteMainGroup
+    deleteMainGroup,
+    searchAndPaginationMainGroup
 };
 
 function createMainGroup(data) {
@@ -14,3 +15,8 @@ function deleteMainGroup(data) {
     return axios.post(`${API_URL}/maingroup/delete`, data,{ withCredentials: true })
 }
 
+function searchAndPaginationMainGroup(data) {
+    return axios.post(`${API_URL}/maingroup/searchAndPagination`, data,{ withCredentials: true })
+}
+
+// /maingroup/searchAndPagination

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +8,8 @@ import { MethodCommon } from "../../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
 import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
-  
+import { PAGINATION_DEFAULT } from "../../../../Common/Common_Parameter";
+
 function MainGroupTable(props) {
 
     const columns = [
@@ -27,9 +28,9 @@ function MainGroupTable(props) {
           let resultStatus = null
           if( status === true)
           {
-            resultStatus =<p className={styles['active']}>Đang hoạt động</p>
+            resultStatus =<span className={styles['active']}>Đang hoạt động</span>
           }else{
-            resultStatus =<p className={styles['inactive']}>Ngừng hoạt động</p>
+            resultStatus =<span className={styles['inactive']}>Ngừng hoạt động</span>
           }
           return resultStatus
         }
@@ -44,7 +45,7 @@ function MainGroupTable(props) {
           let userCreateResult = <></>
           if( data.UserCreated !== null){
                 const {UserCreated_Object} = data
-                userCreateResult = <p>{UserCreated_Object.user_name}</p>
+                userCreateResult = <span>{UserCreated_Object.user_name}</span>
           }
           return userCreateResult
         }
@@ -55,7 +56,7 @@ function MainGroupTable(props) {
         render: (createdDate) => {
             let createdDateResult = <></>
             if( createdDate !== null){
-              createdDateResult = <p>{MethodCommon.formatTime(createdDate)}</p>
+              createdDateResult = <span>{MethodCommon.formatTime(createdDate)}</span>
             }
             return createdDateResult
         }
@@ -77,7 +78,7 @@ function MainGroupTable(props) {
         render: (UpdatedDate) => {
             let updatedDateResult = <></>
             if( UpdatedDate !== null){
-              updatedDateResult = <p>{MethodCommon.formatTime(UpdatedDate)}</p>
+              updatedDateResult = <span>{MethodCommon.formatTime(UpdatedDate)}</span>
             }
             return updatedDateResult
         }
@@ -96,11 +97,30 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const {mainGroupList} = useSelector((state)=> state.mainGroupSlice)
-
+    const {mainGroupList, totalData} = useSelector((state)=> state.mainGroupSlice)
+    const [pagination, setPagination] = useState({
+         pageCurrent: PAGINATION_DEFAULT.pageCurrent,
+         pageSize: PAGINATION_DEFAULT.pageSize,
+    })
+    console.log("pagination:",pagination)
+  
     useEffect(() => {
-      dispatch(mainGroupActions.searchMainGroup({}))
+      dispatch(mainGroupActions.searchMainGroupBySocket({}))
     },[])
+
+    const handleChangePagination =(page_index, page_size)=>{
+      setPagination({
+        pageCurrent: page_index,
+        pageSize: page_size
+      })
+      const data = {
+        pageCurrent: page_index,
+        pageSize: page_size,
+        keySearch:''
+      }
+      console.log("dataX:",data)
+      dispatch(mainGroupActions.searchAndPaginationData(data))
+    }
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
@@ -163,7 +183,10 @@ function MainGroupTable(props) {
         
       </div>
       <div className={styles["table_pagination"]}>
-             <PaginationData/>
+             <PaginationData
+               total = {totalData}
+               handleChangePagination = {handleChangePagination}
+             />
           </div>
       </>
     )

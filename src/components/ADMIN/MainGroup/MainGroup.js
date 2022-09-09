@@ -31,7 +31,7 @@ function MainGroup(props) {
   }
 
   useEffect(() => {
-      dispatch(mainGroupActions.searchMainGroup({}))
+      dispatch(mainGroupActions.searchMainGroupBySocket({}))
   },[])
 
   return (

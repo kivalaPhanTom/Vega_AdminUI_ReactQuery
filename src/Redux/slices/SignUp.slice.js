@@ -1,6 +1,6 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../components/Register/Services/Services'
+import { Service } from '../../Services/Register/Register'
 import { MessageCommon } from "../../Common/message";
 import * as actionSignUp from '../Actions/SignUp.action';
 import { RESULT_STATUS } from "../../Common/Common_Parameter";

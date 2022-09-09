@@ -19,7 +19,8 @@ const initialState = {
       name:'',
       isActive:false,
       note:''
-    }
+    },
+    totalData:0
 }
 const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
@@ -30,10 +31,16 @@ function getMainGroupBySocket(socket){
             });
       })
 }
-export function* fetchchMainGroupList(socket){
+export function* fetchchMainGroupListBySocket(socket){ //dangcode
       while (true) { 
-            const  resultSearch = yield call(getMainGroupBySocket,socket)
-            yield put(actionMainGroup.searchMainGroupSuccess(resultSearch));
+            try {
+                  const  resultSearch = yield call(getMainGroupBySocket,socket)
+                  yield put(actionMainGroup.searchMainGroupSuccessBySocket(resultSearch)); 
+            } catch (error) {
+                  yield put(actionMainGroup.searchMainGroupFailBySocket(ln.messageModule.ERROR_SYSTEM));
+                  
+            }
+            
       }
 }
 export function handleEmitSearchMainGroup(socket){
@@ -110,6 +117,15 @@ function* handleSocketDeleteMainGroup(action){
       yield fork(handleDeleteMainGroup,  payload)
 }
 
+function* handleSearchAndPaginationMainGroup(action){
+      try {
+         const res = yield call(Service.searchAndPaginationMainGroup, action.payload);
+         yield put(actionMainGroup.searchAndPaginationDataSuccess(res.data.data));
+      }catch (error) {
+         yield put(actionMainGroup.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
+      }
+}
+
 function* createMainGroup() {
       yield takeEvery(actionMainGroup.createMainGroup, handleSocketCreateMainGroup);
 }
@@ -117,16 +133,22 @@ function* createMainGroup() {
 function* deleteMainGroup() {
     yield takeEvery(actionMainGroup.deleteMainGroup, handleSocketDeleteMainGroup);
 }
-
-function* onFetchMainGroupList() {
+function* searchAndPaginationMainGroup() {
+      yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
+  }
+function* onFetchMainGroupListBySocket() {
       const socket = yield call(connect)
       yield fork(handleEmitSearchMainGroup, socket)
-      yield fork(fetchchMainGroupList, socket)
+      yield fork(fetchchMainGroupListBySocket, socket)
 }
 
 export function* mainGroupSagaList() {
-      yield fork(onFetchMainGroupList);
-      yield all([deleteMainGroup(),createMainGroup()]);   
+      yield fork(onFetchMainGroupListBySocket);
+      yield all([
+            deleteMainGroup(),
+            createMainGroup(),
+            searchAndPaginationMainGroup()
+      ]);   
 }
 
 const mainGroupSlice = createSlice({
@@ -138,13 +160,32 @@ const mainGroupSlice = createSlice({
             newState.data = action.payload
             return newState
       },
-      [actionMainGroup.searchMainGroupSuccess]: (state, action) => {
+      [actionMainGroup.searchMainGroupSuccessBySocket]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
                   element.key = index
             });
-            newState.mainGroupList = action.payload.docs
+            const { docs, total } = action.payload
+            newState.mainGroupList = docs
+            newState.totalData = total
             return newState
+      },
+      [actionMainGroup.searchMainGroupFailBySocket]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
+      [actionMainGroup.searchAndPaginationDataSuccess]: (state, action) => {
+            let newState={...state}
+            console.log("action.payload.:",action.payload)
+            action.payload.docs.forEach((element,index) => {
+                  element.key = index
+            });
+            const {docs, total } = action.payload
+            newState.mainGroupList = docs
+            newState.totalData = total
+            return newState
+      },
+      [actionMainGroup.searchAndPaginationDataFailed]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
       },
       [actionMainGroup.openModalAddMainGroup]: (state, action) => {
             let newState={...state}

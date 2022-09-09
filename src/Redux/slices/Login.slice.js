@@ -1,6 +1,7 @@
 import { call, put, takeLatest, takeEvery,delay } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../components/Login/Services/Services';
+// import { Service } from '../../components/Login/Services/Services';
+import { Service } from '../../Services/Login/Login';
 import { MessageCommon } from "../../Common/message";
 import { MethodCommon } from "../../Common/methods";
 import { RESULT_STATUS, METHOD_LOGIN} from "../../Common/Common_Parameter";
@@ -33,6 +34,7 @@ function* handleLoginTrandition(action){
     yield put(actionLoading.loading({}))
     const res = yield call(Service.loginTrandition, action.payload);
     const status = res.data
+    console.log("status:",status)
     switch (status.result) {
 
         case RESULT_STATUS.SUCCESS:

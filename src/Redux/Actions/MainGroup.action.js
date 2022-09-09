@@ -7,8 +7,9 @@ export const closeModalAddMainGroup = createAction(ACTION_TYPES.CLOSE_ADD_MAINGO
 export const createMainGroup = createAction(ACTION_TYPES.CREATE_MAIN_GROUP)
 export const createMainGroupSuccess = createAction(ACTION_TYPES.CREATE_MAIN_GROUP_SUCCESS)
 export const createMainGroupFail = createAction(ACTION_TYPES.CREATE_MAIN_GROUP_FAIL)
-export const searchMainGroup = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP)
-export const searchMainGroupSuccess = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_SUCCESS)
+export const searchMainGroupBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_BY_SOCKET)
+export const searchMainGroupSuccessBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_SUCCESS_BY_SOCKET)
+export const searchMainGroupFailBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_FAIL_BY_SOCKET)
 export const deleteMainGroup = createAction(ACTION_TYPES.DELETE_MAIN_GROUP)
 export const deleteMainGroupSuccess = createAction(ACTION_TYPES.DELETE_MAIN_GROUP_SUCCESS)
 export const deleteMainGroupFail = createAction(ACTION_TYPES.DELETE_MAIN_GROUP_FAIL)
@@ -17,11 +18,6 @@ export const closeConfirmDelete = createAction(ACTION_TYPES.CLOSE_CONFIRM_DELETE
 export const openConfirmEdit = createAction(ACTION_TYPES.OPEN_CONFIRM_EDIT)
 export const closeConfirmEdit = createAction(ACTION_TYPES.CLOSE_CONFIRM_EDIT)
 export const resetData = createAction(ACTION_TYPES.RESSET_DATA)
-// export const searchMainGroupSuccess  = payload => {
-//     console.log("on Todo Added",payload);
-//     console.log("payload:",payload)
-//     return {
-//         type : ACTION_TYPES.SEARCH_MAIN_GROUP_SUCCESS,
-//         payload
-//     }
-// }
+export const searchAndPaginationData = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION)
+export const searchAndPaginationDataSuccess = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION_SUCCESS)
+export const searchAndPaginationDataFailed = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION_FAILED)

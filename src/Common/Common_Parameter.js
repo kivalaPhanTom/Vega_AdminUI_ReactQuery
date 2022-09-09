@@ -50,9 +50,14 @@ const LANGUAGE = {
     VI:0,
     EN:1
 }
+const PAGINATION_DEFAULT ={
+    pageCurrent: 1,
+    pageSize: 10
+}
 module.exports = {
     RESULT_STATUS ,
     METHOD_LOGIN,
     USER_ROLE,
-    LANGUAGE 
+    LANGUAGE,
+    PAGINATION_DEFAULT
 };

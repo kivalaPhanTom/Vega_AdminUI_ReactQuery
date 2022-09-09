@@ -2,7 +2,7 @@ import React ,{useEffect}from 'react'
 import { MethodCommon } from "../../../Common/methods";
 import { useSelector, useDispatch } from 'react-redux';
 import * as authorizationActions  from "../../../Redux/Actions/Authorization";
-import { USER_ROLE } from "../../../Common/Common_Parameter";
+import { USER_ROLE,METHOD_LOGIN } from "../../../Common/Common_Parameter";
 import styles from "./css/index.module.css"
 import MenuAdmin from '../MenuAdmin/MenuAdmin';
 import Loading from '../../Loading/Loading';
@@ -14,9 +14,19 @@ function LayoutAdmin(props) {
   const dispatch = useDispatch();
   const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
   const userROLE = useSelector(state=> state.authorizationSlice.Role)
-
+  let typelogin = null
+  if( MethodCommon.getLocalStorage('TypeLoginVega') === null){
+    typelogin = METHOD_LOGIN.GUESS
+  }else{
+    typelogin = Number(MethodCommon.getLocalStorage('TypeLoginVega'))
+  }
+  
   useEffect(() => {
-    dispatch(authorizationActions.getAuthorization(userLocalStorage))
+    const data ={
+      userLocalStorage,
+      typelogin
+    }
+    dispatch(authorizationActions.getAuthorization(data))
   }, []);
 
   if ( userROLE !== USER_ROLE.ADMIN ){

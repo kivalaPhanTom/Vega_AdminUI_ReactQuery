@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import { Service } from '../Login/Services/Services';
+import { Service } from '../../Services/Login/Login';
 import { MessageCommon } from "../../Common/message";
 import { MethodCommon } from "../../Common/methods";
 import { useNavigate } from "react-router-dom";

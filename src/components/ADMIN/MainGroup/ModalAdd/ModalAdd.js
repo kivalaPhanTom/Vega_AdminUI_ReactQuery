@@ -33,6 +33,16 @@ function ModalAdd(props) {
     const handleCancel = () => {
         dispatch(mainGroupActions.closeModalAddMainGroup({}))
     };
+    
+    const handleCancelData =()=>{
+        let dataClone = {...data}
+        dataClone.code = ''
+        dataClone.name = ''
+        dataClone.isActive = false
+        dataClone.note = ''
+        dispatch(mainGroupActions.closeModalAddMainGroup({}))
+        dispatch(mainGroupActions.updateDataInput(dataClone))
+    }
     const handleChangeCode =(e)=>{
         let dataClone = {...data}
         dataClone.code= e.target.value
@@ -62,7 +72,7 @@ function ModalAdd(props) {
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[
-                <button key="cancel" onClick={handleCancel} className={styles['btn_cancel']}>
+                <button key="cancel" onClick={handleCancelData} className={styles['btn_cancel']}>
                     Hủy
                 </button>,
                 <button key="submit" onClick={handleOk} className={styles['btn_submit']}>

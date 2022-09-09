@@ -1,6 +1,6 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../components/ForgotPassword/Services/Services'
+import { Service } from '../../Services/ForgotPassword/ForgotPassword'
 import { MessageCommon } from "../../Common/message";
 import * as actionForgotPassword from '../Actions/ForgotPassword';
 import { RESULT_STATUS } from '../../Common/Common_Parameter';
