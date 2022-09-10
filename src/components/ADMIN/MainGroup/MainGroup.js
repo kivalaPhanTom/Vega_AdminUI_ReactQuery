@@ -7,6 +7,7 @@ import ModalAdd from './ModalAdd/ModalAdd';
 import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
 import { useSelector, useDispatch } from 'react-redux';
 import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGroup';
+import ModalEdit from './ModalEdit/ModalEdit';
 
 function MainGroup(props) {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function MainGroup(props) {
          </div>
 
          <ModalAdd/>
+         <ModalEdit/>
          
          <ConfirmDeleteMainGroup
             handleDeleteMainGroup={handleDeleteMainGroup}

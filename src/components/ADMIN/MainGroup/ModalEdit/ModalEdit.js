@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import styles from "./index.module.css"
 import { Button, Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,107 +9,113 @@ import { Switch } from 'antd';
 const { TextArea } = Input;
 function ModalEdit(props) {
     const dispatch = useDispatch();
-    const {isOpenAddMainGroup,data} = useSelector((state)=> state.mainGroupSlice)
-    const { code, name, isActive, note }= data
+    const {isOpenConfirmEdit, dataEdit, pagination } = useSelector((state)=> state.mainGroupSlice)
+    const { id, code, name, isActive, note } = dataEdit
     // const [id, setID]= useState('')
     // const [name, setName] = useState('')
     // const [isActive, setIsActive] = useState(false)
     // const [note, setNote] = useState('')
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+
+    useEffect(()=>{
+
+    },[])
+
     const handleOk = () => {
         const dataSubmit ={
+            id: id,
             mainGroupId: code,
             mainGroupName: name,
             mainGroupIsActive: isActive,
             mainGroupNote: note,
-            UserCreated: userLocalStorage.id,
-            UserUpdated: null,
-            CreatedDate:null,
+            UserUpdated: userLocalStorage.id,
             UpdatedDate:null
         }
-        dispatch(mainGroupActions.createMainGroup({data:dataSubmit}))
+        dispatch(mainGroupActions.editMainGroup({data:dataSubmit, pagination:pagination}))
     };
 
     const handleCancel = () => {
-        dispatch(mainGroupActions.closeModalAddMainGroup({}))
+        dispatch(mainGroupActions.closeConfirmEdit({}))
     };
+    
     const handleChangeCode =(e)=>{
-        let dataClone = {...data}
+        let dataClone = {...dataEdit}
         dataClone.code= e.target.value
-        dispatch(mainGroupActions.updateDataInput(dataClone))
-    }
-    const handleChangeName =(e)=>{
-        let dataClone = {...data}
-        dataClone.name= e.target.value
-        dispatch(mainGroupActions.updateDataInput(dataClone))
-    }
-    const handleChangeIsActive =(value)=>{
-        let dataClone = {...data}
-        dataClone.isActive= value
-        dispatch(mainGroupActions.updateDataInput(dataClone))
-    }
-    const handleChangeNote =(e)=>{
-        let dataClone = {...data}
-        dataClone.note = e.target.value
-        dispatch(mainGroupActions.updateDataInput(dataClone))
+        dispatch(mainGroupActions.updateDataEdit(dataClone))
     }
 
-  return (
-    <>
-      <Modal 
-          title={<span className={styles['title']}>Thêm nhóm hàng</span>} 
-          visible={isOpenAddMainGroup} 
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-                <button key="cancel" onClick={handleCancel} className={styles['btn_cancel']}>
-                    Hủy
-                </button>,
-                <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
-                    Lưu
-                </button>,
-          ]}
-      >
-        <div>
-            <div className={styles['nameAndIdMainGroup']}>
-                <div className={styles['id_field']}>
-                    <span>Mã nhóm hàng</span>
+    const handleChangeName =(e)=>{
+        let dataClone = {...dataEdit}
+        dataClone.name= e.target.value
+        dispatch(mainGroupActions.updateDataEdit(dataClone))
+    }
+
+    const handleChangeIsActive =(value)=>{
+        let dataClone = {...dataEdit}
+        dataClone.isActive= value
+        dispatch(mainGroupActions.updateDataEdit(dataClone))
+    }
+
+    const handleChangeNote =(e)=>{
+        let dataClone = {...dataEdit}
+        dataClone.note = e.target.value
+        dispatch(mainGroupActions.updateDataEdit(dataClone))
+    }
+
+    return (
+        <>
+            <Modal 
+                title={<span className={styles['title']}>Sửa nhóm hàng</span>} 
+                visible={isOpenConfirmEdit} 
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={[
+                        <button key="cancel" onClick={handleCancel} className={styles['btn_cancel']}>
+                            Hủy
+                        </button>,
+                        <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
+                            Lưu
+                        </button>,
+                ]}
+            >
+                <div>
+                    <div className={styles['nameAndIdMainGroup']}>
+                        <div className={styles['id_field']}>
+                            <span>Mã nhóm hàng</span>
+                            <div>
+                                <input value={code} onChange={handleChangeCode}></input>
+                            </div>
+                        </div>
+                        <div className={styles['name_field']}>
+                            <span>Tên nhóm hàng</span>
+                            <div>
+                                <input value={name} onChange={handleChangeName}></input>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                    <div className={styles['status_field']}>
+                        <span id= {styles['statusLabel']}>Trạng thái</span>
+                        <div>
+                        <Switch  className = {styles['switchBtn'] } checked={isActive} onChange={handleChangeIsActive} />
+                        </div>
+                    </div>
                     <div>
-                        <input value={code} onChange={handleChangeCode}></input>
+                        <span >Ghí chú</span>
+                        <div>
+                        <TextArea
+                                value={note}
+                                onChange={handleChangeNote}
+                                // placeholder="Controlled autosize"
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className={styles['name_field']}>
-                    <span>Tên nhóm hàng</span>
-                    <div>
-                        <input value={name} onChange={handleChangeName}></input>
-                    </div>
-                </div>
-            </div>
-           
-            
-            <div className={styles['status_field']}>
-                 <span id= {styles['statusLabel']}>Trạng thái</span>
-                 <div>
-                   <Switch  className = {styles['switchBtn'] } checked={isActive} onChange={handleChangeIsActive} />
-                 </div>
-            </div>
-            <div>
-                 <span >Ghí chú</span>
-                 <div>
-                 <TextArea
-                        value={note}
-                        onChange={handleChangeNote}
-                        // placeholder="Controlled autosize"
-                        autoSize={{ minRows: 3, maxRows: 5 }}
-                    />
-                 </div>
-            </div>
-        </div>
-        
-        
-      </Modal>
-    </>
-  )
+            </Modal>
+        </>
+    )
 }
 
 

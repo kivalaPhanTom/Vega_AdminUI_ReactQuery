@@ -88,8 +88,8 @@ function MainGroupTable(props) {
         render: (item) => {
           return(
             <div className={styles['icon_actions']}>
-              <FaPen className={styles['icon_edit']}/>
-              <FaTrash onClick = {()=>handleConfirmDeleteItem(item)}className={styles['icon_delete']}/>
+              <FaPen onClick = {()=>handleConfirmEditItem(item)} className={styles['icon_edit']}/>
+              <FaTrash onClick = {()=>handleConfirmDeleteItem(item)} className={styles['icon_delete']}/>
             </div>
           )
         },
@@ -103,7 +103,7 @@ function MainGroupTable(props) {
     //      pageSize: PAGINATION_DEFAULT.pageSize,
     // })
     // console.log("pagination:",pagination)
-  
+    // 
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,
@@ -113,19 +113,30 @@ function MainGroupTable(props) {
       dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
       // dispatch(mainGroupActions.searchMainGroupBySocket())
     },[])
-
+   
     const handleChangePagination =(page_index, page_size)=>{
       const data = {
         pageCurrent: page_index,
         pageSize: page_size,
         keySearch:''
       }
-      console.log("data:",data)
       dispatch(mainGroupActions.updatePagination({
         pageCurrent: page_index,
         pageSize: page_size
       }))
       dispatch(mainGroupActions.searchAndPaginationData(data))
+    }
+
+    const handleConfirmEditItem =(item)=>{
+      const dataEdit = {
+          id: item.id,
+          code: item.mainGroupId,
+          name: item.mainGroupName,
+          isActive: item.mainGroupIsActive,
+          note: item.mainGroupNote
+      }
+      dispatch(mainGroupActions.updateDataEdit(dataEdit))
+      dispatch(mainGroupActions.openConfirmEdit())
     }
 
     const handleConfirmDeleteItem=(item)=>{

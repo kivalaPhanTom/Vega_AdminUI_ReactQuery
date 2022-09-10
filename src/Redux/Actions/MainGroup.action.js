@@ -3,11 +3,15 @@ import { createAction } from '@reduxjs/toolkit';
 import * as ACTION_TYPES from '../ActionTypes/Maingroup';
 
 export const updateDataInput = createAction(ACTION_TYPES.UPDATE_INPUT_DATA)
+export const updateDataEdit = createAction(ACTION_TYPES.UPDATE_EDIT_DATA)
 export const openModalAddMainGroup = createAction(ACTION_TYPES.OPEN_ADD_MAINGOURP)
 export const closeModalAddMainGroup = createAction(ACTION_TYPES.CLOSE_ADD_MAINGOURP)
 export const createMainGroup = createAction(ACTION_TYPES.CREATE_MAIN_GROUP)
 export const createMainGroupSuccess = createAction(ACTION_TYPES.CREATE_MAIN_GROUP_SUCCESS)
 export const createMainGroupFail = createAction(ACTION_TYPES.CREATE_MAIN_GROUP_FAIL)
+export const editMainGroup = createAction(ACTION_TYPES.EDIT_MAIN_GROUP)
+export const editMainGroupSuccess = createAction(ACTION_TYPES.EDIT_MAIN_GROUP_SUCCESS)
+export const editMainGroupFail = createAction(ACTION_TYPES.EDIT_MAIN_GROUP_FAIL)
 export const searchMainGroupBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_BY_SOCKET)
 export const searchMainGroupSuccessBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_SUCCESS_BY_SOCKET)
 export const searchMainGroupFailBySocket = createAction(ACTION_TYPES.SEARCH_MAIN_GROUP_FAIL_BY_SOCKET)

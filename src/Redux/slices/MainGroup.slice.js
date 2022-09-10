@@ -7,8 +7,8 @@ import * as actionMainGroup from '../Actions/MainGroup.action';
 import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import { MethodCommon } from "../../Common/methods";
 import * as actionLoading from '../Actions/Loading.action';
-// import { PAGINATION_DEFAULT } from "../../../../Common/Common_Parameter";
 import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
+
 const ln = MethodCommon.getLanguage()
 const initialState = {
      mainGroupList:[],
@@ -16,6 +16,13 @@ const initialState = {
     isOpenConfirmDelete:false,
     isOpenConfirmEdit:false,
     data:{
+      code:'',
+      name:'',
+      isActive:false,
+      note:''
+    },
+    dataEdit:{
+      id:'',
       code:'',
       name:'',
       isActive:false,
@@ -49,9 +56,6 @@ function* fetchchMainGroupListBySocket(socket){ //dangcode
             
       }
 }
-// export function handleEmitSearchMainGroup(socket){
-//       socket.emit("fetchMainGroup", {} )
-// }
 
 function handleEmitSearchMainGroup(data){ //dangcode
       data.socket.emit("fetchMainGroup", data.pagination )
@@ -78,6 +82,41 @@ function*  handleCreateMainGroup(params){
                   case RESULT_STATUS.ERROR:
                         yield put(actionLoading.closeLoading({}))
                         yield put(actionMainGroup.createMainGroupFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
+                        break;
+                  case RESULT_STATUS.DATA_EXIST:
+                        yield put(actionLoading.closeLoading({}))
+                        yield put(actionMainGroup.createMainGroupFail(ln.messageModule.MAINGROUP_CODE_EXIST))
+                        break;
+                  default:
+                        break;
+            }
+           
+         } catch (error) {
+            yield put(actionMainGroup.createMainGroupFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
+         }
+}
+function*  handleEditMainGroup(params){ //dangcode
+      const { socket, data, pagination} = params
+      console.log("data:",data)
+      const dataSocket ={
+            socket,
+            pagination
+      }
+      try {
+            yield put(actionLoading.loading({}))
+            const res = yield call(Service.editMainGroup, data);
+            const  resultSignal = res.data.result
+            switch (resultSignal) {
+                  case RESULT_STATUS.SUCCESS:
+                        yield fork(handleEmitSearchMainGroup, dataSocket)
+                        yield put(actionLoading.closeLoading({}))
+                        yield put(actionMainGroup.createMainGroupSuccess(ln.messageModule.EDIT_MAINGROUP_SUCCESS))
+                        yield put(actionMainGroup.resetData({}));
+                        yield put(actionMainGroup.closeModalAddMainGroup({}));
+                        break;
+                  case RESULT_STATUS.ERROR:
+                        yield put(actionLoading.closeLoading({}))
+                        yield put(actionMainGroup.createMainGroupFail(ln.messageModule.EDIT_MAINGROUP_FAIL))
                         break;
                   case RESULT_STATUS.DATA_EXIST:
                         yield put(actionLoading.closeLoading({}))
@@ -126,6 +165,17 @@ function* handleSocketCreateMainGroup(action){
       yield fork(handleCreateMainGroup, payload)
 }
 
+function* handleSocketEditMainGroup(action){
+      const { data, pagination } = action.payload
+      const socket = yield call(connect)
+      const payload ={
+            data,
+            pagination,
+            socket
+      }
+      yield fork(handleEditMainGroup, payload)
+}
+
 function* handleSocketDeleteMainGroup(action){
       const { data, pagination} = action.payload
       const socket = yield call(connect)
@@ -145,9 +195,8 @@ function* handleSearchAndPaginationMainGroup(action){
          yield put(actionMainGroup.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
       }
 }
+
 function* handleFetchListMainGroupBySocket(action){ //dangcode
-      console.log("action.payload:",action.payload)
-      // const { data } = action.payload
       const socket = yield call(connect)
       const payload ={
             pagination: action.payload,
@@ -155,8 +204,6 @@ function* handleFetchListMainGroupBySocket(action){ //dangcode
       }
       yield fork(handleEmitSearchMainGroup, payload)
       yield fork(fetchchMainGroupListBySocket, socket)
-      // yield fork(handleDeleteMainGroup,  payload)
-
 }
 
 ///////////
@@ -166,7 +213,9 @@ function* fetchListDataMaingroupBySocket() {
 function* createMainGroup() {
       yield takeEvery(actionMainGroup.createMainGroup, handleSocketCreateMainGroup);
 }
-
+function* editMainGroup() {
+      yield takeEvery(actionMainGroup.editMainGroup, handleSocketEditMainGroup);
+}
 function* deleteMainGroup() {
     yield takeEvery(actionMainGroup.deleteMainGroup, handleSocketDeleteMainGroup);
 }
@@ -181,11 +230,11 @@ function* onFetchMainGroupListBySocket() {
 
 ///////
 export function* mainGroupSagaList() {
-      // yield fork(onFetchMainGroupListBySocket);
       yield all([
             fetchListDataMaingroupBySocket(),
             deleteMainGroup(),
             createMainGroup(),
+            editMainGroup(),
             searchAndPaginationMainGroup()
       ]);   
 }
@@ -197,6 +246,11 @@ const mainGroupSlice = createSlice({
       [actionMainGroup.updateDataInput]: (state, action) => {
             let newState={...state}
             newState.data = action.payload
+            return newState
+      },
+      [actionMainGroup.updateDataEdit]: (state, action) => {
+            let newState={...state}
+            newState.dataEdit = action.payload
             return newState
       },
       [actionMainGroup.searchMainGroupSuccessBySocket]: (state, action) => {
@@ -245,6 +299,12 @@ const mainGroupSlice = createSlice({
             MessageCommon.openNotificationSuccess(action.payload)
       },
       [actionMainGroup.createMainGroupFail]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
+      [actionMainGroup.editMainGroupSuccess]: (state, action) => {
+            MessageCommon.openNotificationSuccess(action.payload)
+      },
+      [actionMainGroup.editMainGroupFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
       [actionMainGroup.openConfirmDelete]: (state, action) => {

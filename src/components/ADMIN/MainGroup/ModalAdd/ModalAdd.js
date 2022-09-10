@@ -11,11 +11,8 @@ function ModalAdd(props) {
     const dispatch = useDispatch();
     const {isOpenAddMainGroup, data, pagination} = useSelector((state)=> state.mainGroupSlice)
     const { code, name, isActive, note }= data
-    // const [id, setID]= useState('')
-    // const [name, setName] = useState('')
-    // const [isActive, setIsActive] = useState(false)
-    // const [note, setNote] = useState('')
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+    
     const handleOk = () => {
         const dataSubmit ={
             mainGroupId: code,
