@@ -97,28 +97,34 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const {mainGroupList, totalData} = useSelector((state)=> state.mainGroupSlice)
-    const [pagination, setPagination] = useState({
-         pageCurrent: PAGINATION_DEFAULT.pageCurrent,
-         pageSize: PAGINATION_DEFAULT.pageSize,
-    })
-    console.log("pagination:",pagination)
+    const {mainGroupList, totalData, pagination} = useSelector((state)=> state.mainGroupSlice)
+    // const [pagination, setPagination] = useState({
+    //      pageCurrent: PAGINATION_DEFAULT.pageCurrent,
+    //      pageSize: PAGINATION_DEFAULT.pageSize,
+    // })
+    // console.log("pagination:",pagination)
   
     useEffect(() => {
-      dispatch(mainGroupActions.searchMainGroupBySocket({}))
+      const dataSocket = {
+        pageCurrent: pagination.pageCurrent,
+        pageSize: pagination.pageSize,
+        keySearch:''
+      }
+      dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
+      // dispatch(mainGroupActions.searchMainGroupBySocket())
     },[])
 
     const handleChangePagination =(page_index, page_size)=>{
-      setPagination({
-        pageCurrent: page_index,
-        pageSize: page_size
-      })
       const data = {
         pageCurrent: page_index,
         pageSize: page_size,
         keySearch:''
       }
-      console.log("dataX:",data)
+      console.log("data:",data)
+      dispatch(mainGroupActions.updatePagination({
+        pageCurrent: page_index,
+        pageSize: page_size
+      }))
       dispatch(mainGroupActions.searchAndPaginationData(data))
     }
 

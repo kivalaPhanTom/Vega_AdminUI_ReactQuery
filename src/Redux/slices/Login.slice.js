@@ -1,6 +1,5 @@
 import { call, put, takeLatest, takeEvery,delay } from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-// import { Service } from '../../components/Login/Services/Services';
 import { Service } from '../../Services/Login/Login';
 import { MessageCommon } from "../../Common/message";
 import { MethodCommon } from "../../Common/methods";

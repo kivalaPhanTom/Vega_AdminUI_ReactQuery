@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import * as ACTION_TYPES from '../ActionTypes';
+import * as ACTION_TYPES from '../ActionTypes/ChangePassword';
 
 export const changePassword = createAction(ACTION_TYPES.CHANGE_PASSWORD)
 export const changePasswordSuccess = createAction(ACTION_TYPES.CHANGE_PASSWORD_SUCCESS)

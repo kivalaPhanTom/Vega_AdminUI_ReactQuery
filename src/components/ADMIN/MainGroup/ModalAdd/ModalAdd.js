@@ -9,7 +9,7 @@ import { Switch } from 'antd';
 const { TextArea } = Input;
 function ModalAdd(props) {
     const dispatch = useDispatch();
-    const {isOpenAddMainGroup,data} = useSelector((state)=> state.mainGroupSlice)
+    const {isOpenAddMainGroup, data, pagination} = useSelector((state)=> state.mainGroupSlice)
     const { code, name, isActive, note }= data
     // const [id, setID]= useState('')
     // const [name, setName] = useState('')
@@ -27,7 +27,7 @@ function ModalAdd(props) {
             CreatedDate:null,
             UpdatedDate:null
         }
-        dispatch(mainGroupActions.createMainGroup({data:dataSubmit}))
+        dispatch(mainGroupActions.createMainGroup({data:dataSubmit, pagination:pagination }))
     };
 
     const handleCancel = () => {

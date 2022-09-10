@@ -7,7 +7,8 @@ import * as actionMainGroup from '../Actions/MainGroup.action';
 import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import { MethodCommon } from "../../Common/methods";
 import * as actionLoading from '../Actions/Loading.action';
-
+// import { PAGINATION_DEFAULT } from "../../../../Common/Common_Parameter";
+import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 const ln = MethodCommon.getLanguage()
 const initialState = {
      mainGroupList:[],
@@ -20,7 +21,11 @@ const initialState = {
       isActive:false,
       note:''
     },
-    totalData:0
+    totalData:0,
+    pagination:{
+      pageCurrent: PAGINATION_DEFAULT.pageCurrent,
+      pageSize: PAGINATION_DEFAULT.pageSize,
+    }
 }
 const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
@@ -31,7 +36,8 @@ function getMainGroupBySocket(socket){
             });
       })
 }
-export function* fetchchMainGroupListBySocket(socket){ //dangcode
+
+function* fetchchMainGroupListBySocket(socket){ //dangcode
       while (true) { 
             try {
                   const  resultSearch = yield call(getMainGroupBySocket,socket)
@@ -43,19 +49,27 @@ export function* fetchchMainGroupListBySocket(socket){ //dangcode
             
       }
 }
-export function handleEmitSearchMainGroup(socket){
-      socket.emit("fetchMainGroup", {} )
+// export function handleEmitSearchMainGroup(socket){
+//       socket.emit("fetchMainGroup", {} )
+// }
+
+function handleEmitSearchMainGroup(data){ //dangcode
+      data.socket.emit("fetchMainGroup", data.pagination )
 }
 
 function*  handleCreateMainGroup(params){
-      const { socket, data} = params
+      const { socket, data, pagination} = params
+      const dataSocket ={
+            socket,
+            pagination
+      }
       try {
             yield put(actionLoading.loading({}))
             const res = yield call(Service.createMainGroup, data);
             const  resultSignal = res.data.result
             switch (resultSignal) {
                   case RESULT_STATUS.SUCCESS:
-                        yield fork(handleEmitSearchMainGroup, socket)
+                        yield fork(handleEmitSearchMainGroup, dataSocket)
                         yield put(actionLoading.closeLoading({}))
                         yield put(actionMainGroup.createMainGroupSuccess(ln.messageModule.CREATE_MAINGROUP_SUCCESS))
                         yield put(actionMainGroup.resetData({}));
@@ -79,12 +93,16 @@ function*  handleCreateMainGroup(params){
 }
 
 function* handleDeleteMainGroup(params){
-      const { socket, data} = params
+      const { socket, data, pagination} = params
+      const dataSocket ={
+            socket,
+            pagination
+      }
       try {
             yield put(actionLoading.loading({}))
             const res = yield call(Service.deleteMainGroup, data);
             if(res.data.result === RESULT_STATUS.SUCCESS ){
-                  yield fork(handleEmitSearchMainGroup, socket)
+                  yield fork(handleEmitSearchMainGroup, dataSocket)
                   yield put(actionMainGroup.deleteMainGroupSuccess(ln.messageModule.DELETE_MAINGROUP_SUCCESS))
                   yield put(actionLoading.closeLoading({}))
                   yield put(actionMainGroup.closeConfirmDelete())
@@ -98,20 +116,22 @@ function* handleDeleteMainGroup(params){
 }
 
 function* handleSocketCreateMainGroup(action){
-      const { data } = action.payload
+      const { data, pagination } = action.payload
       const socket = yield call(connect)
       const payload ={
             data,
+            pagination,
             socket
       }
       yield fork(handleCreateMainGroup, payload)
 }
 
 function* handleSocketDeleteMainGroup(action){
-      const { data } = action.payload
+      const { data, pagination} = action.payload
       const socket = yield call(connect)
       const payload ={
             data,
+            pagination,
             socket
       }
       yield fork(handleDeleteMainGroup,  payload)
@@ -125,7 +145,24 @@ function* handleSearchAndPaginationMainGroup(action){
          yield put(actionMainGroup.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
       }
 }
+function* handleFetchListMainGroupBySocket(action){ //dangcode
+      console.log("action.payload:",action.payload)
+      // const { data } = action.payload
+      const socket = yield call(connect)
+      const payload ={
+            pagination: action.payload,
+            socket
+      }
+      yield fork(handleEmitSearchMainGroup, payload)
+      yield fork(fetchchMainGroupListBySocket, socket)
+      // yield fork(handleDeleteMainGroup,  payload)
 
+}
+
+///////////
+function* fetchListDataMaingroupBySocket() {
+      yield takeEvery(actionMainGroup.searchMainGroupBySocket, handleFetchListMainGroupBySocket);
+  }
 function* createMainGroup() {
       yield takeEvery(actionMainGroup.createMainGroup, handleSocketCreateMainGroup);
 }
@@ -135,16 +172,18 @@ function* deleteMainGroup() {
 }
 function* searchAndPaginationMainGroup() {
       yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
-  }
+}
 function* onFetchMainGroupListBySocket() {
       const socket = yield call(connect)
       yield fork(handleEmitSearchMainGroup, socket)
       yield fork(fetchchMainGroupListBySocket, socket)
 }
 
+///////
 export function* mainGroupSagaList() {
-      yield fork(onFetchMainGroupListBySocket);
+      // yield fork(onFetchMainGroupListBySocket);
       yield all([
+            fetchListDataMaingroupBySocket(),
             deleteMainGroup(),
             createMainGroup(),
             searchAndPaginationMainGroup()
@@ -175,7 +214,6 @@ const mainGroupSlice = createSlice({
       },
       [actionMainGroup.searchAndPaginationDataSuccess]: (state, action) => {
             let newState={...state}
-            console.log("action.payload.:",action.payload)
             action.payload.docs.forEach((element,index) => {
                   element.key = index
             });
@@ -231,6 +269,15 @@ const mainGroupSlice = createSlice({
       },
       [actionMainGroup.resetData]: (state, action) => {
             return initialStateClone
+      },
+      [actionMainGroup.updatePagination]: (state, action) => {
+            let newState={...state}
+            const newPagination = {
+                  pageCurrent: action.payload.pageCurrent,
+                  pageSize: action.payload.pageSize
+            }
+            newState.pagination = newPagination
+            return newState
       },
     },
   });

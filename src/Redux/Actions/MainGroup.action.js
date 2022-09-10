@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import * as ACTION_TYPES from '../ActionTypes';
+// import * as ACTION_TYPES from '../ActionTypes';
+import * as ACTION_TYPES from '../ActionTypes/Maingroup';
 
 export const updateDataInput = createAction(ACTION_TYPES.UPDATE_INPUT_DATA)
 export const openModalAddMainGroup = createAction(ACTION_TYPES.OPEN_ADD_MAINGOURP)
@@ -21,3 +22,4 @@ export const resetData = createAction(ACTION_TYPES.RESSET_DATA)
 export const searchAndPaginationData = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION)
 export const searchAndPaginationDataSuccess = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION_SUCCESS)
 export const searchAndPaginationDataFailed = createAction(ACTION_TYPES.SEARCH_AND_PAGINATION_FAILED)
+export const updatePagination = createAction(ACTION_TYPES.UPDATE_PAGINATION)

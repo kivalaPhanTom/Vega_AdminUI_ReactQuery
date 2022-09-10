@@ -10,7 +10,7 @@ import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGr
 
 function MainGroup(props) {
   const dispatch = useDispatch();
-  const {mainGroupList} = useSelector((state)=> state.mainGroupSlice)
+  const {mainGroupList, pagination} = useSelector((state)=> state.mainGroupSlice)
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -27,12 +27,12 @@ function MainGroup(props) {
       selectedRows.forEach((item)=>{
         arrIdNeedDelete.push(item._id)
       })
-      dispatch(mainGroupActions.deleteMainGroup({data:arrIdNeedDelete}))
+      dispatch(mainGroupActions.deleteMainGroup({data:arrIdNeedDelete, pagination:pagination}))
   }
 
-  useEffect(() => {
-      dispatch(mainGroupActions.searchMainGroupBySocket({}))
-  },[])
+  // useEffect(() => {
+  //     dispatch(mainGroupActions.searchMainGroupBySocket({}))
+  // },[])
 
   return (
     <div className={styles["mainGroup_area"]}>
