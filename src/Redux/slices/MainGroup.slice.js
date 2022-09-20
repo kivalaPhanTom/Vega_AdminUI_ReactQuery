@@ -12,27 +12,27 @@ import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 const ln = MethodCommon.getLanguage()
 const initialState = {
      mainGroupList:[],
-    isOpenAddMainGroup:false,
-    isOpenConfirmDelete:false,
-    isOpenConfirmEdit:false,
-    data:{
-      code:'',
-      name:'',
-      isActive:false,
-      note:''
-    },
-    dataEdit:{
-      id:'',
-      code:'',
-      name:'',
-      isActive:false,
-      note:''
-    },
-    totalData:0,
-    pagination:{
-      pageCurrent: PAGINATION_DEFAULT.pageCurrent,
-      pageSize: PAGINATION_DEFAULT.pageSize,
-    }
+      isOpenAddMainGroup:false,
+      isOpenConfirmDelete:false,
+      isOpenConfirmEdit:false,
+      data:{
+            code:'',
+            name:'',
+            isActive:false,
+            note:''
+      },
+      dataEdit:{
+            id:'',
+            code:'',
+            name:'',
+            isActive:false,
+            note:''
+      },
+      totalData:0,
+      pagination:{
+            pageCurrent: PAGINATION_DEFAULT.pageCurrent,
+            pageSize: PAGINATION_DEFAULT.pageSize,
+      }
 }
 const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
@@ -97,7 +97,6 @@ function*  handleCreateMainGroup(params){
 }
 function*  handleEditMainGroup(params){ //dangcode
       const { socket, data, pagination} = params
-      console.log("data:",data)
       const dataSocket ={
             socket,
             pagination
@@ -328,7 +327,9 @@ const mainGroupSlice = createSlice({
             return newState
       },
       [actionMainGroup.resetData]: (state, action) => {
-            return initialStateClone
+            const resetState = {...initialStateClone}
+            resetState.pagination = state.pagination
+            return resetState
       },
       [actionMainGroup.updatePagination]: (state, action) => {
             let newState={...state}

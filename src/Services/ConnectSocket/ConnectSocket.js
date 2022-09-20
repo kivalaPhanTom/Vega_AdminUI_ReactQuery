@@ -1,8 +1,8 @@
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:4000";
+import { API_URL } from '../../config';
 
 export default function connect() {
-    const socket = socketIOClient(ENDPOINT);
+    const socket = socketIOClient(API_URL);
     return new Promise(resolve => {
       socket.on('connect', () => { 
         resolve(socket);

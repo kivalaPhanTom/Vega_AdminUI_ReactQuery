@@ -11,8 +11,8 @@ import ModalEdit from './ModalEdit/ModalEdit';
 
 function MainGroup(props) {
   const dispatch = useDispatch();
-  const {mainGroupList, pagination} = useSelector((state)=> state.mainGroupSlice)
-
+  const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
+  const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   
@@ -69,7 +69,5 @@ function MainGroup(props) {
     </div>
   )
 }
-
-
 
 export default MainGroup

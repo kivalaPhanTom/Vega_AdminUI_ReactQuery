@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from "./index.module.css"
@@ -8,7 +8,7 @@ function ConfirmDeleteMainGroup(props) {
   
   const dispatch = useDispatch();
   const { handleDeleteMainGroup} =props
-  const {isOpenConfirmDelete} = useSelector((state)=> state.mainGroupSlice)
+  const isOpenConfirmDelete = useSelector((state)=> state.mainGroupSlice.isOpenConfirmDelete)
 
   const handleOk = () => {
       handleDeleteMainGroup()
@@ -17,6 +17,7 @@ function ConfirmDeleteMainGroup(props) {
   const handleCancel = () => {
     dispatch(mainGroupActions.closeConfirmDelete())
   };
+
   return (
     <>
       <Modal 

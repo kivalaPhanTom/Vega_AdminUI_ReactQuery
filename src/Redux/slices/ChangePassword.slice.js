@@ -11,7 +11,6 @@ const ln = MethodCommon.getLanguage()
 const initialState = {}
 
 function* handleChangePassword(action){
-    console.log("action:",action)
     try {
         yield put(actionLoading.loading({}))
         const res = yield call(Service.changePassword, action.payload);

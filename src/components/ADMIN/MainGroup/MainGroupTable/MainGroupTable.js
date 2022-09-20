@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +8,6 @@ import { MethodCommon } from "../../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
 import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
-import { PAGINATION_DEFAULT } from "../../../../Common/Common_Parameter";
 
 function MainGroupTable(props) {
 
@@ -97,13 +96,10 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const {mainGroupList, totalData, pagination} = useSelector((state)=> state.mainGroupSlice)
-    // const [pagination, setPagination] = useState({
-    //      pageCurrent: PAGINATION_DEFAULT.pageCurrent,
-    //      pageSize: PAGINATION_DEFAULT.pageSize,
-    // })
-    // console.log("pagination:",pagination)
-    // 
+    const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
+    const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
+    const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
+
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,
@@ -163,7 +159,7 @@ function MainGroupTable(props) {
     const handleAdd=()=>{
       dispatch(mainGroupActions.openModalAddMainGroup({}))
     }
-    
+  
     return (
       <>
        <div className={styles["mainGroupTable"]}>
@@ -208,4 +204,4 @@ function MainGroupTable(props) {
       </>
     )
 }
-export default MainGroupTable
+export default memo(MainGroupTable)

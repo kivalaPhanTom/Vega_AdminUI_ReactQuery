@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, memo} from 'react'
 import styles from "./index.module.css"
 import { Button, Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,7 +9,10 @@ import { Switch } from 'antd';
 const { TextArea } = Input;
 function ModalAdd(props) {
     const dispatch = useDispatch();
-    const {isOpenAddMainGroup, data, pagination} = useSelector((state)=> state.mainGroupSlice)
+    const isOpenAddMainGroup = useSelector((state)=> state.mainGroupSlice.isOpenAddMainGroup)
+    const data = useSelector((state)=> state.mainGroupSlice.data)
+    const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
+    console.log("paginationxx:",pagination)
     const { code, name, isActive, note }= data
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     
@@ -120,4 +123,4 @@ function ModalAdd(props) {
 }
 
 
-export default ModalAdd
+export default memo(ModalAdd)
