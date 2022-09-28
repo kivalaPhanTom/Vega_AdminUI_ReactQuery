@@ -10,8 +10,14 @@ function TableData(props) {
     // console.log('selectedRowKeys changed: ', selectedRowKeys);
     // console.log('selectedRows: ', selectedRows);
     // setSelectedRowKeys(selectedRowKeys);
+   
+ 
+    let selectedRowsKey = []
+    selectedRows.forEach(element => {
+      selectedRowsKey.push(element._id)
+    });
     handleUpdateSelectedRows(selectedRows)
-    handleUpdateSelectedRowsKey(newSelectedRowKeys)
+    handleUpdateSelectedRowsKey(selectedRowsKey)
   };
   // console.log("selectedRowKeys:",selectedRowKeys)
   useEffect(()=>{
@@ -22,6 +28,7 @@ function TableData(props) {
     selectedRowKeysProp,
     onChange: onSelectChange,
   };
+
   return (
     <Table
         rowSelection={rowSelection}

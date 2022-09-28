@@ -99,7 +99,7 @@ function MainGroupTable(props) {
     const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
     const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
     const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
-
+   
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,

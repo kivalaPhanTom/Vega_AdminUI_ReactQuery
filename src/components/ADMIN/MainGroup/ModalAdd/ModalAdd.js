@@ -12,7 +12,6 @@ function ModalAdd(props) {
     const isOpenAddMainGroup = useSelector((state)=> state.mainGroupSlice.isOpenAddMainGroup)
     const data = useSelector((state)=> state.mainGroupSlice.data)
     const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
-    console.log("paginationxx:",pagination)
     const { code, name, isActive, note }= data
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     
