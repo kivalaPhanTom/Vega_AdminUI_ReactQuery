@@ -13,26 +13,6 @@
     align-items: center;
     margin-right: 5%;
 }
-.search{
-    background-color: #e7eaf0;
-    border-radius: 30px;
-    padding:10px 20px;
-    display: flex;
-    align-items: center;
-    width: 82%;
-}
-.search_icon{
-    margin-right: 10px;
-    color: #a6a9ae;
-    font-size: 20px;
-}
-.search_input{
-    border: none;
-    background-color: transparent;
-    outline: none;
-    font-size: 17px;
-    color:#a6a9ae ;
-}
 .table_maingroup{
     margin-top: 7%;
 }
@@ -43,4 +23,33 @@
     margin-left: auto;
     margin-right: auto;
     border-radius: 3px;
+}
+.bellIcon{
+    color:#fbb301;
+    font-size: 25px;
+    position: absolute;
+    z-index: 2;
+}
+.notify{
+    position: relative;
+    width: 25px;
+    height: 25px;
+}
+.notifyQuanity{
+    background-color: red;
+    border-radius: 50%;
+    width:15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 60%;
+    z-index: 3;
+   
+}
+.notifyQuanity>span{
+    color: white;
+    font-size: 10px;
+   
 }

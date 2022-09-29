@@ -32,7 +32,7 @@ function MenuAdmin(props) {
         },
         {
             name:"Báo cáo",
-            url:'/adminVega/report',
+            url:'/adminVega/reports',
             icon:<AiOutlineAreaChart/>
         },
         {

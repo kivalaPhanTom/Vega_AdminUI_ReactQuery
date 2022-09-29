@@ -1,17 +1,20 @@
 import { vegaInstance } from "../AxiosConfig";
+import axios from 'axios';
+import { API_URL } from '../../config';
 
 export const Service = {
     createMainGroup,
     deleteMainGroup,
     searchAndPaginationMainGroup,
-    editMainGroup
+    editMainGroup,
 };
 
 const servicePattern = {
     create: "maingroup/create",
     delete: "maingroup/delete",
     searchAndPagination:"maingroup/searchAndPagination",
-    edit:"maingroup/edit"
+    edit:"maingroup/edit",
+    search:"maingroup/searchDataMainGroup"
 };
 
 function createMainGroup(data) {

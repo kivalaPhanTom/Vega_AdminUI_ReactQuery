@@ -44,7 +44,7 @@ function getMainGroupBySocket(socket){
       })
 }
 
-function* fetchchMainGroupListBySocket(socket){ //dangcode
+function* fetchchMainGroupListBySocket(socket){ 
       while (true) { 
             try {
                   const  resultSearch = yield call(getMainGroupBySocket,socket)
@@ -53,11 +53,10 @@ function* fetchchMainGroupListBySocket(socket){ //dangcode
                   yield put(actionMainGroup.searchMainGroupFailBySocket(ln.messageModule.ERROR_SYSTEM));
                   
             }
-            
       }
 }
 
-function handleEmitSearchMainGroup(data){ //dangcode
+function handleEmitSearchMainGroup(data){ 
       data.socket.emit("fetchMainGroup", data.pagination )
 }
 
@@ -195,7 +194,7 @@ function* handleSearchAndPaginationMainGroup(action){
       }
 }
 
-function* handleFetchListMainGroupBySocket(action){ //dangcode
+function* handleFetchListMainGroupBySocket(action){
       const socket = yield call(connect)
       const payload ={
             pagination: action.payload,
@@ -221,11 +220,11 @@ function* deleteMainGroup() {
 function* searchAndPaginationMainGroup() {
       yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
 }
-function* onFetchMainGroupListBySocket() {
-      const socket = yield call(connect)
-      yield fork(handleEmitSearchMainGroup, socket)
-      yield fork(fetchchMainGroupListBySocket, socket)
-}
+// function* onFetchMainGroupListBySocket() {
+//       const socket = yield call(connect)
+//       yield fork(handleEmitSearchMainGroup, socket)
+//       yield fork(fetchchMainGroupListBySocket, socket)
+// }
 
 ///////
 export function* mainGroupSagaList() {
@@ -234,7 +233,7 @@ export function* mainGroupSagaList() {
             deleteMainGroup(),
             createMainGroup(),
             editMainGroup(),
-            searchAndPaginationMainGroup()
+            searchAndPaginationMainGroup(),
       ]);   
 }
 

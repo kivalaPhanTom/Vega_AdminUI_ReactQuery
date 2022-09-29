@@ -4,11 +4,15 @@ import {
     Route,
 } from 'react-router-dom'
 import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
+// import Reports from '../components/ADMIN/Reports/Reports';
+// import Users from '../components/ADMIN/Users/Users';
+// import Products from '../components/ADMIN/Products/Products';
 // import MainGroup from '../components/ADMIN/MainGroup/MainGroup';
 import Layout from '../components/Layout/Layout'
 import Loading from '../components/Loading/Loading'
 
 import PrivateRoute from './PrivateRoute';
+
 const Login = React.lazy(() => {
   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Login/Login'))
 });
@@ -21,6 +25,17 @@ const ForgotPassword = React.lazy(() => {
 
 const MainGroup = React.lazy(() => {
   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/MainGroup/MainGroup'))
+});
+
+const Products = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Products/Products'))
+});
+
+const Users = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Users/Users'))
+});
+const Reports = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Reports/Reports'))
 });
 // const LayoutAdmin = React.lazy(() => {
 //   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
@@ -58,7 +73,28 @@ function RouterURL(props) {
                           <LayoutAdmin component_ui={<MainGroup/>}/>
                         }
                 >
-                </Route>   
+                </Route>  
+                <Route exact path="/adminVega/products" 
+                        element={ 
+                          <LayoutAdmin component_ui={<Products/>}/>
+                        }
+                >
+                </Route>  
+                <Route exact path="/adminVega/users" 
+                        element={ 
+                          <LayoutAdmin component_ui={<Users/>}/>
+                        }
+                >
+                </Route> 
+                <Route exact path="/adminVega/reports" 
+                        element={ 
+                          <LayoutAdmin component_ui={<Reports/>}/>
+                        }
+                >
+                </Route>  
+               
+                
+                
             </Routes> 
         </Suspense>
     </div>

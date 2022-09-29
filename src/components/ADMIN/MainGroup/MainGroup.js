@@ -8,10 +8,11 @@ import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
 import { useSelector, useDispatch } from 'react-redux';
 import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGroup';
 import ModalEdit from './ModalEdit/ModalEdit';
+import Search from './Search/Search';
+
 
 function MainGroup(props) {
   const dispatch = useDispatch();
-  const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
   const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -31,20 +32,16 @@ function MainGroup(props) {
       dispatch(mainGroupActions.deleteMainGroup({data:arrIdNeedDelete, pagination:pagination}))
   }
 
-  // useEffect(() => {
-  //     dispatch(mainGroupActions.searchMainGroupBySocket({}))
-  // },[])
-
   return (
     <div className={styles["mainGroup_area"]}>
          <div className={styles["search_and_notify"]}>
                <div className={styles["search_and_notify_container"]}>
-                     <div className={styles["search"]}>
-                           <FiSearch className={styles["search_icon"]}/>
-                           <input placeholder='Tìm kiếm' className={styles["search_input"]}/>
-                     </div>
+                    <Search/>
                      <div className={styles["notify"]}>
-                         <FaBell/>
+                         <FaBell className={styles['bellIcon']}/>
+                         <div className={styles['notifyQuanity']}>
+                            <span>1</span>
+                         </div>
                     </div>
                </div>
          </div>

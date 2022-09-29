@@ -96,10 +96,12 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
+    // console.log("selectedRowKeys:",selectedRowKeys)
+    // console.log("selectedRows:",selectedRows)
     const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
     const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
     const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
-   
+    // console.log("pagination:",pagination)
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,
@@ -107,7 +109,6 @@ function MainGroupTable(props) {
         keySearch:''
       }
       dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
-      // dispatch(mainGroupActions.searchMainGroupBySocket())
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -189,6 +190,8 @@ function MainGroupTable(props) {
                   selectedRows={selectedRows}
                   selectedRowKeysProp={selectedRowKeys}
                   handleUpdateSelectedRowsKey={handleUpdateSelectedRowsKey}
+                  pageCurrent={pagination.pageCurrent}
+                  pageSize={pagination.pageSize}
               />
           </div>
         

@@ -8,7 +8,8 @@ export const MethodCommon = {
     getLocalStorage,
     clearLocalStorage,
     getLanguage,
-    formatTime
+    formatTime,
+    preventSpecialCharacters
 };
 
 //save to local storage
@@ -58,3 +59,8 @@ function getLanguage(){
         return moment(value).utc(0).format("DD-MM-YYYY HH:mm")
       }
   }
+
+function preventSpecialCharacters(characters){  
+    return  characters.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+  }
+  
