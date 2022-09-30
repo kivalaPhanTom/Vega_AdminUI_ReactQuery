@@ -8,6 +8,7 @@ import { MethodCommon } from "../../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
 import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
+import Filtering from '../Filtering/Filtering';
 
 function MainGroupTable(props) {
 
@@ -198,7 +199,7 @@ function MainGroupTable(props) {
                handleChangePagination = {handleChangePagination}
              />
         </div>
-        
+
       </>
     )
 }

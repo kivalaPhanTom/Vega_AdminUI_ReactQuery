@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGroup';
 import ModalEdit from './ModalEdit/ModalEdit';
 import Search from './Search/Search';
+import Filtering from './Filtering/Filtering';
 
 
 function MainGroup(props) {
@@ -37,7 +38,9 @@ function MainGroup(props) {
          <div className={styles["search_and_notify"]}>
                <div className={styles["search_and_notify_container"]}>
                     <Search/>
-                     <div className={styles["notify"]}>
+                    <Filtering/>
+                    <ModalAdd/>
+                    <div className={styles["notify"]}>
                          <FaBell className={styles['bellIcon']}/>
                          <div className={styles['notifyQuanity']}>
                             <span>1</span>
@@ -59,7 +62,6 @@ function MainGroup(props) {
 
          <ModalAdd/>
          <ModalEdit/>
-         
          <ConfirmDeleteMainGroup
             handleDeleteMainGroup={handleDeleteMainGroup}
          />

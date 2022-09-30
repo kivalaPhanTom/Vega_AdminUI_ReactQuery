@@ -108,7 +108,6 @@ function ModalAdd(props) {
                  <TextArea
                         value={note}
                         onChange={handleChangeNote}
-                        // placeholder="Controlled autosize"
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                  </div>
