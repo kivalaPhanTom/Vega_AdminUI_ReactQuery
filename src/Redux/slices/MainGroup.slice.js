@@ -267,7 +267,7 @@ const mainGroupSlice = createSlice({
       [actionMainGroup.searchAndPaginationDataSuccess]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
-                  element.key = index
+                  element.key = element._id
             });
             const {docs, total } = action.payload
             newState.mainGroupList = docs

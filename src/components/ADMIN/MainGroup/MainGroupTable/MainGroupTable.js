@@ -96,12 +96,10 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    // console.log("selectedRowKeys:",selectedRowKeys)
-    // console.log("selectedRows:",selectedRows)
     const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
     const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
     const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
-    // console.log("pagination:",pagination)
+
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,
@@ -163,47 +161,44 @@ function MainGroupTable(props) {
   
     return (
       <>
-       <div className={styles["mainGroupTable"]}>
-          <div className={styles["table_heaader"]}>
-                  <div className={styles["table_heaader_container"]}>
-                      <div className={styles["table_title"]}>
-                          <span id={styles["title_manage"]}>Quản lý nhóm hàng</span>
-                      </div>
-                      <div className={styles["table_actions"]}>
-                          <div className={styles["delete_Action"]} onClick ={handleDelete}>
-                              <AiFillDelete className={styles["icon_action"]}/>
-                              <span className={styles["label_btn"]}>Xoá</span>
-                          </div>
-                          <div className={styles["add_Action"]} onClick={handleAdd}>
-                                <AiFillPlusCircle className={styles["icon_action"]}/>
-                                <span className={styles["label_btn"]}>Thêm mới</span>
-                          </div> 
-                      </div>
-                  </div>
-          </div>
+        <div className={styles["mainGroupTable"]}>
+            <div className={styles["table_heaader"]}>
+                    <div className={styles["table_heaader_container"]}>
+                        <div className={styles["table_title"]}>
+                            <span id={styles["title_manage"]}>Quản lý nhóm hàng</span>
+                        </div>
+                        <div className={styles["table_actions"]}>
+                            <div className={styles["delete_Action"]} onClick ={handleDelete}>
+                                <AiFillDelete className={styles["icon_action"]}/>
+                                <span className={styles["label_btn"]}>Xoá</span>
+                            </div>
+                            <div className={styles["add_Action"]} onClick={handleAdd}>
+                                  <AiFillPlusCircle className={styles["icon_action"]}/>
+                                  <span className={styles["label_btn"]}>Thêm mới</span>
+                            </div> 
+                        </div>
+                    </div>
+            </div>
 
-          <div className={styles["table"]}>
-              <TableData
-                  columns={columns}
-                  dataRow={mainGroupList}
-                  handleUpdateSelectedRows={handleUpdateSelectedRows}
-                  selectedRows={selectedRows}
-                  selectedRowKeysProp={selectedRowKeys}
-                  handleUpdateSelectedRowsKey={handleUpdateSelectedRowsKey}
-                  pageCurrent={pagination.pageCurrent}
-                  pageSize={pagination.pageSize}
-              />
-          </div>
-        
-          
-        
-      </div>
-      <div className={styles["table_pagination"]}>
+            <div className={styles["table"]}>
+                <TableData
+                    columns={columns}
+                    dataRow={mainGroupList}
+                    handleUpdateSelectedRows={handleUpdateSelectedRows}
+                    selectedRows={selectedRows}
+                    selectedRowKeysProp={selectedRowKeys}
+                    handleUpdateSelectedRowsKey={handleUpdateSelectedRowsKey}
+                />
+            </div>
+        </div>
+
+        <div className={styles["table_pagination"]}>
              <PaginationData
                total = {totalData}
                handleChangePagination = {handleChangePagination}
              />
-          </div>
+        </div>
+        
       </>
     )
 }
