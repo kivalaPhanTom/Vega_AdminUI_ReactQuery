@@ -40,5 +40,14 @@
     background-color: #bfbfbf;
 }
 .modal_filtering{
-    
+    display: flex;
+    flex-wrap: wrap;
+}
+.modal_filtering>div{
+    width: 50%;
+}
+.statusContainer, .createdUserContainer, .updatedUserContainer, .createdDateContainer, .updatedDateContainer{
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
 }
