@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { MethodCommon } from "../../../../Common/methods";
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import { PAGINATION_DEFAULT } from "../../../../Common/Common_Parameter";
 import { useDispatch } from 'react-redux';
@@ -12,6 +13,7 @@ function Search(props) {
       setKeySearch(value)
     }
 
+
     const handleSubmit =()=>{
       handleChangePagination(PAGINATION_DEFAULT.pageCurrent, PAGINATION_DEFAULT.pageSize)
     }
@@ -22,11 +24,11 @@ function Search(props) {
           pageSize: page_size,
           keySearch: keySearch
         }
-        dispatch(mainGroupActions.updatePagination({
-          pageCurrent: page_index,
-          pageSize: page_size
-        }))
-        dispatch(mainGroupActions.searchAndPaginationData(data))
+        // dispatch(mainGroupActions.updatePagination({
+        //   pageCurrent: page_index,
+        //   pageSize: page_size
+        // }))
+        // dispatch(mainGroupActions.searchAndPaginationData(data))
     }
 
     return (

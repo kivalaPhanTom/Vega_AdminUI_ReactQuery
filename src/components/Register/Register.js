@@ -55,7 +55,8 @@ function Register(props) {
     if(email !== '' && password !== ''){
        const payload ={
         email,
-        password
+        password,
+        employeeID:null,
        }
        dispatch(signUpActions.signUp(payload))
     }

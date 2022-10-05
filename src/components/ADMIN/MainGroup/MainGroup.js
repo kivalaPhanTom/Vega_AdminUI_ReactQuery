@@ -1,6 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import { FiSearch } from "react-icons/fi";
-import { FaBell } from "react-icons/fa";
 import styles from "./css/index.module.css"
 import MainGroupTable from './MainGroupTable/MainGroupTable';
 import ModalAdd from './ModalAdd/ModalAdd';
@@ -10,6 +8,7 @@ import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGr
 import ModalEdit from './ModalEdit/ModalEdit';
 import Search from './Search/Search';
 import Filtering from './Filtering/Filtering';
+import Notify from '../Notify/Notify';
 
 
 function MainGroup(props) {
@@ -41,10 +40,7 @@ function MainGroup(props) {
                     <Filtering/>
                     <ModalAdd/>
                     <div className={styles["notify"]}>
-                         <FaBell className={styles['bellIcon']}/>
-                         <div className={styles['notifyQuanity']}>
-                            <span>1</span>
-                         </div>
+                         <Notify/>
                     </div>
                </div>
          </div>

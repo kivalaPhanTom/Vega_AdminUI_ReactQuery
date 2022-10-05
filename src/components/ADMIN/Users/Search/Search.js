@@ -26,7 +26,7 @@ function Search(props) {
           pageCurrent: page_index,
           pageSize: page_size
         }))
-        dispatch(mainGroupActions.searchAndPaginationData(data))
+        // dispatch(mainGroupActions.searchAndPaginationData(data))
     }
 
     return (

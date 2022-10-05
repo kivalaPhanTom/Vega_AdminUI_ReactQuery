@@ -1,17 +1,23 @@
-.mainGroup_area{
-    width: 100%;
+.bellIcon{
+    color:#fbb301;
+    font-size: 25px;
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
 }
-.search_and_notify{
-    width: 100%;
-}
-.search_and_notify_container{
-    width: 40%;
-    float: right;
-    display: flex;
-    justify-content: space-between;
+.notifyQuanity{
     background-color: red;
-    margin-right: 5%;
+    border-radius: 50%;
+    width:15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 60%;
+    z-index: 3;
 }
-.search{
-    background-color: #edf0f9;
+.notifyQuanity>span{
+    color: white;
+    font-size: 10px;
 }

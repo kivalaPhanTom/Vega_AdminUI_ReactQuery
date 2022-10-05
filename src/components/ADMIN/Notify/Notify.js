@@ -4,9 +4,12 @@ import styles from "./css/index.module.css"
 
 function Notify(props) {
   return (
-    <div>
-        <FaBell/>
-    </div>
+    <>
+        <FaBell className={styles['bellIcon']}/>
+        <div className={styles['notifyQuanity']}>
+            <span>1</span>
+        </div>
+    </>
   )
 }
 

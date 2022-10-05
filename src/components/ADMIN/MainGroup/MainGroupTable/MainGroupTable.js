@@ -45,7 +45,7 @@ function MainGroupTable(props) {
           let userCreateResult = <></>
           if( data.UserCreated !== null){
                 const {UserCreated_Object} = data
-                userCreateResult = <span>{UserCreated_Object.user_name}</span>
+                userCreateResult = <span>{UserCreated_Object !== null ? UserCreated_Object.user_name :""}</span>
           }
           return userCreateResult
         }
@@ -67,7 +67,7 @@ function MainGroupTable(props) {
           let userUpdateResult = <></>
           if( data.UserUpdated !== null){
                 const {UserUpdated_Object} = data
-                userUpdateResult = <p>{UserUpdated_Object.user_name}</p>
+                userUpdateResult = <p>{UserUpdated_Object !== null ? UserUpdated_Object.user_name : ""}</p>
           }
           return userUpdateResult
         }

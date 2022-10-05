@@ -92,7 +92,13 @@ function RouterURL(props) {
                         }
                 >
                 </Route>  
-               
+                <Route exact path="/adminVega/reports" 
+                        element={ 
+                          <LayoutAdmin component_ui={<Reports/>}/>
+                        }
+                >
+                </Route>  
+        
                 
                 
             </Routes> 
