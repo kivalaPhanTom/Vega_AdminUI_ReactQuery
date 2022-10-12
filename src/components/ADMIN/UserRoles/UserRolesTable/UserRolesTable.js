@@ -9,7 +9,7 @@ import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
 import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
 
-function MainGroupTable(props) {
+function StatusTable(props) {
 
     const columns = [
       {
@@ -165,7 +165,7 @@ function MainGroupTable(props) {
             <div className={styles["table_heaader"]}>
                     <div className={styles["table_heaader_container"]}>
                         <div className={styles["table_title"]}>
-                            <span id={styles["title_manage"]}>Quản lý nhóm hàng</span>
+                            <span id={styles["title_manage"]}>Quản lý vai trò người dùng</span>
                         </div>
                         <div className={styles["table_actions"]}>
                             <div className={styles["delete_Action"]} onClick ={handleDelete}>
@@ -202,4 +202,4 @@ function MainGroupTable(props) {
       </>
     )
 }
-export default memo(MainGroupTable)
+export default memo(StatusTable)

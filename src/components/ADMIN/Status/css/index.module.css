@@ -1,0 +1,30 @@
+.Status_area{
+    width: 100%;
+    padding-top: 2%;
+}
+.search_and_notify{
+    width: 100%;
+}
+.search_and_notify_container{
+    width: 25%;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5%;
+}
+.table_maingroup{
+    margin-top: 7%;
+}
+.table_maingroup_container{
+    clear: both;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 3px;
+}
+.notify{
+    position: relative;
+    width: 25px;
+    height: 25px;
+}

@@ -7,6 +7,7 @@ import { AiOutlineUser,AiOutlineUngroup } from "react-icons/ai";
 import { RiPlantFill } from "react-icons/ri";
 import { AiOutlineAreaChart } from "react-icons/ai";
 import { BiExit } from "react-icons/bi";
+import { BsPersonBadge, BsSlashSquare } from "react-icons/bs";
 
 function MenuAdmin(props) {
     const fakeMenu= [
@@ -29,6 +30,16 @@ function MenuAdmin(props) {
             name:"Người dùng",
             url:'/adminVega/users',
             icon:<AiOutlineUser/>
+        },
+        {
+            name:"Vai trò người dùng",
+            url:'/adminVega/usersRoles',
+            icon:<BsPersonBadge/>
+        },
+        {
+            name:"Trạng thái",
+            url:'/adminVega/status',
+            icon:<BsSlashSquare/>
         },
         {
             name:"Báo cáo",

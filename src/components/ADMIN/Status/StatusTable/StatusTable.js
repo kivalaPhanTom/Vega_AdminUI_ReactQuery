@@ -2,42 +2,42 @@ import React, { useState, useEffect, memo } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
-import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
+import * as statusActions  from "../../../../Redux/Actions/Status.action";
 import TableData from '../../../../commonComponent/TableData/TableData';
 import { MethodCommon } from "../../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../../Common/message";
 import PaginationData from '../../../../commonComponent/PaginationData/PaginationData';
 
-function MainGroupTable(props) {
+function UserRolesTable(props) {
 
     const columns = [
       {
-        title: 'Mã ngành hàng',
+        title: 'Tên trạng thái',
         dataIndex: 'mainGroupId',
       },
       {
-        title: 'Tên ngành hàng',
+        title: 'Mã trạng thái',
         dataIndex: 'mainGroupName',
       },
-      {
-        title: 'Trạng thái',
-        dataIndex: 'mainGroupIsActive',
-        render: (status) => {
-          let resultStatus = null
-          if( status === true)
-          {
-            resultStatus =<span className={styles['active']}>Đang hoạt động</span>
-          }else{
-            resultStatus =<span className={styles['inactive']}>Ngừng hoạt động</span>
-          }
-          return resultStatus
-        }
-      },
-      {
-        title: 'Mô tả',
-        dataIndex: 'mainGroupNote',
-      },
+      // {
+      //   title: 'Trạng thái',
+      //   dataIndex: 'mainGroupIsActive',
+      //   render: (status) => {
+      //     let resultStatus = null
+      //     if( status === true)
+      //     {
+      //       resultStatus =<span className={styles['active']}>Đang hoạt động</span>
+      //     }else{
+      //       resultStatus =<span className={styles['inactive']}>Ngừng hoạt động</span>
+      //     }
+      //     return resultStatus
+      //   }
+      // },
+      // {
+      //   title: 'Mô tả',
+      //   dataIndex: 'mainGroupNote',
+      // },
       {
         title: 'Người tạo',
         render: (data) => {
@@ -96,9 +96,9 @@ function MainGroupTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
-    const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
-    const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
+    const mainGroupList = useSelector((state)=> state.statusSlice.statusList)
+    const totalData = useSelector((state)=> state.statusSlice.totalData)
+    const pagination = useSelector((state)=> state.statusSlice.pagination)
 
     useEffect(() => {
       const dataSocket = {
@@ -106,7 +106,7 @@ function MainGroupTable(props) {
         pageSize: pagination.pageSize,
         keySearch:''
       }
-      dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
+      dispatch(statusActions.searchStatusBySocket(dataSocket))
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -115,11 +115,11 @@ function MainGroupTable(props) {
         pageSize: page_size,
         keySearch:''
       }
-      dispatch(mainGroupActions.updatePagination({
+      dispatch(statusActions.updatePagination({
         pageCurrent: page_index,
         pageSize: page_size
       }))
-      dispatch(mainGroupActions.searchAndPaginationData(data))
+      dispatch(statusActions.searchAndPaginationData(data))
     }
 
     const handleConfirmEditItem =(item)=>{
@@ -130,13 +130,13 @@ function MainGroupTable(props) {
           isActive: item.mainGroupIsActive,
           note: item.mainGroupNote
       }
-      dispatch(mainGroupActions.updateDataEdit(dataEdit))
-      dispatch(mainGroupActions.openConfirmEdit())
+      dispatch(statusActions.updateDataEdit(dataEdit))
+      dispatch(statusActions.openConfirmEdit())
     }
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
-      dispatch(mainGroupActions.openConfirmDelete())
+      dispatch(statusActions.openConfirmDelete())
     } 
 
     const handleUpdateSelectedRows =(values)=>{
@@ -149,14 +149,14 @@ function MainGroupTable(props) {
 
     const handleDelete=()=>{
         if(selectedRows.length > 0 ){
-          dispatch(mainGroupActions.openConfirmDelete())
+          dispatch(statusActions.openConfirmDelete())
         }else{
           MessageCommon.openNotificationError("Vui lòng chọn dữ liệu")
         }
     }
 
     const handleAdd=()=>{
-      dispatch(mainGroupActions.openModalAddMainGroup({}))
+      dispatch(statusActions.setModalAddStatus(true))
     }
   
     return (
@@ -165,7 +165,7 @@ function MainGroupTable(props) {
             <div className={styles["table_heaader"]}>
                     <div className={styles["table_heaader_container"]}>
                         <div className={styles["table_title"]}>
-                            <span id={styles["title_manage"]}>Quản lý nhóm hàng</span>
+                            <span id={styles["title_manage"]}>Quản lý trạng thái</span>
                         </div>
                         <div className={styles["table_actions"]}>
                             <div className={styles["delete_Action"]} onClick ={handleDelete}>
@@ -202,4 +202,4 @@ function MainGroupTable(props) {
       </>
     )
 }
-export default memo(MainGroupTable)
+export default memo(UserRolesTable)

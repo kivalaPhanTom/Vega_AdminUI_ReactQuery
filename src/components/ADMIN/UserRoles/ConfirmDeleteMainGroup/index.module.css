@@ -1,0 +1,26 @@
+.btn_action{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.btnSave>button,.btnCancel>button{
+  width: 90px;
+  height: 35px;
+  border:none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.btnCancel{
+    margin-right: 10px;
+}
+.btnSave>button{
+    background-color:#30a95a;
+    color: white;
+}
+.btnSave>button:hover{
+    background-color: #5cb85c;
+}
+.btnCancel>button:hover{
+    background-color: #bfbfbf;
+}

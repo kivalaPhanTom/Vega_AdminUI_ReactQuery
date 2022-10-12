@@ -1,0 +1,53 @@
+.settingArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.iconSettings{
+    font-size: 25px ;
+    color: #30a95a;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.iconSettings:hover{
+    color: #3a7a3a;
+    transition: 0.4s;
+}
+.title{
+    font-weight: 700;
+    font-size: 20px;
+    color:#30a95a;
+  }
+.btn_cancel, .btn_submit{
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    transition: 0.4s;
+    border-radius: 3px;
+    border: none;
+}
+.btn_cancel{
+    margin-right: 7px;
+}
+.btn_submit{
+    background-color:#30a95a;
+    color: white;
+}
+.btn_submit:hover{
+    background-color: #5cb85c;
+}
+.btn_cancel:hover{
+    background-color: #bfbfbf;
+}
+.modal_filtering{
+    display: flex;
+    flex-wrap: wrap;
+}
+.modal_filtering>div{
+    width: 50%;
+}
+.statusContainer, .createdUserContainer, .updatedUserContainer, .createdDateContainer, .updatedDateContainer{
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -1,3 +1,7 @@
+.user_area{
+    width: 100%;
+    padding-top: 2%;
+}
 .search_and_notify{
     width: 100%;
 }
@@ -5,4 +9,12 @@
     position: relative;
     width: 25px;
     height: 25px;
+}
+.search_and_notify_container{
+    width: 25%;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5%;
 }

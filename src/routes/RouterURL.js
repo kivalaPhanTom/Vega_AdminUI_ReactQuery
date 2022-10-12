@@ -4,6 +4,8 @@ import {
     Route,
 } from 'react-router-dom'
 import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
+// import Status from '../components/ADMIN/Status/Status';
+// import UserRoles from '../components/ADMIN/UserRoles/UserRoles';
 // import Reports from '../components/ADMIN/Reports/Reports';
 // import Users from '../components/ADMIN/Users/Users';
 // import Products from '../components/ADMIN/Products/Products';
@@ -36,6 +38,13 @@ const Users = React.lazy(() => {
 });
 const Reports = React.lazy(() => {
   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Reports/Reports'))
+});
+
+const UserRoles = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/UserRoles/UserRoles'))
+});
+const Status = React.lazy(() => {
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Status/Status'))
 });
 // const LayoutAdmin = React.lazy(() => {
 //   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
@@ -86,18 +95,30 @@ function RouterURL(props) {
                         }
                 >
                 </Route> 
+                <Route exact path="/adminVega/usersRoles" 
+                        element={ 
+                          <LayoutAdmin component_ui={<UserRoles/>}/>
+                        }
+                >
+                </Route> 
+                <Route exact path="/adminVega/status" 
+                        element={ 
+                          <LayoutAdmin component_ui={<Status/>}/>
+                        }
+                >
+                </Route> 
                 <Route exact path="/adminVega/reports" 
                         element={ 
                           <LayoutAdmin component_ui={<Reports/>}/>
                         }
                 >
                 </Route>  
-                <Route exact path="/adminVega/reports" 
+                {/* <Route exact path="/adminVega/reports" 
                         element={ 
                           <LayoutAdmin component_ui={<Reports/>}/>
                         }
                 >
-                </Route>  
+                </Route>   */}
         
                 
                 
