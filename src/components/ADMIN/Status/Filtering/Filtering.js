@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { BiFilterAlt } from "react-icons/bi";
 import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { Select } from 'antd';
 
 const options = [];

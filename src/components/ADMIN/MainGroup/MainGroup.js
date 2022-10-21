@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState} from 'react'
 import styles from "./css/index.module.css"
 import MainGroupTable from './MainGroupTable/MainGroupTable';
 import ModalAdd from './ModalAdd/ModalAdd';

@@ -208,7 +208,7 @@ function* handleFetchListMainGroupBySocket(action){
 function* fetchListDataMaingroupBySocket() {
       yield takeEvery(actionMainGroup.searchMainGroupBySocket, handleFetchListMainGroupBySocket);
   }
-function* createMainGroup() {
+  export function* createMainGroup() {
       yield takeEvery(actionMainGroup.createMainGroup, handleSocketCreateMainGroup);
 }
 function* editMainGroup() {
@@ -220,11 +220,6 @@ function* deleteMainGroup() {
 function* searchAndPaginationMainGroup() {
       yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
 }
-// function* onFetchMainGroupListBySocket() {
-//       const socket = yield call(connect)
-//       yield fork(handleEmitSearchMainGroup, socket)
-//       yield fork(fetchchMainGroupListBySocket, socket)
-// }
 
 ///////
 export function* mainGroupSagaList() {

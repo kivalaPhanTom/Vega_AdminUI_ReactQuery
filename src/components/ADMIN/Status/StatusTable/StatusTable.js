@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useEffect, memo } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,30 +14,12 @@ function UserRolesTable(props) {
     const columns = [
       {
         title: 'Tên trạng thái',
-        dataIndex: 'mainGroupId',
+        dataIndex: 'statusId',
       },
       {
         title: 'Mã trạng thái',
-        dataIndex: 'mainGroupName',
+        dataIndex: 'statusName',
       },
-      // {
-      //   title: 'Trạng thái',
-      //   dataIndex: 'mainGroupIsActive',
-      //   render: (status) => {
-      //     let resultStatus = null
-      //     if( status === true)
-      //     {
-      //       resultStatus =<span className={styles['active']}>Đang hoạt động</span>
-      //     }else{
-      //       resultStatus =<span className={styles['inactive']}>Ngừng hoạt động</span>
-      //     }
-      //     return resultStatus
-      //   }
-      // },
-      // {
-      //   title: 'Mô tả',
-      //   dataIndex: 'mainGroupNote',
-      // },
       {
         title: 'Người tạo',
         render: (data) => {
@@ -106,7 +88,7 @@ function UserRolesTable(props) {
         pageSize: pagination.pageSize,
         keySearch:''
       }
-      dispatch(statusActions.searchStatusBySocket(dataSocket))
+      dispatch(statusActions.searchBySocket(dataSocket))
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -125,10 +107,8 @@ function UserRolesTable(props) {
     const handleConfirmEditItem =(item)=>{
       const dataEdit = {
           id: item.id,
-          code: item.mainGroupId,
-          name: item.mainGroupName,
-          isActive: item.mainGroupIsActive,
-          note: item.mainGroupNote
+          code: item.statusId,
+          name: item.statusName,
       }
       dispatch(statusActions.updateDataEdit(dataEdit))
       dispatch(statusActions.openConfirmEdit())
@@ -156,12 +136,12 @@ function UserRolesTable(props) {
     }
 
     const handleAdd=()=>{
-      dispatch(statusActions.setModalAddStatus(true))
+      dispatch(statusActions.setModalAdd(true))
     }
   
     return (
       <>
-        <div className={styles["mainGroupTable"]}>
+        <div className={styles["itemTable"]}>
             <div className={styles["table_heaader"]}>
                     <div className={styles["table_heaader_container"]}>
                         <div className={styles["table_title"]}>

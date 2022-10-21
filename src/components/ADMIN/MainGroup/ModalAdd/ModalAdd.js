@@ -1,12 +1,13 @@
-import React,{useState, memo} from 'react'
+import React,{memo} from 'react'
 import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import { MethodCommon } from "../../../../Common/methods";
 import { Input } from 'antd';
 import { Switch } from 'antd';
 const { TextArea } = Input;
+
 function ModalAdd(props) {
     const dispatch = useDispatch();
     const isOpenAddMainGroup = useSelector((state)=> state.mainGroupSlice.isOpenAddMainGroup)

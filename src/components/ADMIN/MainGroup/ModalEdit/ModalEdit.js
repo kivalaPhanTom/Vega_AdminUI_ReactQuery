@@ -1,22 +1,19 @@
-import React,{useState, useEffect, memo} from 'react'
+import React,{useEffect, memo} from 'react'
 import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import * as mainGroupActions  from "../../../../Redux/Actions/MainGroup.action";
 import { MethodCommon } from "../../../../Common/methods";
 import { Input } from 'antd';
 import { Switch } from 'antd';
 const { TextArea } = Input;
+
 function ModalEdit(props) {
     const dispatch = useDispatch();
     const isOpenConfirmEdit = useSelector((state)=> state.mainGroupSlice.isOpenConfirmEdit)
     const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
     const dataEdit = useSelector((state)=> state.mainGroupSlice.dataEdit)
     const { id, code, name, isActive, note } = dataEdit
-    // const [id, setID]= useState('')
-    // const [name, setName] = useState('')
-    // const [isActive, setIsActive] = useState(false)
-    // const [note, setNote] = useState('')
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     useEffect(()=>{
 

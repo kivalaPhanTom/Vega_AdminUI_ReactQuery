@@ -1,6 +1,6 @@
 import { call, put, takeEvery, fork, all} from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../Services/MainGroup/MainGroup'
+import { Service } from '../../Services/Status/Status'
 import connect from '../../Services/ConnectSocket/ConnectSocket'
 import { MessageCommon } from "../../Common/message";
 import * as actionStatus from '../Actions/Status.action';
@@ -11,22 +11,18 @@ import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 
 const ln = MethodCommon.getLanguage()
 const initialState = {
-     statusList:[],
+      statusList:[],
       isOpenAddStatus:false,
       isOpenConfirmDelete:false,
       isOpenConfirmEdit:false,
       data:{
             code:'',
             name:'',
-            isActive:false,
-            note:''
       },
       dataEdit:{
             id:'',
             code:'',
             name:'',
-            isActive:false,
-            note:''
       },
       totalData:0,
       pagination:{
@@ -38,9 +34,9 @@ const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
 function getStatusBySocket(socket){
       return new Promise(resolve => {
-            // socket.on('fetchStatus', (maingroup) => { 
-            //   resolve(maingroup);
-            // });
+            socket.on('fetchStatus', (status) => { 
+              resolve(status);
+            });
       })
 }
 
@@ -48,16 +44,16 @@ function* fetchchStatusListBySocket(socket){
       while (true) { 
             try {
                   const  resultSearch = yield call(getStatusBySocket,socket)
-                  yield put(actionStatus.searchStatusSuccessBySocket(resultSearch)); 
+                  yield put(actionStatus.searchSuccessBySocket(resultSearch)); 
             } catch (error) {
-                  yield put(actionStatus.searchStatusFailBySocket(ln.messageModule.ERROR_SYSTEM));
+                  yield put(actionStatus.searchFailBySocket(ln.messageModule.ERROR_SYSTEM));
                   
             }
       }
 }
 
 function handleEmitSearchStatus(data){ 
-    //   data.socket.emit("fetchMainGroup", data.pagination )
+      data.socket.emit("fetchStatus", data.pagination )
 }
 
 function*  handleCreateStatus(params){
@@ -74,27 +70,27 @@ function*  handleCreateStatus(params){
                   case RESULT_STATUS.SUCCESS:
                         yield fork(handleEmitSearchStatus, dataSocket)
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusSuccess(ln.messageModule.CREATE_MAINGROUP_SUCCESS))
+                        yield put(actionStatus.createSuccess(ln.messageModule.CREATE_STATUS_SUCCESS))
                         yield put(actionStatus.resetData({}));
-                        yield put(actionStatus.setModalAddStatus(false));
+                        yield put(actionStatus.setModalAdd(false));
                         break;
                   case RESULT_STATUS.ERROR:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
+                        yield put(actionStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
                         break;
                   case RESULT_STATUS.DATA_EXIST:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusFail(ln.messageModule.MAINGROUP_CODE_EXIST))
+                        yield put(actionStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
                         break;
                   default:
                         break;
             }
            
          } catch (error) {
-            yield put(actionStatus.createStatusFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
+            yield put(actionStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
          }
 }
-function*  handleEditStatus(params){ //dangcode
+function*  handleEditStatus(params){
       const { socket, data, pagination} = params
       const dataSocket ={
             socket,
@@ -108,24 +104,24 @@ function*  handleEditStatus(params){ //dangcode
                   case RESULT_STATUS.SUCCESS:
                         yield fork(handleEmitSearchStatus, dataSocket)
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusSuccess(ln.messageModule.EDIT_MAINGROUP_SUCCESS))
+                        yield put(actionStatus.createSuccess(ln.messageModule.EDIT_STATUS_SUCCESS))
                         yield put(actionStatus.resetData({}));
-                        yield put(actionStatus.setModalAddStatus(false));
+                        yield put(actionStatus.setModalAdd(false));
                         break;
                   case RESULT_STATUS.ERROR:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusFail(ln.messageModule.EDIT_MAINGROUP_FAIL))
+                        yield put(actionStatus.createFail(ln.messageModule.EDIT_STATUS_FAIL))
                         break;
                   case RESULT_STATUS.DATA_EXIST:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(actionStatus.createStatusFail(ln.messageModule.MAINGROUP_CODE_EXIST))
+                        yield put(actionStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
                         break;
                   default:
                         break;
             }
            
          } catch (error) {
-            yield put(actionStatus.createStatusFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
+            yield put(actionStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
          }
 }
 
@@ -140,11 +136,11 @@ function* handleDeleteStatus(params){
             const res = yield call(Service.deleteStatus, data);
             if(res.data.result === RESULT_STATUS.SUCCESS ){
                   yield fork(handleEmitSearchStatus, dataSocket)
-                  yield put(actionStatus.deleteStatusSuccess(ln.messageModule.DELETE_MAINGROUP_SUCCESS))
+                  yield put(actionStatus.deleteDataSuccess(ln.messageModule.DELETE_STATUS_SUCCESS))
                   yield put(actionLoading.closeLoading({}))
                   yield put(actionStatus.closeConfirmDelete())
             }else{
-                  yield put(actionStatus.createStatusFail(ln.messageModule.DELETE_MAINGROUP_FAIL))   
+                  yield put(actionStatus.createFail(ln.messageModule.DELETE_STATUS_FAIL))   
             }
             
       } catch (error) {
@@ -206,16 +202,16 @@ function* handleFetchListStatusBySocket(action){
 
 ///////////
 function* fetchListDataStatusBySocket() {
-      yield takeEvery(actionStatus.searchStatusBySocket, handleFetchListStatusBySocket);
+      yield takeEvery(actionStatus.searchBySocket, handleFetchListStatusBySocket);
   }
 function* createStatus() {
-      yield takeEvery(actionStatus.createStatus, handleSocketCreateStatus);
+      yield takeEvery(actionStatus.create, handleSocketCreateStatus);
 }
 function* editStatus() {
-      yield takeEvery(actionStatus.editStatus, handleSocketEditStatus);
+      yield takeEvery(actionStatus.edit, handleSocketEditStatus);
 }
 function* deleteStatus() {
-    yield takeEvery(actionStatus.deleteStatus, handleSocketDeleteStatus);
+    yield takeEvery(actionStatus.deleteData, handleSocketDeleteStatus);
 }
 function* searchAndPaginationStatus() {
       yield takeEvery(actionStatus.searchAndPaginationData, handleSearchAndPaginationStatus);
@@ -229,11 +225,11 @@ function* searchAndPaginationStatus() {
 ///////
 export function* statusSagaList() {
       yield all([
-            // fetchListDataStatusBySocket(),
-            // deleteStatus(),
-            // createStatus(),
-            // editStatus(),
-            // searchAndPaginationStatus(),
+            fetchListDataStatusBySocket(),
+            deleteStatus(),
+            createStatus(),
+            editStatus(),
+            searchAndPaginationStatus(),
       ]);   
 }
 
@@ -251,7 +247,7 @@ const statusSlice = createSlice({
             newState.dataEdit = action.payload
             return newState
       },
-      [actionStatus.searchStatusSuccessBySocket]: (state, action) => {
+      [actionStatus.searchSuccessBySocket]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
                   element.key = element._id
@@ -261,7 +257,7 @@ const statusSlice = createSlice({
             newState.totalData = total
             return newState
       },
-      [actionStatus.searchStatusFailBySocket]: (state, action) => {
+      [actionStatus.searchFailBySocket]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
       [actionStatus.searchAndPaginationDataSuccess]: (state, action) => {
@@ -270,39 +266,34 @@ const statusSlice = createSlice({
                   element.key = element._id
             });
             const {docs, total } = action.payload
-            newState.StatusList = docs
+            newState.statusList = docs
             newState.totalData = total
             return newState
       },
       [actionStatus.searchAndPaginationDataFailed]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-    //   [actionStatus.openModalAddStatus]: (state, action) => {
-    //         let newState={...state}
-    //         newState.isOpenAddStatus = true
-    //         return newState
-    //   },
-      [actionStatus.setModalAddStatus]: (state, action) => {
+      [actionStatus.setModalAdd]: (state, action) => {
             let newState={...state}
-            // newState.isOpenAddStatus = false
+            newState.isOpenAddStatus = action.payload
             return newState
       },
-      [actionStatus.deleteStatusSuccess]: (state, action) => {
+      [actionStatus.deleteDataSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [actionStatus.deleteStatusFail]: (state, action) => {
+      [actionStatus.deleteDataFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [actionStatus.createStatusSuccess]: (state, action) => {
+      [actionStatus.createSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [actionStatus.createStatusFail]: (state, action) => {
+      [actionStatus.createFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [actionStatus.editStatusSuccess]: (state, action) => {
+      [actionStatus.editSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [actionStatus.editStatusFail]: (state, action) => {
+      [actionStatus.editFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
       [actionStatus.openConfirmDelete]: (state, action) => {

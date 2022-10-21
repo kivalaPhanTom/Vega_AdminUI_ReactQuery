@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState} from 'react'
 import styles from "./css/index.module.css"
 import UserRolesTable from './StatusTable/StatusTable';
 import ModalAdd from './ModalAdd/ModalAdd';
@@ -29,7 +29,7 @@ function Status(props) {
       selectedRows.forEach((item)=>{
         arrIdNeedDelete.push(item._id)
       })
-      dispatch(statusActions.deleteStatus({data:arrIdNeedDelete, pagination:pagination}))
+      dispatch(statusActions.deleteData({data:arrIdNeedDelete, pagination:pagination}))
   }
 
   return (
@@ -45,8 +45,8 @@ function Status(props) {
                </div>
          </div>
 
-         <div className={styles["table_maingroup"]}>
-            <div className={styles["table_maingroup_container"]}>
+         <div className={styles["table_area"]}>
+            <div className={styles["table_area_container"]}>
                 <UserRolesTable
                    selectedRows={selectedRows}
                    selectedRowKeys={selectedRowKeys}

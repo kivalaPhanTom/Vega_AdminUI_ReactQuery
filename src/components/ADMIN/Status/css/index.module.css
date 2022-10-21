@@ -13,10 +13,11 @@
     align-items: center;
     margin-right: 5%;
 }
-.table_maingroup{
+.table_area{
     margin-top: 7%;
+   
 }
-.table_maingroup_container{
+.table_area_container{
     clear: both;
     width: 90%;
     margin-left: auto;

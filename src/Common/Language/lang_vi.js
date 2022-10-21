@@ -21,6 +21,14 @@ const LANGUAGE_STATE_VI = {
         MAINGROUP_CODE_EXIST: "Mã ngành hàng đã tồn tại",
         DELETE_MAINGROUP_SUCCESS: "Xóa ngành hàng thành công",
         DELETE_MAINGROUP_FAIL: "Xóa ngành hàng thất bại",
+
+        CREATE_STATUS_SUCCESS: "Tạo trạng thái thành công",
+        CREATE_STATUS_FAIL: "Tạo trạng thái thất bại",
+        EDIT_STATUS_SUCCESS: "Sửa trạng thái thành công",
+        EDIT_STATUS_FAIL: "Sửa trạng thái thất bại",
+        STATUS_CODE_EXIST: "Mã trạng thái đã tồn tại",
+        DELETE_STATUS_SUCCESS: "Xóa trạng thái thành công",
+        DELETE_STATUS_FAIL: "Xóa trạng thái thất bại",
     }
 };
 module.exports = {
