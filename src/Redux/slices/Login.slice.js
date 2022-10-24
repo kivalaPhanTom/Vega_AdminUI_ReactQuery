@@ -10,22 +10,6 @@ import { API_URL } from '../../config';
 
 const ln = MethodCommon.getLanguage()
 const initialState = {}
-function* handleLoginFaceBook(action) {
-    try {
-        yield put(actionLoading.loading({}))
-        MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.SOCIAL)
-        window.open(`${API_URL}/user/login_fb`, "_self");
-      } catch (error) {
-    }
-}
-function* handleLoginGoogle(action) {
-    try {
-      yield put(actionLoading.loading({}))
-      MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.SOCIAL)
-      window.open(`${API_URL}/user/login_gg`, "_self");
-    } catch (error) {
-    }
-}
 
 function* handleLoginTrandition(action){
   MethodCommon.saveLocalStorage("TypeLoginVega", METHOD_LOGIN.TRANDITIONAL)
@@ -112,12 +96,6 @@ function* handleLoginTrandition(action){
 //   yield takeEvery(actionVocabulary.deleteVocabulary, handleDeleteVocabulary);
 // }
 
-export function* loginFaceBook() {
-    yield takeEvery(actionLogin.loginFacebook, handleLoginFaceBook);
-}
-export function* loginGoogle() {
-  yield takeEvery(actionLogin.loginGoogle, handleLoginGoogle);
-}
 export function* loginTrandition() {
   yield takeEvery(actionLogin.loginTrandition, handleLoginTrandition);
 }

@@ -15,14 +15,6 @@ function Login(props) {
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const {isLoading} = useSelector((state)=> state.loadingSlice)
-
-    const handleLoginFaceBook=()=>{
-        dispatch(loginActions.loginFacebook({}))
-    }
-    const handleLoginGoogle=()=>{
-        dispatch(loginActions.loginGoogle({}))
-    }
-
     // change email
    const handleChangeEmail =(e)=>{
         if(e.target.value === ''){
@@ -89,12 +81,7 @@ function Login(props) {
               
               <div className={styles['login_method']}>
                    <div className={styles['login_social']}>
-                       <div id={styles['loginFacebook']} >
-                         <button onClick={handleLoginFaceBook}>Facebook</button>
-                       </div>
-                       <div id={styles['loginGoogle']}>
-                          <button onClick={handleLoginGoogle}>Google</button>
-                       </div>
+                      
                         
                    </div>
                    <div className={styles['login_trandition']}>

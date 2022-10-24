@@ -3,14 +3,13 @@ import {
     Routes,
     Route,
 } from 'react-router-dom'
-import LayoutAdmin from '../components/ADMIN/LayoutAdmin/LayoutAdmin';
+import LayoutAdmin from '../components/LayoutAdmin/LayoutAdmin';
 // import Status from '../components/ADMIN/Status/Status';
 // import UserRoles from '../components/ADMIN/UserRoles/UserRoles';
 // import Reports from '../components/ADMIN/Reports/Reports';
 // import Users from '../components/ADMIN/Users/Users';
 // import Products from '../components/ADMIN/Products/Products';
 // import MainGroup from '../components/ADMIN/MainGroup/MainGroup';
-import Layout from '../components/Layout/Layout'
 import Loading from '../components/Loading/Loading'
 
 import PrivateRoute from './PrivateRoute';
@@ -26,28 +25,28 @@ const ForgotPassword = React.lazy(() => {
 });
 
 const MainGroup = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/MainGroup/MainGroup'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/MainGroup/MainGroup'))
 });
 
 const Products = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Products/Products'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Products/Products'))
 });
 
 const Users = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Users/Users'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Users/Users'))
 });
 const Reports = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Reports/Reports'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Reports/Reports'))
 });
 
 const UserRoles = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/UserRoles/UserRoles'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/UserRoles/UserRoles'))
 });
 const Status = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/Status/Status'))
+  return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Status/Status'))
 });
 // const LayoutAdmin = React.lazy(() => {
-//   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/ADMIN/LayoutAdmin/LayoutAdmin'))
+//   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/LayoutAdmin/LayoutAdmin'))
 // });
 
 function RouterURL(props) {
@@ -63,7 +62,8 @@ function RouterURL(props) {
                         element={ 
                             <PrivateRoute >
                                 {/* <Layout component_ui={<CheckinCheckout/>} /> */}
-                                <Layout />
+                                {/* <Layout /> */}
+                                <LayoutAdmin component_ui={<Reports/>}/>
                             </PrivateRoute>
                         }
                 >
