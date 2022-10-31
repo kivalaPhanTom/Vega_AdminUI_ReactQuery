@@ -92,9 +92,6 @@ function Login(props) {
                             <p id={styles['p_forgot']}>
                                 <Link to={'/forgot'}>Quên mật khẩu</Link>
                             </p>
-                            <p id={styles['p_signup']}>
-                                <Link to={'/register'}>Đăng kí</Link>
-                            </p>
                         </div>
                    </div>
 

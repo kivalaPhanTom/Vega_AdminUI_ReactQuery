@@ -6,7 +6,7 @@ export const Service = {
     handleSignUp
 };
 const servicePattern = {
-   register: "user/register",
+   register: "employees/register",
 };
 function handleSignUp(data) {
     // return axios.post(`${API_URL}/user/register`,data, { withCredentials: true })

@@ -26,12 +26,12 @@ function LayoutAdmin(props) {
       userLocalStorage,
       typelogin
     }
-    dispatch(authorizationActions.getAuthorization(data))
+    // dispatch(authorizationActions.getAuthorization(data))
   }, []);
 
-  if ( userROLE !== USER_ROLE.ADMIN ){
-        return <p>bạn không được phép truy cập</p>
-  }
+  // if ( userROLE !== USER_ROLE.ADMIN ){
+  //       return <p>bạn không được phép truy cập</p>
+  // }
 
   return (
     <div className={styles['layoutAdmin']}>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
+import * as statusActions  from "../../../Redux/Actions/Status.action";
 import { PAGINATION_DEFAULT } from "../../../Common/Common_Parameter";
 import { useDispatch } from 'react-redux';
 import SearchData from '../../SearchData/SearchData';
@@ -22,11 +22,11 @@ function Search(props) {
           pageSize: page_size,
           keySearch: keySearch
         }
-        dispatch(mainGroupActions.updatePagination({
+        dispatch(statusActions.updatePagination({
           pageCurrent: page_index,
           pageSize: page_size
         }))
-        // dispatch(mainGroupActions.searchAndPaginationData(data))
+        dispatch(statusActions.searchAndPaginationData(data))
     }
 
     return (

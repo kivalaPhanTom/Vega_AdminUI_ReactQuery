@@ -6,6 +6,7 @@ import { checkAuthenticationSaga } from "../slices/Authorization.slice"
 import { changePasswordSaga } from "../slices/ChangePassword.slice"
 import { mainGroupSagaList} from "../slices/MainGroup.slice"
 import { statusSagaList} from "../slices/Status.slice"
+import { employeesSagaList} from "../slices/Employees.slice"
 
 const sagasList = [
     loginTrandition(),
@@ -15,6 +16,7 @@ const sagasList = [
     changePasswordSaga(),
     mainGroupSagaList(),
     statusSagaList(),
+    employeesSagaList()
 ]
 export default function* () {
     yield all(sagasList);

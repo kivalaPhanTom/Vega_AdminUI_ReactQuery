@@ -2,7 +2,7 @@ import React, { useEffect, memo } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
-import * as statusActions  from "../../../Redux/Actions/Status.action";
+import * as employeesActions  from "../../../Redux/Actions/Employees";
 import TableData from '../../../commonComponent/TableData/TableData';
 import { MethodCommon } from "../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
@@ -88,7 +88,7 @@ function UserRolesTable(props) {
         pageSize: pagination.pageSize,
         keySearch:''
       }
-      dispatch(statusActions.searchBySocket(dataSocket))
+      dispatch(employeesActions.searchBySocket(dataSocket))
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -97,11 +97,11 @@ function UserRolesTable(props) {
         pageSize: page_size,
         keySearch:''
       }
-      dispatch(statusActions.updatePagination({
+      dispatch(employeesActions.updatePagination({
         pageCurrent: page_index,
         pageSize: page_size
       }))
-      dispatch(statusActions.searchAndPaginationData(data))
+      dispatch(employeesActions.searchAndPaginationData(data))
     }
 
     const handleConfirmEditItem =(item)=>{
@@ -110,13 +110,13 @@ function UserRolesTable(props) {
           code: item.statusId,
           name: item.statusName,
       }
-      dispatch(statusActions.updateDataEdit(dataEdit))
-      dispatch(statusActions.openConfirmEdit())
+      dispatch(employeesActions.updateDataEdit(dataEdit))
+      dispatch(employeesActions.openConfirmEdit())
     }
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
-      dispatch(statusActions.openConfirmDelete())
+      dispatch(employeesActions.openConfirmDelete())
     } 
 
     const handleUpdateSelectedRows =(values)=>{
@@ -129,14 +129,14 @@ function UserRolesTable(props) {
 
     const handleDelete=()=>{
         if(selectedRows.length > 0 ){
-          dispatch(statusActions.openConfirmDelete())
+          dispatch(employeesActions.openConfirmDelete())
         }else{
           MessageCommon.openNotificationError("Vui lòng chọn dữ liệu")
         }
     }
 
     const handleAdd=()=>{
-      dispatch(statusActions.setModalAdd(true))
+      dispatch(employeesActions.setModalAdd(true))
     }
   
     return (

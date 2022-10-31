@@ -6,7 +6,7 @@ export const Service = {
     forgotPassword
 };
 const servicePattern = {
-    forgotPassword: "user/forgot_password",
+    forgotPassword: "employees/forgot_password",
 };
 
 function forgotPassword(data) {

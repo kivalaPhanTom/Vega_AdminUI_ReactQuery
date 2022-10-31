@@ -30,11 +30,15 @@ const PAGINATION_DEFAULT ={
     pageSize: 10
 }
 const TIME_TO_CALL_API = 2000
+const FORMAT_DATE = 'DD/MM/YYYY'
+
 module.exports = {
     RESULT_STATUS ,
     METHOD_LOGIN,
     USER_ROLE,
     LANGUAGE,
     PAGINATION_DEFAULT,
-    TIME_TO_CALL_API
+    TIME_TO_CALL_API,
+    FORMAT_DATE
 };
+

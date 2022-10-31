@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { BiFilterAlt } from "react-icons/bi";
 import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { Select } from 'antd';
 
 const options = [];
@@ -67,15 +67,6 @@ function Filtering(props) {
     ]}
       >
         <div className={styles['modal_filtering']}>
-
-           <div className={styles['status']}>
-            <div className={styles['statusContainer']}>
-              <span>Trạng thái</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
 
            <div className={styles['createdUser']}>
             <div className={styles['createdUserContainer']}>

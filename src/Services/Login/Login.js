@@ -8,9 +8,9 @@ export const Service = {
     loginAuthorization,
 };
 const servicePattern = {
-    authenticate: "user/authenticate",
-    login: "user/login_trandition",
-    authorization: "user/authorization"
+    authenticate: "employees/authenticate",
+    login: "employees/login_trandition",
+    authorization: "employees/authorization"
 };
 
 function loginAuthenticate(data) {

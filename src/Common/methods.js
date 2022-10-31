@@ -2,14 +2,18 @@ import { LANGUAGE_STATE_EN } from './Language/lang_en'
 import { LANGUAGE_STATE_VI } from './Language/lang_vi'
 import { MessageCommon } from "../Common/message";
 import { LANGUAGE } from "./Common_Parameter";
-var moment = require('moment'); 
+import moment from 'moment';
+// import raw from '../langVn.txt';
+
 export const MethodCommon = {
     saveLocalStorage,
     getLocalStorage,
     clearLocalStorage,
     getLanguage,
     formatTime,
-    preventSpecialCharacters
+    preventSpecialCharacters,
+    renderFileLangVnFile,
+    convertToTimeStamp
 };
 
 //save to local storage
@@ -62,5 +66,25 @@ function getLanguage(){
 
 function preventSpecialCharacters(characters){  
     return  characters.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-  }
+}
+function convertToTimeStamp(timeMoment){  
+  const timeStamp = new Date(timeMoment).getTime();
+  return  timeStamp
+}
+function renderFileLangVnFile(){
+
+  async function loadText(url) {
+    let text = await fetch(url);
+    //awaits for text.text() prop 
+    //and then sends it to readText()
+    readText(await text.text());
+}
+
+function readText(text){
+    //here you can continue with your JS normal logic
+    // console.log(text);
+}
+
+loadText('./langVn.txt');
+}
   

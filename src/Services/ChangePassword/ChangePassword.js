@@ -6,7 +6,7 @@ export const Service = {
     changePassword
 };
 const servicePattern = {
-    changePassword: "user/changePassword",
+    changePassword: "employees/changePassword",
 };
 
 function changePassword(data) {

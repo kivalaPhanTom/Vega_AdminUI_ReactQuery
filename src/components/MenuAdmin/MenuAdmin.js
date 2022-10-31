@@ -27,8 +27,8 @@ function MenuAdmin(props) {
             icon: <RiPlantFill/>
         },
         {
-            name:"Người dùng",
-            url:'/adminVega/users',
+            name:"Nhân viên",
+            url:'/adminVega/employees',
             icon:<AiOutlineUser/>
         },
         {
