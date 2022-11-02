@@ -1,9 +1,9 @@
 import { call, put, takeEvery, fork, all} from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../Services/Status/Status'
+import { Service } from '../../Services/Employees/Employees'
 import connect from '../../Services/ConnectSocket/ConnectSocket'
 import { MessageCommon } from "../../Common/message";
-import * as employeesStatus from '../Actions/Employees';
+import * as actionEmployees from '../Actions/Employees';
 import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import { MethodCommon } from "../../Common/methods";
 import * as actionLoading from '../Actions/Loading.action';
@@ -70,53 +70,109 @@ function* fetchchListBySocket(socket){
       while (true) { 
             try {
                   const  resultSearch = yield call(getBySocket,socket)
-                  yield put(employeesStatus.searchSuccessBySocket(resultSearch)); 
+                  yield put(actionEmployees.searchSuccessBySocket(resultSearch)); 
             } catch (error) {
-                  yield put(employeesStatus.searchFailBySocket(ln.messageModule.ERROR_SYSTEM));
+                  yield put(actionEmployees.searchFailBySocket(ln.messageModule.ERROR_SYSTEM));
                   
             }
       }
 }
 
-function handleEmitSearchStatus(data){ 
+function handleEmitSearchEmployee(data){ 
       data.socket.emit("fetchStatus", data.pagination )
 }
 
 function*  handleCreateStatus(params){
-      const { socket, data, pagination} = params
+      const { socket, pagination} = params
+      let { data } = params
       const dataSocket ={
             socket,
             pagination
       }
+      console.log(" datax:", data)
       try {
             yield put(actionLoading.loading({}))
-            const res = yield call(Service.createStatus, data);
-            const  resultSignal = res.data.result
-            switch (resultSignal) {
-                  case RESULT_STATUS.SUCCESS:
-                        yield fork(handleEmitSearchStatus, dataSocket)
-                        yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createSuccess(ln.messageModule.CREATE_STATUS_SUCCESS))
-                        yield put(employeesStatus.resetData({}));
-                        yield put(employeesStatus.setModalAdd(false));
-                        break;
-                  case RESULT_STATUS.ERROR:
-                        yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
-                        break;
-                  case RESULT_STATUS.DATA_EXIST:
-                        yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
-                        break;
-                  default:
-                        break;
+            const formData = new FormData();
+            formData.append('file', data.fileList[0].originFileObj);
+            formData.append('upload_preset', 'vegaImage');
+            try {
+                  const resImg = yield call(Service.uploadImage, formData);
+                  console.log(" resImg:", resImg)
+                  data.Avatar = {
+                        uid: data.fileList[0].uid,
+                        name: data.fileList[0].name,
+                        status: data.fileList[0].status,
+                        url: resImg.data.secure_url
+                  }
+                  delete  data.fileList; 
+                  const res = yield call(Service.createEmployee, data);
+                  const  resultSignal = res.data.result
+                  console.log("data:",data)
+                  switch (resultSignal) {
+                        case RESULT_STATUS.SUCCESS:
+                              // yield fork(handleEmitSearchStatus, dataSocket)
+                              yield put(actionLoading.closeLoading({}))
+                              yield put(actionEmployees.createSuccess(ln.messageModule.CREATE_EMPLOYEE_SUCCESS))
+                              yield put(actionEmployees.resetData({}));
+                              yield put(actionEmployees.setModalAdd(false));
+                              break;
+                        case RESULT_STATUS.ERROR:
+                              yield put(actionLoading.closeLoading({}))
+                              yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
+                              break;
+                        case RESULT_STATUS.DATA_EXIST:
+                              yield put(actionLoading.closeLoading({}))
+                              yield put(actionEmployees.createFail(ln.messageModule.EMPLOYEE_CODE_EXIST))
+                              break;
+                        default:
+                              break;
             }
+            } catch (error) {
+                  MessageCommon.openNotificationError('Có lỗi xảy ra trong quá trình tải ảnh lên server. Vui lòng thử lại!')
+            }
+          
+            // try {
+            //       const data = await fetch('https://api.cloudinary.com/v1_1/dvvi0pivw/image/upload', {
+            //       method: 'POST',
+            //       body: formData
+            //       })
+            //       const result = await data.json();
+            //       console.log("result:",result) 
+            // } catch (error) {
+            //       MessageCommon.openNotificationError('Có lỗi xảy ra trong quá trình tải ảnh lên server. Vui lòng thử lại!')
+            // }
+
+
+
+
+            // yield put(actionLoading.loading({}))
+            // const res = yield call(Service.createStatus, data);
+            // const  resultSignal = res.data.result
+            // switch (resultSignal) {
+            //       case RESULT_STATUS.SUCCESS:
+            //             yield fork(handleEmitSearchStatus, dataSocket)
+            //             yield put(actionLoading.closeLoading({}))
+            //             yield put(employeesStatus.createSuccess(ln.messageModule.CREATE_STATUS_SUCCESS))
+            //             yield put(employeesStatus.resetData({}));
+            //             yield put(employeesStatus.setModalAdd(false));
+            //             break;
+            //       case RESULT_STATUS.ERROR:
+            //             yield put(actionLoading.closeLoading({}))
+            //             yield put(employeesStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
+            //             break;
+            //       case RESULT_STATUS.DATA_EXIST:
+            //             yield put(actionLoading.closeLoading({}))
+            //             yield put(employeesStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
+            //             break;
+            //       default:
+            //             break;
+            // }
            
          } catch (error) {
-            yield put(employeesStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
+            yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
          }
 }
-function*  handleEditStatus(params){
+function*  handleEditEmployee(params){
       const { socket, data, pagination} = params
       const dataSocket ={
             socket,
@@ -124,34 +180,34 @@ function*  handleEditStatus(params){
       }
       try {
             yield put(actionLoading.loading({}))
-            const res = yield call(Service.editStatus, data);
+            const res = yield call(Service.editEmployee, data);
             const  resultSignal = res.data.result
             switch (resultSignal) {
                   case RESULT_STATUS.SUCCESS:
-                        yield fork(handleEmitSearchStatus, dataSocket)
+                        yield fork(handleEmitSearchEmployee, dataSocket)
                         yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createSuccess(ln.messageModule.EDIT_STATUS_SUCCESS))
-                        yield put(employeesStatus.resetData({}));
-                        yield put(employeesStatus.setModalAdd(false));
+                        yield put(actionEmployees.createSuccess(ln.messageModule.EDIT_EMPLOYEE_SUCCESS))
+                        yield put(actionEmployees.resetData({}));
+                        yield put(actionEmployees.setModalAdd(false));
                         break;
                   case RESULT_STATUS.ERROR:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createFail(ln.messageModule.EDIT_STATUS_FAIL))
+                        yield put(actionEmployees.createFail(ln.messageModule.EDIT_EMPLOYEE_FAIL))
                         break;
                   case RESULT_STATUS.DATA_EXIST:
                         yield put(actionLoading.closeLoading({}))
-                        yield put(employeesStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
+                        yield put(actionEmployees.createFail(ln.messageModule.EMPLOYEE_CODE_EXIST))
                         break;
                   default:
                         break;
             }
            
          } catch (error) {
-            yield put(employeesStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
+            yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
          }
 }
 
-function* handleDeleteStatus(params){
+function* handleDeleteEmployee(params){
       const { socket, data, pagination} = params
       const dataSocket ={
             socket,
@@ -159,14 +215,14 @@ function* handleDeleteStatus(params){
       }
       try {
             yield put(actionLoading.loading({}))
-            const res = yield call(Service.deleteStatus, data);
+            const res = yield call(Service.deleteEmployee, data);
             if(res.data.result === RESULT_STATUS.SUCCESS ){
-                  yield fork(handleEmitSearchStatus, dataSocket)
-                  yield put(employeesStatus.deleteDataSuccess(ln.messageModule.DELETE_STATUS_SUCCESS))
+                  yield fork(handleEmitSearchEmployee, dataSocket)
+                  yield put(actionEmployees.deleteDataSuccess(ln.messageModule.DELETE_EMPLOYEE_SUCCESS))
                   yield put(actionLoading.closeLoading({}))
-                  yield put(employeesStatus.closeConfirmDelete())
+                  yield put(actionEmployees.closeConfirmDelete())
             }else{
-                  yield put(employeesStatus.createFail(ln.messageModule.DELETE_STATUS_FAIL))   
+                  yield put(actionEmployees.createFail(ln.messageModule.DELETE_EMPLOYEE_FAIL))   
             }
             
       } catch (error) {
@@ -174,7 +230,7 @@ function* handleDeleteStatus(params){
       }
 }
 
-function* handleSocketCreateStatus(action){
+function* handleSocketCreateEmployee(action){
       const { data, pagination } = action.payload
       const socket = yield call(connect)
       const payload ={
@@ -185,7 +241,7 @@ function* handleSocketCreateStatus(action){
       yield fork(handleCreateStatus, payload)
 }
 
-function* handleSocketEditStatus(action){
+function* handleSocketEditEmployee(action){
       const { data, pagination } = action.payload
       const socket = yield call(connect)
       const payload ={
@@ -193,10 +249,10 @@ function* handleSocketEditStatus(action){
             pagination,
             socket
       }
-      yield fork(handleEditStatus, payload)
+      yield fork(handleEditEmployee, payload)
 }
 
-function* handleSocketDeleteStatus(action){
+function* handleSocketDeleteEmployee(action){
       const { data, pagination} = action.payload
       const socket = yield call(connect)
       const payload ={
@@ -204,43 +260,43 @@ function* handleSocketDeleteStatus(action){
             pagination,
             socket
       }
-      yield fork(handleDeleteStatus,  payload)
+      yield fork(handleDeleteEmployee,  payload)
 }
 
 function* handleSearchAndPaginationStatus(action){
       try {
          const res = yield call(Service.searchAndPaginationStatus, action.payload);
-         yield put(employeesStatus.searchAndPaginationDataSuccess(res.data.data));
+         yield put(actionEmployees.searchAndPaginationDataSuccess(res.data.data));
       }catch (error) {
-         yield put(employeesStatus.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
+         yield put(actionEmployees.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
       }
 }
 
-function* handleFetchListStatusBySocket(action){
+function* handleFetchListEmployeeBySocket(action){
       const socket = yield call(connect)
       const payload ={
             pagination: action.payload,
             socket
       }
-      yield fork(handleEmitSearchStatus, payload)
+      yield fork(handleEmitSearchEmployee, payload)
       yield fork(fetchchListBySocket, socket)
 }
 
 ///////////
 function* fetchListDataBySocket() {
-      yield takeEvery(employeesStatus.searchBySocket, handleFetchListStatusBySocket);
+      yield takeEvery(actionEmployees.searchBySocket, handleFetchListEmployeeBySocket);
   }
-function* createStatus() {
-      yield takeEvery(employeesStatus.create, handleSocketCreateStatus);
+function* createEmployee() {
+      yield takeEvery(actionEmployees.create, handleSocketCreateEmployee);
 }
-function* editStatus() {
-      yield takeEvery(employeesStatus.edit, handleSocketEditStatus);
+function* editEmployee() {
+      yield takeEvery(actionEmployees.edit, handleSocketEditEmployee);
 }
-function* deleteStatus() {
-    yield takeEvery(employeesStatus.deleteData, handleSocketDeleteStatus);
+function* deleteEmployee() {
+    yield takeEvery(actionEmployees.deleteData, handleSocketDeleteEmployee);
 }
 function* searchAndPaginationStatus() {
-      yield takeEvery(employeesStatus.searchAndPaginationData, handleSearchAndPaginationStatus);
+      yield takeEvery(actionEmployees.searchAndPaginationData, handleSearchAndPaginationStatus);
 }
 // function* onFetchMainGroupListBySocket() {
 //       const socket = yield call(connect)
@@ -252,9 +308,9 @@ function* searchAndPaginationStatus() {
 export function* employeesSagaList() {
       yield all([
             fetchListDataBySocket(),
-            deleteStatus(),
-            createStatus(),
-            editStatus(),
+            deleteEmployee(),
+            createEmployee(),
+            editEmployee(),
             searchAndPaginationStatus(),
       ]);   
 }
@@ -263,17 +319,17 @@ const employeesSlice = createSlice({
     name: "status",
     initialState,
     extraReducers: {
-      [employeesStatus.updateDataInput]: (state, action) => {
+      [actionEmployees.updateDataInput]: (state, action) => {
             let newState={...state}
             newState.data = action.payload
             return newState
       },
-      [employeesStatus.updateDataEdit]: (state, action) => {
+      [actionEmployees.updateDataEdit]: (state, action) => {
             let newState={...state}
             newState.dataEdit = action.payload
             return newState
       },
-      [employeesStatus.searchSuccessBySocket]: (state, action) => {
+      [actionEmployees.searchSuccessBySocket]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
                   element.key = element._id
@@ -283,10 +339,10 @@ const employeesSlice = createSlice({
             newState.totalData = total
             return newState
       },
-      [employeesStatus.searchFailBySocket]: (state, action) => {
+      [actionEmployees.searchFailBySocket]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [employeesStatus.searchAndPaginationDataSuccess]: (state, action) => {
+      [actionEmployees.searchAndPaginationDataSuccess]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
                   element.key = element._id
@@ -296,58 +352,58 @@ const employeesSlice = createSlice({
             newState.totalData = total
             return newState
       },
-      [employeesStatus.searchAndPaginationDataFailed]: (state, action) => {
+      [actionEmployees.searchAndPaginationDataFailed]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [employeesStatus.setModalAdd]: (state, action) => {
+      [actionEmployees.setModalAdd]: (state, action) => {
             let newState={...state}
             newState.isOpenAdd = action.payload
             return newState
       },
-      [employeesStatus.deleteDataSuccess]: (state, action) => {
+      [actionEmployees.deleteDataSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [employeesStatus.deleteDataFail]: (state, action) => {
+      [actionEmployees.deleteDataFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [employeesStatus.createSuccess]: (state, action) => {
+      [actionEmployees.createSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [employeesStatus.createFail]: (state, action) => {
+      [actionEmployees.createFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [employeesStatus.editSuccess]: (state, action) => {
+      [actionEmployees.editSuccess]: (state, action) => {
             MessageCommon.openNotificationSuccess(action.payload)
       },
-      [employeesStatus.editFail]: (state, action) => {
+      [actionEmployees.editFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-      [employeesStatus.openConfirmDelete]: (state, action) => {
+      [actionEmployees.openConfirmDelete]: (state, action) => {
             let newState={...state}
             newState.isOpenConfirmDelete = true
             return newState
       },
-      [employeesStatus.closeConfirmDelete]: (state, action) => {
+      [actionEmployees.closeConfirmDelete]: (state, action) => {
             let newState={...state}
             newState.isOpenConfirmDelete = false
             return newState
       },
-      [employeesStatus.openConfirmEdit]: (state, action) => {
+      [actionEmployees.openConfirmEdit]: (state, action) => {
             let newState={...state}
             newState.isOpenConfirmEdit = true
             return newState
       },
-      [employeesStatus.closeConfirmEdit]: (state, action) => {
+      [actionEmployees.closeConfirmEdit]: (state, action) => {
             let newState={...state}
             newState.isOpenConfirmEdit = false
             return newState
       },
-      [employeesStatus.resetData]: (state, action) => {
+      [actionEmployees.resetData]: (state, action) => {
             const resetState = {...initialStateClone}
             resetState.pagination = state.pagination
             return resetState
       },
-      [employeesStatus.updatePagination]: (state, action) => {
+      [actionEmployees.updatePagination]: (state, action) => {
             let newState={...state}
             const newPagination = {
                   pageCurrent: action.payload.pageCurrent,

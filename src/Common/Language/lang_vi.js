@@ -29,6 +29,14 @@ const LANGUAGE_STATE_VI = {
         STATUS_CODE_EXIST: "Mã trạng thái đã tồn tại",
         DELETE_STATUS_SUCCESS: "Xóa trạng thái thành công",
         DELETE_STATUS_FAIL: "Xóa trạng thái thất bại",
+
+        CREATE_EMPLOYEE_SUCCESS: "Tạo nhân viên thành công",
+        CREATE_EMPLOYEE_FAIL: "Tạo nhân viên thất bại",
+        EDIT_EMPLOYEE_SUCCESS: "Sửa nhân viên thành công",
+        EDIT_EMPLOYEE_FAIL: "Sửa nhân viên thất bại",
+        EMPLOYEE_CODE_EXIST: "Mã nhân viên đã tồn tại",
+        DELETE_EMPLOYEE_SUCCESS: "Xóa nhân viên thành công",
+        DELETE_EMPLOYEE_FAIL: "Xóa nhân viên thất bại",
     }
 };
 module.exports = {

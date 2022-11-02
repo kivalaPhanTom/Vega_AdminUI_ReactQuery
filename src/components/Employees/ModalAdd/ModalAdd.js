@@ -5,6 +5,7 @@ import * as employeesActions  from "../../../Redux/Actions/Employees";
 import { MethodCommon } from "../../../Common/methods";
 import { Input, DatePicker, Modal } from 'antd';
 import { FORMAT_DATE } from "../../../Common/Common_Parameter";
+import { MessageCommon } from "../../../Common/message";
 import moment from 'moment';
 import UploadImage from '../../../commonComponent/UploadImage/UploadImage';
 
@@ -19,10 +20,7 @@ function ModalAdd(props) {
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     const [fileList, setFileList] = useState([]);
 
-    console.log("value:",fileList)
-
-    const handleOk = () => {
-        console.log("fileList:",fileList)
+    const handleOk = async() => {
         let dataSubmit ={
             employeeID,
             user_name,
@@ -39,9 +37,9 @@ function ModalAdd(props) {
             status,
             workingDay,
             stopWorkingDay,
+            fileList
         }
-        console.log("dataSubmit:",dataSubmit)
-        // dispatch(employeesActions.create({data:dataSubmit, pagination:pagination }))
+        dispatch(employeesActions.create({data:dataSubmit, pagination:pagination }))
     };
 
     const handleCancel = () => {
