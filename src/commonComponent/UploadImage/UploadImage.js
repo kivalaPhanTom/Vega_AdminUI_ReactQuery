@@ -15,20 +15,7 @@ const UploadImage = (props) => {
   const {handle_ImageChange, number_ImageAllow, title, multiple, fileList, setFileList}=props
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  // const [fileList, setFileList] = useState([]);
-
-  useEffect(()=>{
-  //  console.log("xxx:",fileList)
-   if( fileList.length > 0){
-    if( fileList[0].thumbUrl !== undefined){
-      // console.log("bbb")
-      // console.log("fileList:",fileList)
-      // handle_ImageChange(fileList)
-     }
-   }
   
-  },[fileList])
   const handleCancel = () => setPreviewOpen(false);
   
 
@@ -38,10 +25,9 @@ const UploadImage = (props) => {
     }
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
 
-  const handleChange = async({fileList}) => {
+  const handleChange = ({fileList}) => {
     for(let i=0; i<fileList.length; i++)
     {
            if(fileList[i].status === "error")
@@ -49,12 +35,8 @@ const UploadImage = (props) => {
              fileList[i].status = "done"
            }
     }
-    // console.log("xxx:",fileList[0].thumbUrl)
-    // // handle_ImageChange(fileList)
-    // console.log("fileList:", fileList)
-    await setFileList(fileList)
-   
-    // await handle_ImageChange(fileList)
+    handle_ImageChange(fileList)
+    // setFileList(fileList)
   }
 
   function beforeUpload(file) {
@@ -92,17 +74,17 @@ const UploadImage = (props) => {
         {fileList.length >= number_ImageAllow ? null : uploadButton}
       </Upload>
       <Modal 
-      open={previewOpen} 
-      title={previewTitle} 
-      footer={null} 
-      onCancel={handleCancel}>
-        <img
-          alt="example"
-          style={{
-            width: '100%',
-          }}
-          src={previewImage}
-        />
+        open={previewOpen} 
+        title={title} 
+        footer={null} 
+        onCancel={handleCancel}>
+          <img
+            alt="example"
+            style={{
+              width: '100%',
+            }}
+            src={previewImage}
+          />
       </Modal>
     </>
   );

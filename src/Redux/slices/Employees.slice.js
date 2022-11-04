@@ -8,6 +8,8 @@ import { RESULT_STATUS } from "../../Common/Common_Parameter";
 import { MethodCommon } from "../../Common/methods";
 import * as actionLoading from '../Actions/Loading.action';
 import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
+import {sha1} from 'crypto-hash';
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from '../../config';
 
 const ln = MethodCommon.getLanguage()
 const initialState = {
@@ -16,7 +18,7 @@ const initialState = {
       isOpenConfirmDelete:false,
       isOpenConfirmEdit:false,
       data:{
-        employeeID:null,
+        employeeID:'',
         user_name:'',
         Role:0,
         birthDate:null,
@@ -34,7 +36,7 @@ const initialState = {
       },
       dataEdit:{
             id:'',
-            employeeID:null,
+            employeeID:'',
             user_name:'',
             Role:0,
             birthDate:null,
@@ -60,7 +62,7 @@ const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
 function getBySocket(socket){
       return new Promise(resolve => {
-            socket.on('fetchStatus', (status) => { 
+            socket.on('fetchEmployee', (status) => { 
               resolve(status);
             });
       })
@@ -79,9 +81,8 @@ function* fetchchListBySocket(socket){
 }
 
 function handleEmitSearchEmployee(data){ 
-      data.socket.emit("fetchStatus", data.pagination )
+      data.socket.emit("fetchEmployee", data.pagination )
 }
-
 function*  handleCreateStatus(params){
       const { socket, pagination} = params
       let { data } = params
@@ -102,7 +103,8 @@ function*  handleCreateStatus(params){
                         uid: data.fileList[0].uid,
                         name: data.fileList[0].name,
                         status: data.fileList[0].status,
-                        url: resImg.data.secure_url
+                        url: resImg.data.secure_url,
+                        publicID: resImg.data.public_id
                   }
                   delete  data.fileList; 
                   const res = yield call(Service.createEmployee, data);
@@ -120,7 +122,24 @@ function*  handleCreateStatus(params){
                               yield put(actionLoading.closeLoading({}))
                               yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
                               break;
-                        case RESULT_STATUS.DATA_EXIST:
+                        case RESULT_STATUS.DATA_EXIST: //dangcode
+                              const timestamp = new Date().getTime()
+                              const formData1 = new FormData();
+                              const publicID = resImg.data.public_id
+                              const string = `public_id=${publicID}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`
+                              function hashStringBySha1(data){
+                                    return sha1(string)
+                              }
+                              const signature = yield call(hashStringBySha1,'');
+                              formData1.append("public_id", publicID)
+                              formData1.append("signature", signature)
+                              formData1.append("api_key", CLOUDINARY_API_KEY)
+                              formData1.append("timestamp",timestamp)
+                              try {
+                                  yield call(Service.deleteImage, formData1);  
+                              } catch (error) {
+                                  console.log("error:",error)
+                              }
                               yield put(actionLoading.closeLoading({}))
                               yield put(actionEmployees.createFail(ln.messageModule.EMPLOYEE_CODE_EXIST))
                               break;
@@ -129,49 +148,14 @@ function*  handleCreateStatus(params){
             }
             } catch (error) {
                   MessageCommon.openNotificationError('Có lỗi xảy ra trong quá trình tải ảnh lên server. Vui lòng thử lại!')
-            }
-          
-            // try {
-            //       const data = await fetch('https://api.cloudinary.com/v1_1/dvvi0pivw/image/upload', {
-            //       method: 'POST',
-            //       body: formData
-            //       })
-            //       const result = await data.json();
-            //       console.log("result:",result) 
-            // } catch (error) {
-            //       MessageCommon.openNotificationError('Có lỗi xảy ra trong quá trình tải ảnh lên server. Vui lòng thử lại!')
-            // }
-
-
-
-
-            // yield put(actionLoading.loading({}))
-            // const res = yield call(Service.createStatus, data);
-            // const  resultSignal = res.data.result
-            // switch (resultSignal) {
-            //       case RESULT_STATUS.SUCCESS:
-            //             yield fork(handleEmitSearchStatus, dataSocket)
-            //             yield put(actionLoading.closeLoading({}))
-            //             yield put(employeesStatus.createSuccess(ln.messageModule.CREATE_STATUS_SUCCESS))
-            //             yield put(employeesStatus.resetData({}));
-            //             yield put(employeesStatus.setModalAdd(false));
-            //             break;
-            //       case RESULT_STATUS.ERROR:
-            //             yield put(actionLoading.closeLoading({}))
-            //             yield put(employeesStatus.createFail(ln.messageModule.CREATE_STATUS_FAIL))
-            //             break;
-            //       case RESULT_STATUS.DATA_EXIST:
-            //             yield put(actionLoading.closeLoading({}))
-            //             yield put(employeesStatus.createFail(ln.messageModule.STATUS_CODE_EXIST))
-            //             break;
-            //       default:
-            //             break;
-            // }
-           
+            }           
          } catch (error) {
             yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
          }
 }
+
+
+      
 function*  handleEditEmployee(params){
       const { socket, data, pagination} = params
       const dataSocket ={
@@ -399,7 +383,24 @@ const employeesSlice = createSlice({
             return newState
       },
       [actionEmployees.resetData]: (state, action) => {
-            const resetState = {...initialStateClone}
+            const resetState = {...state}
+            resetState.data = {
+                  employeeID:null,
+                  user_name:'',
+                  Role:0,
+                  birthDate:null,
+                  address:'',
+                  CMND:'',
+                  phone:'',
+                  workingAddress:'',
+                  user_password:'',
+                  user_email:'',
+                  keysearch:"",
+                  Avatar:null,
+                  status:null,
+                  workingDay:null,
+                  stopWorkingDay:null,
+            }
             resetState.pagination = state.pagination
             return resetState
       },

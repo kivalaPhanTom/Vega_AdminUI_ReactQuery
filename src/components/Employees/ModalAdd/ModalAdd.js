@@ -1,4 +1,4 @@
-import React,{useState, memo} from 'react'
+import React,{useState, memo, useEffect} from 'react'
 import styles from "./index.module.css"
 import { useSelector, useDispatch } from 'react-redux';
 import * as employeesActions  from "../../../Redux/Actions/Employees";
@@ -20,30 +20,141 @@ function ModalAdd(props) {
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     const [fileList, setFileList] = useState([]);
 
+   const [errRequiredEmployeeID, setErrRequiredEmployeeID] = useState(false);
+   const [errRequiredFullName, setErrRequiredFullName] = useState(false);
+   const [errRequiredRole, setErrRequiredRole] = useState(false);
+   const [errRequiredPassword, setErrRequiredPassword] = useState(false);
+   const [errRequiredEmail, setErrRequiredEmail] = useState(false);
+   const [errRequiredBirthDay, setErrRequireddBirthDay] = useState(false);
+   const [errRequiredCMND, setErrRequireddCMND] = useState(false);
+   const [errRequiredPhone, setErrRequiredPhone] = useState(false);
+   const [errRequiredStartWorkingDay, setErrRequiredStartWorkingDay] = useState(false);
+   const [errRequiredEndWorkingDay, setErrRequiredEndWorkingDay] = useState(false);
+   const [errRequiredAddress, setErrRequiredAddress] = useState(false);
+   const [errRequiredWorkingAddress, setErrRequiredWorkingAddress] = useState(false);
+   const [errRequiredAvatar, setErrRequiredAvatar] = useState(false);
+
+    useEffect(()=>{ 
+        return () => {setFileList([])}
+    },[])
+      
     const handleOk = async() => {
-        let dataSubmit ={
-            employeeID,
-            user_name,
-            Role,
-            birthDate,
-            address,
-            CMND,
-            phone,
-            workingAddress,
-            user_password,
-            user_email,
-            keysearch: `${employeeID} ${user_name}`,
-            Avatar,
-            status,
-            workingDay,
-            stopWorkingDay,
-            fileList
+
+        if(employeeID.trim() === ""){
+            setErrRequiredEmployeeID(true)
+        }else{
+            setErrRequiredEmployeeID(false)
         }
-        dispatch(employeesActions.create({data:dataSubmit, pagination:pagination }))
+
+        if(user_name.trim() === ""){
+            setErrRequiredFullName(true)
+        }else{
+            setErrRequiredFullName(false)
+        }
+
+        if(user_password.trim() === ""){
+            setErrRequiredPassword(true)
+        }else{
+            setErrRequiredPassword(false)
+        }
+
+        if(user_email.trim() === ""){
+            setErrRequiredEmail(true)
+        }else{
+            setErrRequiredEmail(false)
+        }
+
+        if(birthDate === null){
+            setErrRequireddBirthDay(true)
+        }else{
+            setErrRequireddBirthDay(false)
+        }
+
+        if(CMND.trim() === ''){
+            setErrRequireddCMND(true)
+        }else{
+            setErrRequireddCMND(false)
+        }
+
+        if(phone.trim() === ''){
+            setErrRequiredPhone(true)
+        }else{
+            setErrRequiredPhone(false)
+        }
+        
+        if(workingDay === null){
+            setErrRequiredStartWorkingDay(true)
+        }else{
+            setErrRequiredStartWorkingDay(false)
+        }
+
+        if(stopWorkingDay === null){
+            setErrRequiredEndWorkingDay(true)
+        }else{
+            setErrRequiredEndWorkingDay(false)
+        }
+
+        if(address.trim() === ''){
+            setErrRequiredAddress(true)
+        }else{
+            setErrRequiredAddress(false)
+        }
+
+        if(workingAddress.trim() === ''){
+            setErrRequiredWorkingAddress(true)
+        }else{
+            setErrRequiredWorkingAddress(false)
+        }
+
+        if(fileList.length === 0){
+            setErrRequiredAvatar(true)
+        }else{
+            setErrRequiredAvatar(false)
+        }
+
+        if(employeeID.trim() !== "" && user_name.trim() !== "" && user_password.trim() !== "" && user_email.trim() !== "" && birthDate !== null
+           && CMND.trim() !== ''  && phone.trim() !== '' && workingDay !== null && stopWorkingDay !== null && address.trim() !== '' &&
+           workingAddress.trim() !== '' && fileList.length > 0){
+            let dataSubmit ={
+                employeeID,
+                user_name,
+                Role,
+                birthDate,
+                address,
+                CMND,
+                phone,
+                workingAddress,
+                user_password,
+                user_email,
+                keysearch: `${employeeID} ${user_name}`,
+                Avatar,
+                status,
+                workingDay,
+                stopWorkingDay,
+                fileList
+            }
+            dispatch(employeesActions.create({data:dataSubmit, pagination:pagination }))
+        }
     };
 
     const handleCancel = () => {
         dispatch(employeesActions.setModalAdd(false))
+        setFileList([])
+        dispatch(employeesActions.resetData({}))
+
+        setErrRequiredEmployeeID(false)
+        setErrRequiredFullName(false)
+        setErrRequiredPassword(false)
+        setErrRequiredEmail(false)
+        setErrRequireddBirthDay(false)
+        setErrRequireddCMND(false)
+        setErrRequiredPhone(false)
+        setErrRequiredStartWorkingDay(false)
+        setErrRequiredEndWorkingDay(false)
+        setErrRequiredAddress(false)
+        setErrRequiredWorkingAddress(false)
+        setErrRequiredAvatar(false)
+        
     };
     
     const handleCancelData =()=>{
@@ -52,6 +163,7 @@ function ModalAdd(props) {
         dataClone.name = ''
         dispatch(employeesActions.setModalAdd(false))
         dispatch(employeesActions.updateDataInput(dataClone))
+        setFileList([])
     }
     const handleChangeCode =(e)=>{
         let dataClone = {...data}
@@ -61,6 +173,11 @@ function ModalAdd(props) {
     const handleChangeName =(e)=>{
         let dataClone = {...data}
         dataClone.user_name= e.target.value
+        dispatch(employeesActions.updateDataInput(dataClone))
+    }
+    const handleChangeRole =(e)=>{
+        let dataClone = {...data}
+        dataClone.Role= e.target.value
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handleChangePassword =(e)=>{
@@ -77,6 +194,7 @@ function ModalAdd(props) {
         const timeStamp = MethodCommon.convertToTimeStamp(date)
         let dataClone = {...data}
         dataClone.birthDate= timeStamp
+        if(timeStamp === 0) dataClone.birthDate = null
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handleChangeCMND =(e)=>{
@@ -92,13 +210,15 @@ function ModalAdd(props) {
     const onChangeStartWorkingDate =(date, dateString)=>{
         const timeStamp = MethodCommon.convertToTimeStamp(date)
         let dataClone = {...data}
-        dataClone.workingDay= timeStamp
+        dataClone.workingDay = timeStamp
+        if(timeStamp === 0) dataClone.workingDay = null
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const onChangeEndWorkingDate =(date, dateString)=>{
         const timeStamp = MethodCommon.convertToTimeStamp(date)
         let dataClone = {...data}
         dataClone.stopWorkingDay= timeStamp
+        if(timeStamp === 0) dataClone.stopWorkingDay = null
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handleChangeWorkingAddress =(e)=>{
@@ -112,15 +232,16 @@ function ModalAdd(props) {
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handle_ImageChange =(value)=>{
-        let dataClone = {...data}
-        console.log("value:",value)
-       
-        dataClone.Avatar= value[0]
-        if( value[0].thumbUrl !== null && value[0].thumbUrl !== '' && value[0].thumbUrl !== undefined){
-            dispatch(employeesActions.updateDataInput(dataClone))
+        console.log('value:',value)
+        setFileList(value)
+        if(value.length > 0){
+           
+            setErrRequiredAvatar(false)
+        }else{
+            setErrRequiredAvatar(true)
         }
-        dispatch(employeesActions.updateDataInput(dataClone))
     }
+
   return (
     <>
       <Modal 
@@ -147,6 +268,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={employeeID} onChange={handleChangeCode} />
                         </div>
+                        {
+                            errRequiredEmployeeID ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -156,17 +280,23 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={user_name} onChange={handleChangeName}/>
                         </div>
+                        {
+                            errRequiredFullName ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
-                <div className={styles['role_field']}>
+                {/* <div className={styles['role_field']}>
                     <div className={styles['container']}>
                         <span>Vai trò</span>
                         <div className={styles['divInput']}>
-                            <Input  onChange={handleChangeName} />
+                            <Input  value = {Role} onChange={handleChangeRole} />
                         </div>
+                        {
+                            errRequiredRole? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
-                </div>
+                </div> */}
 
                 <div className={styles['password_field']}>
                     <div className={styles['container']}>
@@ -174,6 +304,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                           <Input.Password placeholder="input password" value={user_password} onChange={handleChangePassword}/>
                         </div>
+                        {
+                            errRequiredPassword? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -183,6 +316,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={user_email} onChange={handleChangeEmail}/>
                         </div>
+                        {
+                            errRequiredEmail? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -190,8 +326,11 @@ function ModalAdd(props) {
                     <div className={styles['container']}>
                         <span>Ngày sinh</span>
                         <div className={styles['divInput']}>
-                            <DatePicker onChange={onChangeBirthDate} format={FORMAT_DATE}/>
+                            <DatePicker value ={birthDate !== null ? moment(birthDate) :''} onChange={onChangeBirthDate} format={FORMAT_DATE}/>
                         </div>  
+                        {
+                            errRequiredBirthDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -201,6 +340,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={CMND} onChange={handleChangeCMND}/>
                         </div>
+                        {
+                            errRequiredCMND? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -210,6 +352,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input  value={phone} onChange={onChangePhone}/>
                         </div>
+                        {
+                            errRequiredPhone? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
       
@@ -217,8 +362,11 @@ function ModalAdd(props) {
                     <div className={styles['container']}>
                         <span>Ngày vào làm</span>
                         <div className={styles['divInput']}>
-                            <DatePicker onChange={onChangeStartWorkingDate} format={FORMAT_DATE} />
+                            <DatePicker value ={workingDay !== null ? moment(workingDay) :''} onChange={onChangeStartWorkingDate} format={FORMAT_DATE} />
                         </div>
+                        {
+                            errRequiredStartWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -226,8 +374,11 @@ function ModalAdd(props) {
                     <div className={styles['container']}>
                         <span>Ngày kết thúc làm</span>
                         <div className={styles['divInput']}>
-                            <DatePicker onChange={onChangeEndWorkingDate} format={FORMAT_DATE}/>
+                            <DatePicker value ={stopWorkingDay !== null ? moment(stopWorkingDay) :''} onChange={onChangeEndWorkingDate} format={FORMAT_DATE}/>
                         </div> 
+                        {
+                            errRequiredEndWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div> 
 
@@ -237,6 +388,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={address} onChange={handleChangeAddress} />
                         </div>
+                        {
+                            errRequiredAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
                 
@@ -246,6 +400,9 @@ function ModalAdd(props) {
                         <div className={styles['divInput']}>
                             <Input value={workingAddress} onChange={handleChangeWorkingAddress}/>
                         </div>
+                        {
+                            errRequiredWorkingAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
@@ -253,18 +410,18 @@ function ModalAdd(props) {
                     <div className={styles['container']}>
                         <span>Ảnh</span>
                         <div className={styles['divInput']}>
-                            {/* <Input onChange={handleChangeName}/> */}
                             <UploadImage
                               number_ImageAllow = {1}
-                              title = {''}
+                              title = {'Ảnh đại diện'}
                               multiple = {false}
                               handle_ImageChange = {handle_ImageChange}
-                            //   fileList = {data.Avatar !== null ? [data.Avatar] :[]}
-                             fileList = {fileList}
-                             setFileList ={setFileList}
-                             
+                              fileList = {fileList}
+                              setFileList ={setFileList}
                             />
                         </div>
+                        {
+                            errRequiredAvatar? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                        }
                     </div>
                 </div>
 
