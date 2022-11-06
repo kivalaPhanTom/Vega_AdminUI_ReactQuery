@@ -13,11 +13,10 @@ function ModalAdd(props) {
     const dispatch = useDispatch();
     const isOpenAdd = useSelector((state)=> state.employeesSlice.isOpenAdd)
     const data = useSelector((state)=> state.employeesSlice.data)
-    console.log("data:",data)
     const pagination = useSelector((state)=> state.employeesSlice.pagination)
     const { employeeID, user_name, Role, birthDate, address, CMND, phone, workingAddress,  user_password, user_email,
         keysearch, Avatar, status, workingDay, stopWorkingDay }= data
-    const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+    // const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     const [fileList, setFileList] = useState([]);
 
    const [errRequiredEmployeeID, setErrRequiredEmployeeID] = useState(false);
@@ -34,10 +33,16 @@ function ModalAdd(props) {
    const [errRequiredWorkingAddress, setErrRequiredWorkingAddress] = useState(false);
    const [errRequiredAvatar, setErrRequiredAvatar] = useState(false);
 
-    useEffect(()=>{ 
-        return () => {setFileList([])}
-    },[])
-      
+   useEffect(() => {
+    if(isOpenAdd === false){
+        setFileList([])
+    }
+  }, [isOpenAdd]);
+
+    // useEffect(()=>{ 
+    //     setFileList([])
+    // },[])
+    console.log("fileList:",fileList)
     const handleOk = async() => {
 
         if(employeeID.trim() === ""){
@@ -139,7 +144,6 @@ function ModalAdd(props) {
 
     const handleCancel = () => {
         dispatch(employeesActions.setModalAdd(false))
-        setFileList([])
         dispatch(employeesActions.resetData({}))
 
         setErrRequiredEmployeeID(false)
@@ -163,55 +167,98 @@ function ModalAdd(props) {
         dataClone.name = ''
         dispatch(employeesActions.setModalAdd(false))
         dispatch(employeesActions.updateDataInput(dataClone))
-        setFileList([])
     }
     const handleChangeCode =(e)=>{
         let dataClone = {...data}
         dataClone.employeeID= e.target.value
+        if(e.target.value !== ''){
+            setErrRequiredEmployeeID(false)
+        }else{
+            setErrRequiredEmployeeID(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handleChangeName =(e)=>{
         let dataClone = {...data}
         dataClone.user_name= e.target.value
+        if(e.target.value !== ''){
+            setErrRequiredFullName(false)
+        }else{
+            setErrRequiredFullName(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handleChangeRole =(e)=>{
         let dataClone = {...data}
         dataClone.Role= e.target.value
+        
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const handleChangePassword =(e)=>{
+    const handleChangePassword =(e)=>{ 
         let dataClone = {...data}
         dataClone.user_password= e.target.value
+        if(e.target.value !== ''){
+            setErrRequiredPassword(false)
+        }else{
+            setErrRequiredPassword(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const handleChangeEmail =(e)=>{
+    const handleChangeEmail =(e)=>{ 
         let dataClone = {...data}
         dataClone.user_email= e.target.value
+        if(e.target.value !== ''){
+            setErrRequiredEmail(false)
+        }else{
+            setErrRequiredEmail(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const onChangeBirthDate =(date, dateString)=>{
+
+    const onChangeBirthDate =(date, dateString)=>{ 
         const timeStamp = MethodCommon.convertToTimeStamp(date)
         let dataClone = {...data}
         dataClone.birthDate= timeStamp
         if(timeStamp === 0) dataClone.birthDate = null
+        if(timeStamp !== 0){
+            setErrRequireddBirthDay(false)
+        }else{
+            setErrRequireddBirthDay(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const handleChangeCMND =(e)=>{
+
+    const handleChangeCMND =(e)=>{ 
         let dataClone = {...data}
         dataClone.CMND = e.target.value.replace(/\D/g, '');
+        if(dataClone.CMND !== ''){
+            setErrRequireddCMND(false)
+        }else{
+            setErrRequireddCMND(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const handleChangeAddress =(e)=>{
+    const handleChangeAddress =(e)=>{ 
         let dataClone = {...data}
-        dataClone.address = e.target.value
+        dataClone.address = e.target.value.trim()
+        if(dataClone.address !== ''){
+            setErrRequiredAddress(false)
+        }else{
+            setErrRequiredAddress(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const onChangeStartWorkingDate =(date, dateString)=>{
+
+    const onChangeStartWorkingDate =(date, dateString)=>{ 
         const timeStamp = MethodCommon.convertToTimeStamp(date)
         let dataClone = {...data}
         dataClone.workingDay = timeStamp
         if(timeStamp === 0) dataClone.workingDay = null
+        if(timeStamp !== 0){
+            setErrRequiredStartWorkingDay(false)
+        }else{
+            setErrRequiredStartWorkingDay(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const onChangeEndWorkingDate =(date, dateString)=>{
@@ -219,23 +266,38 @@ function ModalAdd(props) {
         let dataClone = {...data}
         dataClone.stopWorkingDay= timeStamp
         if(timeStamp === 0) dataClone.stopWorkingDay = null
+        if(timeStamp !== 0){
+            setErrRequiredEndWorkingDay(false)
+        }else{
+            setErrRequiredEndWorkingDay(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const handleChangeWorkingAddress =(e)=>{
+
+    const handleChangeWorkingAddress =(e)=>{ 
         let dataClone = {...data}
-        dataClone.workingAddress = e.target.value
+        dataClone.workingAddress = e.target.value.trim()
+        if(dataClone.workingAddress !== ''){
+            setErrRequiredWorkingAddress(false)
+        }else{
+            setErrRequiredWorkingAddress(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
-    const onChangePhone =(e)=>{
+
+    const onChangePhone =(e)=>{ 
         let dataClone = {...data}
         dataClone.phone = e.target.value.replace(/\D/g, '');
+        if(dataClone.phone !== ''){
+            setErrRequiredPhone(false)
+        }else{
+            setErrRequiredPhone(true)
+        }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
     const handle_ImageChange =(value)=>{
-        console.log('value:',value)
         setFileList(value)
         if(value.length > 0){
-           
             setErrRequiredAvatar(false)
         }else{
             setErrRequiredAvatar(true)

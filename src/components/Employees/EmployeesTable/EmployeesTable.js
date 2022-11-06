@@ -9,16 +9,69 @@ import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../Common/message";
 import PaginationData from '../../../commonComponent/PaginationData/PaginationData';
 
-function UserRolesTable(props) {
+function EmployeesTable(props) {
 
     const columns = [
       {
-        title: 'Tên trạng thái',
-        dataIndex: 'statusId',
+        title: 'Mã nhân viên',
+        dataIndex: 'employeeID',
       },
       {
-        title: 'Mã trạng thái',
-        dataIndex: 'statusName',
+        title: 'Tên nhân viên',
+        dataIndex: 'user_name',
+      },
+      {
+        title: 'Vai trò',
+        dataIndex: 'Role',
+        render: (data) => {
+          let result = ''
+          if(data === 0)
+          {
+            result = "Admin"
+          }
+          return <span>{result}</span>
+        }
+      },
+      {
+        title: 'Email',
+        dataIndex: 'user_email',
+      },
+      {
+        title: 'Ngày sinh',
+        dataIndex: 'birthDate',
+        render: (data) => {
+          return <span>{MethodCommon.converTimeStampToDate(data)}</span>
+        }
+      },
+      {
+        title: 'CMND/CCCD',
+        dataIndex: 'CMND',
+      },
+      {
+        title: 'Số điện thoại',
+        dataIndex: 'phone',
+      },
+      {
+        title: 'Ngày vào làm',
+        dataIndex: 'workingDay',
+        render: (data) => {
+          return <span>{MethodCommon.converTimeStampToDate(data)}</span>
+        }
+      },
+      {
+        title: 'Ngày kết thúc làm',
+        dataIndex: 'stopWorkingDay',
+        render: (data) => {
+          return <span>{MethodCommon.converTimeStampToDate(data)}</span>
+        }
+      },
+      {
+        title: 'Địa chỉ',
+        dataIndex: 'address',
+      },
+      {
+        title: 'Trụ sở làm việc',
+        dataIndex: 'workingAddress',
       },
       // {
       //   title: 'Người tạo',
@@ -77,10 +130,10 @@ function UserRolesTable(props) {
       },
     ];
     const dispatch = useDispatch();
-    const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const mainGroupList = useSelector((state)=> state.statusSlice.statusList)
-    const totalData = useSelector((state)=> state.statusSlice.totalData)
-    const pagination = useSelector((state)=> state.statusSlice.pagination)
+    const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } = props
+    const employeesList = useSelector((state)=> state.employeesSlice.employeesList)
+    const totalData = useSelector((state)=> state.employeesSlice.totalData)
+    const pagination = useSelector((state)=> state.employeesSlice.pagination)
 
     useEffect(() => {
       const dataSocket = {
@@ -107,16 +160,30 @@ function UserRolesTable(props) {
     const handleConfirmEditItem =(item)=>{
       const dataEdit = {
           id: item.id,
-          code: item.statusId,
-          name: item.statusName,
+          employeeID: item.employeeID,
+          user_name:item.user_name,
+          Role:item.Role,
+          birthDate:item.birthDate,
+          address:item.address,
+          CMND:item.CMND,
+          phone:item.phone,
+          workingAddress:item.workingAddress,
+          user_password:item.user_password,
+          user_email:item.user_email,
+          keysearch:item.keysearch,
+          Avatar:item.Avatar,
+          status:item.status,
+          workingDay:item.workingDay,
+          stopWorkingDay:item.stopWorkingDay,
       }
       dispatch(employeesActions.updateDataEdit(dataEdit))
-      dispatch(employeesActions.openConfirmEdit())
+      dispatch(employeesActions.cacheDataEdit(dataEdit))
+      dispatch(employeesActions.setModalEdit(true))
     }
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
-      dispatch(employeesActions.openConfirmDelete())
+      dispatch(employeesActions.setModalDelete(true))
     } 
 
     const handleUpdateSelectedRows =(values)=>{
@@ -129,7 +196,7 @@ function UserRolesTable(props) {
 
     const handleDelete=()=>{
         if(selectedRows.length > 0 ){
-          dispatch(employeesActions.openConfirmDelete())
+          dispatch(employeesActions.setModalDelete(true))
         }else{
           MessageCommon.openNotificationError("Vui lòng chọn dữ liệu")
         }
@@ -163,7 +230,7 @@ function UserRolesTable(props) {
             <div className={styles["table"]}>
                 <TableData
                     columns={columns}
-                    dataRow={mainGroupList}
+                    dataRow={employeesList}
                     handleUpdateSelectedRows={handleUpdateSelectedRows}
                     selectedRows={selectedRows}
                     selectedRowKeysProp={selectedRowKeys}
@@ -182,4 +249,4 @@ function UserRolesTable(props) {
       </>
     )
 }
-export default memo(UserRolesTable)
+export default memo(EmployeesTable)

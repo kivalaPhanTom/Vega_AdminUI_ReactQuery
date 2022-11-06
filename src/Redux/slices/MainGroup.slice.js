@@ -94,7 +94,7 @@ function*  handleCreateMainGroup(params){
             yield put(actionMainGroup.createMainGroupFail(ln.messageModule.CREATE_MAINGROUP_FAIL))
          }
 }
-function*  handleEditMainGroup(params){ //dangcode
+function*  handleEditMainGroup(params){
       const { socket, data, pagination} = params
       const dataSocket ={
             socket,

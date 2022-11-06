@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
 import styles from "./css/index.module.css"
-import UserRolesTable from './StatusTable/StatusTable';
+import EmployeesTable from './EmployeesTable/EmployeesTable';
 import ModalAdd from './ModalAdd/ModalAdd';
-import * as statusActions  from "../../Redux/Actions/Status.action";
+import * as employeesActions  from "../../Redux/Actions/Employees";
 import { useSelector, useDispatch } from 'react-redux';
 import ConfirmDeleteStatus from './ConfirmDeleteStatus/ConfirmDeleteStatus';
 import ModalEdit from './ModalEdit/ModalEdit';
@@ -14,7 +14,7 @@ import UploadImage from '../../commonComponent/UploadImage/UploadImage';
 
 function Employees(props) {
   const dispatch = useDispatch();
-  const pagination = useSelector((state)=> state.statusSlice.pagination)
+  const pagination = useSelector((state)=> state.employeesSlice.pagination)
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   
@@ -25,12 +25,14 @@ function Employees(props) {
     setSelectedRowKeys(value)
   }
 
-  const handleDeleteMainGroup=()=>{
+  const handleDelete=()=>{
       let arrIdNeedDelete = []
+      let arrPulicIdImageCloudinary = []
       selectedRows.forEach((item)=>{
         arrIdNeedDelete.push(item._id)
+        arrPulicIdImageCloudinary.push(item.Avatar.publicID)
       })
-      dispatch(statusActions.deleteData({data:arrIdNeedDelete, pagination:pagination}))
+      dispatch(employeesActions.deleteData({data:arrIdNeedDelete, dataImg:arrPulicIdImageCloudinary, pagination:pagination}))
   }
 
   return (
@@ -48,7 +50,7 @@ function Employees(props) {
 
          <div className={styles["table_area"]}>
             <div className={styles["table_area_container"]}>
-                <UserRolesTable
+                <EmployeesTable
                    selectedRows={selectedRows}
                    selectedRowKeys={selectedRowKeys}
                    handleSetSelectedRows={handleSetSelectedRows}
@@ -60,7 +62,7 @@ function Employees(props) {
          <ModalAdd/>
          <ModalEdit/>
          <ConfirmDeleteStatus
-            handleDeleteMainGroup={handleDeleteMainGroup}
+            handleDelete={handleDelete}
          />
     </div>
   )

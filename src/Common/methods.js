@@ -13,7 +13,8 @@ export const MethodCommon = {
     formatTime,
     preventSpecialCharacters,
     renderFileLangVnFile,
-    convertToTimeStamp
+    convertToTimeStamp,
+    converTimeStampToDate
 };
 
 //save to local storage
@@ -88,3 +89,26 @@ function readText(text){
 loadText('./langVn.txt');
 }
   
+function converTimeStampToDate(timeStamp){
+  let d = new Date(timeStamp);
+
+  const year = d.getFullYear()
+
+  let month = d.getMonth() + 1
+  if( month < 10) month=`0${month}`
+  
+  let day = d.getDate()
+  if( day < 10) day=`0${day}`
+  
+  let hours = d.getHours()
+  if( hours < 10) hours=`0${hours}`
+  
+  let minutes = d.getMinutes()
+  if( minutes < 10) minutes=`0${minutes}`
+  
+  let seconds = d.getSeconds();
+  if( seconds < 10) seconds=`0${seconds}`
+  
+  const result = `${day}/${month}/${year}`
+  return result
+}

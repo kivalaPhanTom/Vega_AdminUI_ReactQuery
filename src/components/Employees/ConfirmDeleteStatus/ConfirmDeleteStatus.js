@@ -2,20 +2,20 @@ import React, {memo} from 'react'
 import {Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from "./index.module.css"
-import * as statusActions  from "../../../Redux/Actions/Status.action";
+import * as employeesActions  from "../../../Redux/Actions/Employees";
 
 function ConfirmDeleteStatus(props) {
   
   const dispatch = useDispatch();
-  const { handleDeleteMainGroup} =props
-  const isOpenConfirmDelete = useSelector((state)=> state.statusSlice.isOpenConfirmDelete)
+  const { handleDelete} = props
+  const isOpenConfirmDelete = useSelector((state)=> state.employeesSlice.isOpenConfirmDelete)
 
   const handleOk = () => {
-      handleDeleteMainGroup()
+    handleDelete()
   };
 
   const handleCancel = () => {
-    dispatch(statusActions.closeConfirmDelete())
+    dispatch(employeesActions.setModalDelete(false))
   };
 
   return (

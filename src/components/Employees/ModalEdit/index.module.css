@@ -3,6 +3,33 @@
     width: 100%;
     justify-content: space-between;
 }
+.employeeInfo{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+ 
+}
+.modal{
+  width: 76% !important;
+}
+.employeeInfo>div{
+  width: 25%;
+  margin-bottom: 2%;
+}
+.container{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.divInput{
+  width: 100% !important;
+}
+.divInput>*{
+  width: 100%;
+}
+.errRequired{
+  color: red;
+}
 .title{
   font-weight: 700;
   font-size: 20px;
