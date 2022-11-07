@@ -111,6 +111,4 @@ function Filtering(props) {
   )
 }
 
-
-
 export default Filtering
