@@ -1,4 +1,4 @@
-import React, {memo} from 'react'
+import React from 'react'
 import {Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from "./index.module.css"
@@ -22,7 +22,7 @@ function ConfirmDeleteStatus(props) {
     <>
       <Modal 
           title={'Bạn muốn xóa ?'} 
-          visible={isOpenConfirmDelete} 
+          open={isOpenConfirmDelete} 
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}

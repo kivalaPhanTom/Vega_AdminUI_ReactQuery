@@ -76,7 +76,6 @@ const initialState = {
             pageSize: PAGINATION_DEFAULT.pageSize,
       }
 }
-const initialStateClone = JSON.parse(JSON.stringify(initialState))
 
 function getBySocket(socket){
       return new Promise(resolve => {
@@ -101,6 +100,7 @@ function* fetchchListBySocket(socket){
 function handleEmitSearchEmployee(data){ 
       data.socket.emit("fetchEmployee", data.pagination )
 }
+
 function*  handleCreateStatus(params){
       const { socket, pagination} = params
       let { data } = params
@@ -123,50 +123,76 @@ function*  handleCreateStatus(params){
                         publicID: resImg.data.public_id
                   }
                   delete  data.fileList; 
-                  const res = yield call(Service.createEmployee, data);
-                  const  resultSignal = res.data.result
-                  switch (resultSignal) {
-                        case RESULT_STATUS.SUCCESS:
-                              yield fork(handleEmitSearchEmployee, dataSocket)
-                              yield put(actionLoading.closeLoading({}))
-                              yield put(actionEmployees.createSuccess(ln.messageModule.CREATE_EMPLOYEE_SUCCESS))
-                              yield put(actionEmployees.resetData({}));
-                              yield put(actionEmployees.setModalAdd(false));
-                              break;
-                        case RESULT_STATUS.ERROR:
-                              yield put(actionLoading.closeLoading({}))
-                              yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
-                              break;
-                        case RESULT_STATUS.DATA_EXIST: 
-                              const timestamp = new Date().getTime()
-                              const formData1 = new FormData();
-                              const publicID = resImg.data.public_id
-                              const string = `public_id=${publicID}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`
-                              function hashStringBySha1(data){
-                                    return sha1(string)
-                              }
-                              const signature = yield call(hashStringBySha1,'');
-                              formData1.append("public_id", publicID)
-                              formData1.append("signature", signature)
-                              formData1.append("api_key", CLOUDINARY_API_KEY)
-                              formData1.append("timestamp",timestamp)
-                              try {
-                                  yield call(Service.deleteImage, formData1);  
-                              } catch (error) {
-                                  console.log("error:",error)
-                              }
-                              yield put(actionLoading.closeLoading({}))
-                              yield put(actionEmployees.createFail(ln.messageModule.EMPLOYEE_CODE_EXIST))
-                              break;
-                        default:
-                              break;
-            }
+                  try { //bắt lỗi nếu lỗi khi lưu data xuống server
+                        const res = yield call(Service.createEmployee, data);
+                        const  resultSignal = res.data.result
+                        switch (resultSignal) {
+                              case RESULT_STATUS.SUCCESS:
+                                    yield fork(handleEmitSearchEmployee, dataSocket)
+                                    yield put(actionLoading.closeLoading({}))
+                                    yield put(actionEmployees.createSuccess(ln.messageModule.CREATE_EMPLOYEE_SUCCESS))
+                                    yield put(actionEmployees.resetData({}));
+                                    yield put(actionEmployees.setModalAdd(false));
+                                    break;
+                              case RESULT_STATUS.ERROR:
+                                    yield put(actionLoading.closeLoading({}))
+                                    yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
+                                    break;
+                              case RESULT_STATUS.DATA_EXIST: 
+                                    // -- xóa ảnh cũ trên cloudinary --
+                                    const timestamp = new Date().getTime()
+                                    const formData1 = new FormData();
+                                    const publicID = resImg.data.public_id
+                                    const string = `public_id=${publicID}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`
+                                    function hashStringBySha1(data){
+                                          return sha1(string)
+                                    }
+                                    const signature = yield call(hashStringBySha1,'');
+                                    formData1.append("public_id", publicID)
+                                    formData1.append("signature", signature)
+                                    formData1.append("api_key", CLOUDINARY_API_KEY)
+                                    formData1.append("timestamp",timestamp)
+                                    try {
+                                        yield call(Service.deleteImage, formData1);  
+                                    } catch (error) {
+                                        console.log("error:",error)
+                                    }
+                                    // -- xóa ảnh cũ trên cloudinary --
+      
+                                    yield put(actionLoading.closeLoading({}))
+                                    yield put(actionEmployees.createFail(ln.messageModule.EMPLOYEE_CODE_EXIST))
+                                    break;
+                              default:
+                                    break;
+                        }
+                  } catch (error) {
+                        // -- xóa ảnh cũ trên cloudinary --
+                        const timestamp = new Date().getTime()
+                        const formData1 = new FormData();
+                        const publicID = resImg.data.public_id
+                        const string = `public_id=${publicID}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`
+                        function hashStringBySha1(data){
+                              return sha1(string)
+                        }
+                        const signature = yield call(hashStringBySha1,'');
+                        formData1.append("public_id", publicID)
+                        formData1.append("signature", signature)
+                        formData1.append("api_key", CLOUDINARY_API_KEY)
+                        formData1.append("timestamp",timestamp)
+                        try {
+                             yield call(Service.deleteImage, formData1);  
+                        } catch (error) {
+                             console.log("error:",error)
+                        }
+                        // -- xóa ảnh cũ trên cloudinary --
+                        yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
+                  }
             } catch (error) {
                   MessageCommon.openNotificationError('Có lỗi xảy ra trong quá trình tải ảnh lên server. Vui lòng thử lại!')
             }           
-         } catch (error) {
+      } catch (error) {
             yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
-         }
+      }
 }
 
 
@@ -181,7 +207,6 @@ function*  handleEditEmployee(params){
       try {
             yield put(actionLoading.loading({}))
             if(cacheDataEdit.Avatar.uid !== data.fileList[0].uid){ //nếu ảnh có thay đổi
-                  console.log("thay đổi ảnh")
                   const formData = new FormData();
                   formData.append('file', data.fileList[0].originFileObj);
                   formData.append('upload_preset', 'vegaImage');
@@ -260,33 +285,54 @@ function*  handleEditEmployee(params){
                               break;
                   }
             }
-         } catch (error) {
+      } catch (error) {
             yield put(actionEmployees.createFail(ln.messageModule.CREATE_EMPLOYEE_FAIL))
-         }
+      }
 }
 
-function* handleDeleteEmployee(params){ //dangcode
-      const { socket, data, dataImg, pagination} = params
-      const dataSocket ={
+function* handleDeleteEmployee(params){
+      const { socket, data, dataImg, pagination } = params
+      const dataSocket = {
             socket,
             pagination
       }
-      // try {
-      //       yield put(actionLoading.loading({}))
-      //       const res = yield call(Service.deleteEmployee, data);
-      //       if(res.data.result === RESULT_STATUS.SUCCESS ){
-      //             yield fork(handleEmitSearchEmployee, dataSocket)
-      //             yield put(actionEmployees.deleteDataSuccess(ln.messageModule.DELETE_EMPLOYEE_SUCCESS))
-      //             yield put(actionLoading.closeLoading({}))
-      //             yield put(actionEmployees.setModalDelete(false))
-      //       }else{
-      //             yield put(actionLoading.closeLoading({}))
-      //             yield put(actionEmployees.createFail(ln.messageModule.DELETE_EMPLOYEE_FAIL))   
-      //       }
+      try {
+            yield put(actionLoading.loading({}))
+            const res = yield call(Service.deleteEmployee, data);
+            if(res.data.result === RESULT_STATUS.SUCCESS ){
+                  // -- xóa ảnh cũ trên cloudinary --
+                  for(let i = 0; i < dataImg.length; i++){
+                        const timestamp = new Date().getTime()
+                        const formData1 = new FormData();
+                        const publicID = dataImg[i]
+                        const string = `public_id=${publicID}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`
+                        function hashStringBySha1(data){
+                              return sha1(string)
+                        }
+                        const signature = yield call(hashStringBySha1,'');
+                        formData1.append("public_id", publicID)
+                        formData1.append("signature", signature)
+                        formData1.append("api_key", CLOUDINARY_API_KEY)
+                        formData1.append("timestamp",timestamp)
+                        try {
+                              yield call(Service.deleteImage, formData1);  
+                        } catch (error) {
+                              console.log("error:",error)
+                        } 
+                  }
+                  // -- xóa ảnh cũ trên cloudinary --
+                  yield fork(handleEmitSearchEmployee, dataSocket)
+                  yield put(actionEmployees.deleteDataSuccess(ln.messageModule.DELETE_EMPLOYEE_SUCCESS))
+                  yield put(actionLoading.closeLoading({}))
+                  yield put(actionEmployees.setModalDelete(false))
+            }else{
+                  yield put(actionLoading.closeLoading({}))
+                  yield put(actionEmployees.createFail(ln.messageModule.DELETE_EMPLOYEE_FAIL))   
+            }
             
-      // } catch (error) {
-            //yield put(actionEmployees.createFail(ln.messageModule.DELETE_EMPLOYEE_FAIL))   
-      // }
+      } catch (error) {
+            yield put(actionEmployees.createFail(ln.messageModule.DELETE_EMPLOYEE_FAIL))   
+      }
 }
 
 function* handleSocketCreateEmployee(action){
@@ -359,13 +405,8 @@ function* deleteEmployee() {
 function* searchAndPaginationStatus() {
       yield takeEvery(actionEmployees.searchAndPaginationData, handleSearchAndPaginationStatus);
 }
-// function* onFetchMainGroupListBySocket() {
-//       const socket = yield call(connect)
-//       yield fork(handleEmitSearchMainGroup, socket)
-//       yield fork(fetchchMainGroupListBySocket, socket)
-// }
-
 ///////
+
 export function* employeesSagaList() {
       yield all([
             fetchListDataBySocket(),

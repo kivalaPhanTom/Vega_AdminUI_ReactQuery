@@ -16,33 +16,27 @@ function ModalAdd(props) {
     const pagination = useSelector((state)=> state.employeesSlice.pagination)
     const { employeeID, user_name, Role, birthDate, address, CMND, phone, workingAddress,  user_password, user_email,
         keysearch, Avatar, status, workingDay, stopWorkingDay }= data
-    // const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
     const [fileList, setFileList] = useState([]);
+    const [errRequiredEmployeeID, setErrRequiredEmployeeID] = useState(false);
+    const [errRequiredFullName, setErrRequiredFullName] = useState(false);
+    const [errRequiredRole, setErrRequiredRole] = useState(false);
+    const [errRequiredPassword, setErrRequiredPassword] = useState(false);
+    const [errRequiredEmail, setErrRequiredEmail] = useState(false);
+    const [errRequiredBirthDay, setErrRequireddBirthDay] = useState(false);
+    const [errRequiredCMND, setErrRequireddCMND] = useState(false);
+    const [errRequiredPhone, setErrRequiredPhone] = useState(false);
+    const [errRequiredStartWorkingDay, setErrRequiredStartWorkingDay] = useState(false);
+    const [errRequiredEndWorkingDay, setErrRequiredEndWorkingDay] = useState(false);
+    const [errRequiredAddress, setErrRequiredAddress] = useState(false);
+    const [errRequiredWorkingAddress, setErrRequiredWorkingAddress] = useState(false);
+    const [errRequiredAvatar, setErrRequiredAvatar] = useState(false);
 
-   const [errRequiredEmployeeID, setErrRequiredEmployeeID] = useState(false);
-   const [errRequiredFullName, setErrRequiredFullName] = useState(false);
-   const [errRequiredRole, setErrRequiredRole] = useState(false);
-   const [errRequiredPassword, setErrRequiredPassword] = useState(false);
-   const [errRequiredEmail, setErrRequiredEmail] = useState(false);
-   const [errRequiredBirthDay, setErrRequireddBirthDay] = useState(false);
-   const [errRequiredCMND, setErrRequireddCMND] = useState(false);
-   const [errRequiredPhone, setErrRequiredPhone] = useState(false);
-   const [errRequiredStartWorkingDay, setErrRequiredStartWorkingDay] = useState(false);
-   const [errRequiredEndWorkingDay, setErrRequiredEndWorkingDay] = useState(false);
-   const [errRequiredAddress, setErrRequiredAddress] = useState(false);
-   const [errRequiredWorkingAddress, setErrRequiredWorkingAddress] = useState(false);
-   const [errRequiredAvatar, setErrRequiredAvatar] = useState(false);
+    useEffect(() => {
+        if(isOpenAdd === false){
+            setFileList([])
+        }
+    }, [isOpenAdd]);
 
-   useEffect(() => {
-    if(isOpenAdd === false){
-        setFileList([])
-    }
-  }, [isOpenAdd]);
-
-    // useEffect(()=>{ 
-    //     setFileList([])
-    // },[])
-    console.log("fileList:",fileList)
     const handleOk = async() => {
 
         if(employeeID.trim() === ""){
@@ -145,7 +139,6 @@ function ModalAdd(props) {
     const handleCancel = () => {
         dispatch(employeesActions.setModalAdd(false))
         dispatch(employeesActions.resetData({}))
-
         setErrRequiredEmployeeID(false)
         setErrRequiredFullName(false)
         setErrRequiredPassword(false)
@@ -157,8 +150,7 @@ function ModalAdd(props) {
         setErrRequiredEndWorkingDay(false)
         setErrRequiredAddress(false)
         setErrRequiredWorkingAddress(false)
-        setErrRequiredAvatar(false)
-        
+        setErrRequiredAvatar(false) 
     };
     
     const handleCancelData =()=>{
@@ -168,6 +160,7 @@ function ModalAdd(props) {
         dispatch(employeesActions.setModalAdd(false))
         dispatch(employeesActions.updateDataInput(dataClone))
     }
+
     const handleChangeCode =(e)=>{
         let dataClone = {...data}
         dataClone.employeeID= e.target.value
@@ -188,12 +181,13 @@ function ModalAdd(props) {
         }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
+
     const handleChangeRole =(e)=>{
         let dataClone = {...data}
         dataClone.Role= e.target.value
-        
         dispatch(employeesActions.updateDataInput(dataClone))
     }
+
     const handleChangePassword =(e)=>{ 
         let dataClone = {...data}
         dataClone.user_password= e.target.value
@@ -204,6 +198,7 @@ function ModalAdd(props) {
         }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
+
     const handleChangeEmail =(e)=>{ 
         let dataClone = {...data}
         dataClone.user_email= e.target.value
@@ -238,6 +233,7 @@ function ModalAdd(props) {
         }
         dispatch(employeesActions.updateDataInput(dataClone))
     }
+
     const handleChangeAddress =(e)=>{ 
         let dataClone = {...data}
         dataClone.address = e.target.value.trim()
@@ -303,195 +299,195 @@ function ModalAdd(props) {
             setErrRequiredAvatar(true)
         }
     }
+    
+    return (
+        <>
+            <Modal 
+                title={<span className={styles['title']}>Thêm nhân viên</span>} 
+                className={styles['modal']}
+                open={isOpenAdd} 
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={[
+                        <button key="cancel" onClick={handleCancelData} className={styles['btn_cancel']}>
+                            Hủy
+                        </button>,
+                        <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
+                            Lưu
+                        </button>,
+                ]}
+            >
+                <div>
+                    <div className={styles['employeeInfo']}>
 
-  return (
-    <>
-      <Modal 
-          title={<span className={styles['title']}>Thêm nhân viên</span>} 
-          className={styles['modal']}
-          visible={isOpenAdd} 
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-                <button key="cancel" onClick={handleCancelData} className={styles['btn_cancel']}>
-                    Hủy
-                </button>,
-                <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
-                    Lưu
-                </button>,
-          ]}
-      >
-        <div>
-            <div className={styles['employeeInfo']}>
-
-                <div className={styles['employeeId_field']}>
-                    <div className={styles['container']}>
-                        <span>Mã nhân viên</span>
-                        <div className={styles['divInput']}>
-                            <Input value={employeeID} onChange={handleChangeCode} />
+                        <div className={styles['employeeId_field']}>
+                            <div className={styles['container']}>
+                                <span>Mã nhân viên</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={employeeID} onChange={handleChangeCode} />
+                                </div>
+                                {
+                                    errRequiredEmployeeID ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredEmployeeID ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                <div className={styles['fullName_field']}>
-                    <div className={styles['container']}>
-                        <span>Họ tên đầy đủ</span>
-                        <div className={styles['divInput']}>
-                            <Input value={user_name} onChange={handleChangeName}/>
+                        <div className={styles['fullName_field']}>
+                            <div className={styles['container']}>
+                                <span>Họ tên đầy đủ</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={user_name} onChange={handleChangeName}/>
+                                </div>
+                                {
+                                    errRequiredFullName ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredFullName ? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                {/* <div className={styles['role_field']}>
-                    <div className={styles['container']}>
-                        <span>Vai trò</span>
-                        <div className={styles['divInput']}>
-                            <Input  value = {Role} onChange={handleChangeRole} />
+                        {/* <div className={styles['role_field']}>
+                            <div className={styles['container']}>
+                                <span>Vai trò</span>
+                                <div className={styles['divInput']}>
+                                    <Input  value = {Role} onChange={handleChangeRole} />
+                                </div>
+                                {
+                                    errRequiredRole? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
+                        </div> */}
+
+                        <div className={styles['password_field']}>
+                            <div className={styles['container']}>
+                                <span>Mật khẩu</span>
+                                <div className={styles['divInput']}>
+                                <Input.Password placeholder="input password" value={user_password} onChange={handleChangePassword}/>
+                                </div>
+                                {
+                                    errRequiredPassword? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredRole? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div> */}
 
-                <div className={styles['password_field']}>
-                    <div className={styles['container']}>
-                        <span>Mật khẩu</span>
-                        <div className={styles['divInput']}>
-                          <Input.Password placeholder="input password" value={user_password} onChange={handleChangePassword}/>
+                        <div className={styles['email_field']}>
+                            <div className={styles['container']}>
+                                <span>Email</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={user_email} onChange={handleChangeEmail}/>
+                                </div>
+                                {
+                                    errRequiredEmail? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredPassword? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                <div className={styles['email_field']}>
-                    <div className={styles['container']}>
-                        <span>Email</span>
-                        <div className={styles['divInput']}>
-                            <Input value={user_email} onChange={handleChangeEmail}/>
+                        <div className={styles['birthday_field']}>
+                            <div className={styles['container']}>
+                                <span>Ngày sinh</span>
+                                <div className={styles['divInput']}>
+                                    <DatePicker value ={birthDate !== null ? moment(birthDate) :''} onChange={onChangeBirthDate} format={FORMAT_DATE}/>
+                                </div>  
+                                {
+                                    errRequiredBirthDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredEmail? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                <div className={styles['birthday_field']}>
-                    <div className={styles['container']}>
-                        <span>Ngày sinh</span>
-                        <div className={styles['divInput']}>
-                            <DatePicker value ={birthDate !== null ? moment(birthDate) :''} onChange={onChangeBirthDate} format={FORMAT_DATE}/>
-                        </div>  
-                        {
-                            errRequiredBirthDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
-
-                <div className={styles['cmnd_field']}>
-                    <div className={styles['container']}>
-                        <span>Chứng minh/Căn cước công dân</span>
-                        <div className={styles['divInput']}>
-                            <Input value={CMND} onChange={handleChangeCMND}/>
+                        <div className={styles['cmnd_field']}>
+                            <div className={styles['container']}>
+                                <span>Chứng minh/Căn cước công dân</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={CMND} onChange={handleChangeCMND}/>
+                                </div>
+                                {
+                                    errRequiredCMND? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredCMND? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                <div className={styles['phone_field']}>
-                    <div className={styles['container']}>
-                        <span>Số điện thoại</span>
-                        <div className={styles['divInput']}>
-                            <Input  value={phone} onChange={onChangePhone}/>
+                        <div className={styles['phone_field']}>
+                            <div className={styles['container']}>
+                                <span>Số điện thoại</span>
+                                <div className={styles['divInput']}>
+                                    <Input  value={phone} onChange={onChangePhone}/>
+                                </div>
+                                {
+                                    errRequiredPhone? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredPhone? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
-      
-                <div className={styles['startWorkingDate_field']}>
-                    <div className={styles['container']}>
-                        <span>Ngày vào làm</span>
-                        <div className={styles['divInput']}>
-                            <DatePicker value ={workingDay !== null ? moment(workingDay) :''} onChange={onChangeStartWorkingDate} format={FORMAT_DATE} />
+            
+                        <div className={styles['startWorkingDate_field']}>
+                            <div className={styles['container']}>
+                                <span>Ngày vào làm</span>
+                                <div className={styles['divInput']}>
+                                    <DatePicker value ={workingDay !== null ? moment(workingDay) :''} onChange={onChangeStartWorkingDate} format={FORMAT_DATE} />
+                                </div>
+                                {
+                                    errRequiredStartWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredStartWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
 
-                <div className={styles['endWorkingDate_field']}>
-                    <div className={styles['container']}>
-                        <span>Ngày kết thúc làm</span>
-                        <div className={styles['divInput']}>
-                            <DatePicker value ={stopWorkingDay !== null ? moment(stopWorkingDay) :''} onChange={onChangeEndWorkingDate} format={FORMAT_DATE}/>
+                        <div className={styles['endWorkingDate_field']}>
+                            <div className={styles['container']}>
+                                <span>Ngày kết thúc làm</span>
+                                <div className={styles['divInput']}>
+                                    <DatePicker value ={stopWorkingDay !== null ? moment(stopWorkingDay) :''} onChange={onChangeEndWorkingDate} format={FORMAT_DATE}/>
+                                </div> 
+                                {
+                                    errRequiredEndWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div> 
-                        {
-                            errRequiredEndWorkingDay? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div> 
 
-                <div className={styles['address_field']}>
-                    <div className={styles['container']}>
-                        <span>Địa chỉ</span>
-                        <div className={styles['divInput']}>
-                            <Input value={address} onChange={handleChangeAddress} />
+                        <div className={styles['address_field']}>
+                            <div className={styles['container']}>
+                                <span>Địa chỉ</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={address} onChange={handleChangeAddress} />
+                                </div>
+                                {
+                                    errRequiredAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
                         </div>
-                        {
-                            errRequiredAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
+                        
+                        <div className={styles['workingAddress_field']}>
+                            <div className={styles['container']}>
+                                <span>Trụ sở làm việc</span>
+                                <div className={styles['divInput']}>
+                                    <Input value={workingAddress} onChange={handleChangeWorkingAddress}/>
+                                </div>
+                                {
+                                    errRequiredWorkingAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
+                        </div>
+
+                        <div className={styles['avatar_field']}>
+                            <div className={styles['container']}>
+                                <span>Ảnh</span>
+                                <div className={styles['divInput']}>
+                                    <UploadImage
+                                    number_ImageAllow = {1}
+                                    title = {'Ảnh đại diện'}
+                                    multiple = {false}
+                                    handle_ImageChange = {handle_ImageChange}
+                                    fileList = {fileList}
+                                    setFileList ={setFileList}
+                                    />
+                                </div>
+                                {
+                                    errRequiredAvatar? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
+                                }
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                
-                <div className={styles['workingAddress_field']}>
-                    <div className={styles['container']}>
-                        <span>Trụ sở làm việc</span>
-                        <div className={styles['divInput']}>
-                            <Input value={workingAddress} onChange={handleChangeWorkingAddress}/>
-                        </div>
-                        {
-                            errRequiredWorkingAddress? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
-
-                <div className={styles['avatar_field']}>
-                    <div className={styles['container']}>
-                        <span>Ảnh</span>
-                        <div className={styles['divInput']}>
-                            <UploadImage
-                              number_ImageAllow = {1}
-                              title = {'Ảnh đại diện'}
-                              multiple = {false}
-                              handle_ImageChange = {handle_ImageChange}
-                              fileList = {fileList}
-                              setFileList ={setFileList}
-                            />
-                        </div>
-                        {
-                            errRequiredAvatar? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''
-                        }
-                    </div>
-                </div>
-
-            </div>
-        </div>
-      </Modal>
-    </>
-  )
+            </Modal>
+        </>
+    )
 }
 
 

@@ -4,7 +4,7 @@ import * as ACTION_TYPES from '../ActionTypes/Employees';
 export const updateDataInput = createAction(ACTION_TYPES.UPDATE_INPUT_DATA)
 export const updateDataEdit = createAction(ACTION_TYPES.UPDATE_EDIT_DATA)
 export const setModalAdd = createAction(ACTION_TYPES.SET_ADD)
-export const setModalEdit = createAction(ACTION_TYPES.SET_ADD)
+export const setModalEdit = createAction(ACTION_TYPES.SET_EDIT)
 export const setModalDelete = createAction(ACTION_TYPES.SET_DELETE)
 export const create = createAction(ACTION_TYPES.CREATE)
 export const createSuccess = createAction(ACTION_TYPES.CREATE_SUCCESS)

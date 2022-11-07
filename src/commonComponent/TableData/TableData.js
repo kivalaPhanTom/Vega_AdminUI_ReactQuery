@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react'
 import { Divider, Radio, Table } from 'antd';
 
 function TableData(props) {
-  const {columns, dataRow, handleUpdateSelectedRows, selectedRows, selectedRowKeysProp, handleUpdateSelectedRowsKey, pageCurrent,pageSize} = props
+  const {columns, dataRow, handleUpdateSelectedRows, selectedRows, selectedRowKeysProp, handleUpdateSelectedRowsKey, 
+    pageCurrent,pageSize, width } = props
   
 
   const onSelectChange = (newSelectedRowKeys, selectedRows) => {
@@ -26,6 +27,7 @@ function TableData(props) {
         columns={columns}
         dataSource={dataRow}
         pagination={false}
+        scroll={{ x: width}}
     />
   )
 }

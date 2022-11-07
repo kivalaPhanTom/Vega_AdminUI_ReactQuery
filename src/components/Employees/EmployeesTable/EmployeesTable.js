@@ -8,6 +8,7 @@ import { MethodCommon } from "../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../Common/message";
 import PaginationData from '../../../commonComponent/PaginationData/PaginationData';
+import { Image } from 'antd';
 
 function EmployeesTable(props) {
 
@@ -15,14 +16,27 @@ function EmployeesTable(props) {
       {
         title: 'Mã nhân viên',
         dataIndex: 'employeeID',
+        width: 150,
+        fixed: 'left',
       },
       {
         title: 'Tên nhân viên',
         dataIndex: 'user_name',
+        width: 200,
+        fixed: 'left',
+      },
+      {
+        title: 'Ảnh đại diện',
+        dataIndex: 'Avatar',
+        width: 100,
+        render: (data) => {
+          return <Image alt="" src={data.url}  width={80} height={100}/>
+        }
       },
       {
         title: 'Vai trò',
         dataIndex: 'Role',
+        width: 100,
         render: (data) => {
           let result = ''
           if(data === 0)
@@ -35,10 +49,12 @@ function EmployeesTable(props) {
       {
         title: 'Email',
         dataIndex: 'user_email',
+        width: 200,
       },
       {
         title: 'Ngày sinh',
         dataIndex: 'birthDate',
+        width: 80,
         render: (data) => {
           return <span>{MethodCommon.converTimeStampToDate(data)}</span>
         }
@@ -46,14 +62,17 @@ function EmployeesTable(props) {
       {
         title: 'CMND/CCCD',
         dataIndex: 'CMND',
+        width: 100,
       },
       {
         title: 'Số điện thoại',
         dataIndex: 'phone',
+        width: 170,
       },
       {
         title: 'Ngày vào làm',
         dataIndex: 'workingDay',
+        width: 150,
         render: (data) => {
           return <span>{MethodCommon.converTimeStampToDate(data)}</span>
         }
@@ -61,16 +80,19 @@ function EmployeesTable(props) {
       {
         title: 'Ngày kết thúc làm',
         dataIndex: 'stopWorkingDay',
+        width: 180,
         render: (data) => {
           return <span>{MethodCommon.converTimeStampToDate(data)}</span>
         }
       },
       {
         title: 'Địa chỉ',
+        width: 250,
         dataIndex: 'address',
       },
       {
         title: 'Trụ sở làm việc',
+        width: 250,
         dataIndex: 'workingAddress',
       },
       // {
@@ -119,6 +141,7 @@ function EmployeesTable(props) {
       // },
       {
         title: 'Hành động',
+        width: 180,
         render: (item) => {
           return(
             <div className={styles['icon_actions']}>
@@ -217,7 +240,7 @@ function EmployeesTable(props) {
                         <div className={styles["table_actions"]}>
                             <div className={styles["delete_Action"]} onClick ={handleDelete}>
                                 <AiFillDelete className={styles["icon_action"]}/>
-                                <span className={styles["label_btn"]}>Xoá</span>
+                                <span className={styles["label_btn"]}>Xóa</span>
                             </div>
                             <div className={styles["add_Action"]} onClick={handleAdd}>
                                   <AiFillPlusCircle className={styles["icon_action"]}/>
@@ -235,6 +258,7 @@ function EmployeesTable(props) {
                     selectedRows={selectedRows}
                     selectedRowKeysProp={selectedRowKeys}
                     handleUpdateSelectedRowsKey={handleUpdateSelectedRowsKey}
+                    width = {2500}
                 />
             </div>
         </div>
