@@ -9,7 +9,7 @@ export const Service = {
 };
 const servicePattern = {
     authenticate: "employees/authenticate",
-    login: "employees/login_trandition",
+    login: "login",
     authorization: "employees/authorization"
 };
 

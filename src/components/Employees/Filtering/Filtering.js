@@ -54,7 +54,7 @@ function Filtering(props) {
       </div>
       <Modal 
         title={<span className={styles['title']}>Bộ lọc</span>}  
-        visible={isModalOpen} 
+        open={isModalOpen} 
         onOk={handleOk} 
         onCancel={handleCancel}
         footer={[

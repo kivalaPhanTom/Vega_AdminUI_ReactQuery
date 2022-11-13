@@ -8,8 +8,14 @@ import { RiPlantFill } from "react-icons/ri";
 import { AiOutlineAreaChart } from "react-icons/ai";
 import { BiExit } from "react-icons/bi";
 import { BsPersonBadge, BsSlashSquare } from "react-icons/bs";
-
+// import { API_URL } from '../../config';
+import { API_URL } from '../../config';
 function MenuAdmin(props) {
+    const handleLogOut =()=>{
+        console.log("vào")
+        window.open(`${API_URL}/logout`, "_self");
+    }
+   
     const fakeMenu= [
         {
             name:"Trang chủ",
@@ -48,8 +54,8 @@ function MenuAdmin(props) {
         },
         {
             name:"Thoát",
-            url:'login',
-            icon:<BiExit/>
+            url:'/login',
+            icon:<BiExit onClick={handleLogOut}/>
         }
         
     ]

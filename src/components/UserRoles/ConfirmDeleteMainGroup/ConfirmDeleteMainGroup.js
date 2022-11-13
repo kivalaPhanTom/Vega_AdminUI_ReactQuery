@@ -22,7 +22,7 @@ function ConfirmDeleteMainGroup(props) {
     <>
       <Modal 
           title={'Bạn muốn xóa ?'} 
-          visible={isOpenConfirmDelete} 
+          open={isOpenConfirmDelete} 
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}

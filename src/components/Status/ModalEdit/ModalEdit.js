@@ -47,7 +47,7 @@ function ModalEdit(props) {
         <>
             <Modal 
                 title={<span className={styles['title']}>Sửa trạng thái</span>} 
-                visible={isOpenConfirmEdit} 
+                open={isOpenConfirmEdit} 
                 onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[

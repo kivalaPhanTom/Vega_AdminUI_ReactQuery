@@ -89,7 +89,7 @@ function PopupChangePassword(props) {
     <Modal 
       className={styles['modalChangePassword']}
       title="Đổi mật khẩu" 
-      visible={isPopup} 
+      open={isPopup} 
       onOk={handleOk} 
       okText="Lưu"
       cancelText="Hủy"

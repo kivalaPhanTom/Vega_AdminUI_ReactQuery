@@ -51,7 +51,7 @@ function ModalAdd(props) {
     <>
       <Modal 
           title={<span className={styles['title']}>Thêm trạng thái</span>} 
-          visible={isOpenAddStatus} 
+          open={isOpenAddStatus} 
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[

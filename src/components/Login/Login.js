@@ -10,19 +10,19 @@ import Loading from '../Loading/Loading';
 
 function Login(props) {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('')
+    const [employeeID, setEmployeeID] = useState('')
     const [password, setPassword] = useState('')
-    const [errorEmail, setErrorEmail] = useState(false)
+    const [errorEmployeeID, setErrorEmployeeID] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const {isLoading} = useSelector((state)=> state.loadingSlice)
     // change email
-   const handleChangeEmail =(e)=>{
+   const handleChangeEmployeeID =(e)=>{
         if(e.target.value === ''){
-        setErrorEmail(true)
+          setErrorEmployeeID(true)
         }else{
-        setErrorEmail(false)
+          setErrorEmployeeID(false)
         }
-        setEmail(e.target.value)
+        setEmployeeID(e.target.value)
     }
 
     // change password
@@ -37,10 +37,10 @@ function Login(props) {
     }
       // sign up
   const handleLogin=()=>{
-    if(email === ''){
-      setErrorEmail(true)
+    if(employeeID === ''){
+      setErrorEmployeeID(true)
     }else{
-      setErrorEmail(false)
+      setErrorEmployeeID(false)
     }
 
     if(password === ''){
@@ -49,9 +49,9 @@ function Login(props) {
     else{
       setErrorPassword(false)
     }
-    if(email !== '' && password !== ''){
+    if(employeeID !== '' && password !== ''){
        const payload ={
-        email,
+        employeeID,
         password
        }
        dispatch(loginActions.loginTrandition(payload))
@@ -66,9 +66,9 @@ function Login(props) {
          <div  className={styles['information_login']}>
              <p id={styles['p_login']}>Đăng nhập</p>
              <div>
-               <input id={styles['email']}  placeholder='Email' onChange={(e)=>handleChangeEmail(e)}></input>
-               {errorEmail === true? (
-                  <span className={styles['error']}>Email không được để trống</span>
+               <input id={styles['email']}  placeholder='Mã nhân viên' onChange={(e)=>handleChangeEmployeeID(e)}></input>
+               {errorEmployeeID === true? (
+                  <span className={styles['error']}>Mã nhân viên không được để trống</span>
                 ):''}
              </div>
 

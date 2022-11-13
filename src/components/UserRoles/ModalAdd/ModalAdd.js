@@ -67,7 +67,7 @@ function ModalAdd(props) {
     <>
       <Modal 
           title={<span className={styles['title']}>Thêm nhóm hàng</span>} 
-          visible={isOpenAddMainGroup} 
+          open={isOpenAddMainGroup} 
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[

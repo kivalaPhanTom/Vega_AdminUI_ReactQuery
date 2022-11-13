@@ -41,6 +41,7 @@ function* handleLoginTrandition(action){
               break;
           }
   } catch (error) {
+    yield put(actionLoading.closeLoading({}))
     yield put(actionLogin.loginTranditionFail(ln.messageModule.ERROR_SYSTEM));
   }
   
