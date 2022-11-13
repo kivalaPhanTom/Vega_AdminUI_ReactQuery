@@ -360,7 +360,7 @@ function ModalAdd(props) {
                             <div className={styles['container']}>
                                 <span>Mật khẩu</span>
                                 <div className={styles['divInput']}>
-                                <Input.Password placeholder="input password" value={user_password} onChange={handleChangePassword}/>
+                                <Input.Password value={user_password} onChange={handleChangePassword}/>
                                 </div>
                                 {
                                     errRequiredPassword? <span className={styles['errRequired']}>(*) Bắt buộc nhập</span> : ''

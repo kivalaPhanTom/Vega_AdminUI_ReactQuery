@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     background-color: #60be0461;
+    z-index: 10000000000;
   }
   .section-loading ul.list-bars {
     list-style: none;
@@ -20,7 +21,7 @@
     margin: 0 7px;
     width: 8px;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: white;
     animation: animate 0.8s infinite alternate;
   }
   .section-loading ul.list-bars li:nth-child(odd) {

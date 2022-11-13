@@ -16,13 +16,13 @@ function EmployeesTable(props) {
       {
         title: 'Mã nhân viên',
         dataIndex: 'employeeID',
-        width: 150,
+        width: 100,
         fixed: 'left',
       },
       {
         title: 'Tên nhân viên',
         dataIndex: 'user_name',
-        width: 200,
+        width: 170,
         fixed: 'left',
       },
       {
@@ -54,7 +54,7 @@ function EmployeesTable(props) {
       {
         title: 'Ngày sinh',
         dataIndex: 'birthDate',
-        width: 80,
+        width: 100,
         render: (data) => {
           return <span>{MethodCommon.converTimeStampToDate(data)}</span>
         }

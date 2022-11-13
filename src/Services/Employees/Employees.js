@@ -1,25 +1,21 @@
 import { vegaInstance } from "../AxiosConfig";
-// import { API_URL } from '../../config';
-// import { TIMEOUT, API_URL, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from '../../config';
 import { TIMEOUT, API_URL, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from '../../config';
+
 import axios from 'axios';
 export const Service = {
     createEmployee,
     editEmployee,
     deleteEmployee,
     uploadImage,
-    deleteImage
+    deleteImage,
+    searchAndPagination
 };
 const servicePattern = {
     create: "employees/create",
     delete: "employees/delete",
     edit:"employees/edit",
+    searchAndPagination:"employees/searchAndPagination",
 };
-
-// function forgotPassword(data) {
-//     // return axios.post(`${API_URL}/user/forgot_password`,data)
-//     return vegaInstance.post(servicePattern.forgotPassword, data);
-// }
 
 function createEmployee(data) {
     return vegaInstance.post(servicePattern.create, data);
@@ -35,4 +31,7 @@ function editEmployee(data) {
 }
 function deleteImage(data) {
     return  axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/destroy`, data) 
+}
+function searchAndPagination(data) {
+    return vegaInstance.post(servicePattern.searchAndPagination, data);
 }

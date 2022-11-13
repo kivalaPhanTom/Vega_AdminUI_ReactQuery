@@ -370,9 +370,9 @@ function* handleSocketDeleteEmployee(action){
       yield fork(handleDeleteEmployee,  payload)
 }
 
-function* handleSearchAndPaginationStatus(action){
+function* handleSearchAndPagination(action){
       try {
-         const res = yield call(Service.searchAndPaginationStatus, action.payload);
+         const res = yield call(Service.searchAndPagination, action.payload);
          yield put(actionEmployees.searchAndPaginationDataSuccess(res.data.data));
       }catch (error) {
          yield put(actionEmployees.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
@@ -402,8 +402,8 @@ function* editEmployee() {
 function* deleteEmployee() {
     yield takeEvery(actionEmployees.deleteData, handleSocketDeleteEmployee);
 }
-function* searchAndPaginationStatus() {
-      yield takeEvery(actionEmployees.searchAndPaginationData, handleSearchAndPaginationStatus);
+function* searchAndPagination() {
+      yield takeEvery(actionEmployees.searchAndPaginationData, handleSearchAndPagination);
 }
 ///////
 
@@ -413,7 +413,7 @@ export function* employeesSagaList() {
             deleteEmployee(),
             createEmployee(),
             editEmployee(),
-            searchAndPaginationStatus(),
+            searchAndPagination(),
       ]);   
 }
 
