@@ -9,7 +9,7 @@ import changePasswordSlice from './slices/ChangePassword.slice';
 import mainGroupSlice from './slices/MainGroup.slice';
 import statusSlice from './slices/Status.slice';
 import employeesSlice from './slices/Employees.slice';
-
+import userRoleSlice from './slices/UserRole.slice'
 import rootSaga from "./Sagas/RootSaga";
 let sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
@@ -22,7 +22,8 @@ const allReducer = {
     changePasswordSlice,
     mainGroupSlice,
     statusSlice,
-    employeesSlice
+    employeesSlice,
+    userRoleSlice
   }
 const store = configureStore({
     reducer: allReducer,

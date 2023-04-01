@@ -207,8 +207,8 @@ function* handleFetchListMainGroupBySocket(action){
 ///////////
 function* fetchListDataMaingroupBySocket() {
       yield takeEvery(actionMainGroup.searchMainGroupBySocket, handleFetchListMainGroupBySocket);
-  }
-  export function* createMainGroup() {
+}
+export function* createMainGroup() {
       yield takeEvery(actionMainGroup.createMainGroup, handleSocketCreateMainGroup);
 }
 function* editMainGroup() {
@@ -218,7 +218,7 @@ function* deleteMainGroup() {
     yield takeEvery(actionMainGroup.deleteMainGroup, handleSocketDeleteMainGroup);
 }
 function* searchAndPaginationMainGroup() {
-      yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
+    yield takeEvery(actionMainGroup.searchAndPaginationData, handleSearchAndPaginationMainGroup);
 }
 
 ///////
@@ -335,6 +335,6 @@ const mainGroupSlice = createSlice({
             return newState
       },
     },
-  });
-  const { reducer } = mainGroupSlice;
-  export default reducer;
+});
+const { reducer } = mainGroupSlice;
+export default reducer;

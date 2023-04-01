@@ -1,8 +1,8 @@
 import React, { useState, useEffect, memo } from 'react';
 import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
-import styles from "./index.module.css"
+import styles from "./UserRolesTable.module.scss"
 import { useSelector, useDispatch } from 'react-redux';
-import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
+import * as userRoleActions  from "../../../Redux/Actions/UserRole.action";
 import TableData from '../../../commonComponent/TableData/TableData';
 import { MethodCommon } from "../../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
@@ -106,7 +106,7 @@ function StatusTable(props) {
         pageSize: pagination.pageSize,
         keySearch:''
       }
-      dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
+      // dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -115,11 +115,11 @@ function StatusTable(props) {
         pageSize: page_size,
         keySearch:''
       }
-      dispatch(mainGroupActions.updatePagination({
-        pageCurrent: page_index,
-        pageSize: page_size
-      }))
-      dispatch(mainGroupActions.searchAndPaginationData(data))
+      // dispatch(mainGroupActions.updatePagination({
+      //   pageCurrent: page_index,
+      //   pageSize: page_size
+      // }))
+      // dispatch(mainGroupActions.searchAndPaginationData(data))
     }
 
     const handleConfirmEditItem =(item)=>{
@@ -130,13 +130,13 @@ function StatusTable(props) {
           isActive: item.mainGroupIsActive,
           note: item.mainGroupNote
       }
-      dispatch(mainGroupActions.updateDataEdit(dataEdit))
-      dispatch(mainGroupActions.openConfirmEdit())
+      // dispatch(mainGroupActions.updateDataEdit(dataEdit))
+      // dispatch(mainGroupActions.openConfirmEdit())
     }
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
-      dispatch(mainGroupActions.openConfirmDelete())
+      // dispatch(mainGroupActions.openConfirmDelete())
     } 
 
     const handleUpdateSelectedRows =(values)=>{
@@ -149,14 +149,14 @@ function StatusTable(props) {
 
     const handleDelete=()=>{
         if(selectedRows.length > 0 ){
-          dispatch(mainGroupActions.openConfirmDelete())
+          // dispatch(mainGroupActions.openConfirmDelete())
         }else{
           MessageCommon.openNotificationError("Vui lòng chọn dữ liệu")
         }
     }
 
     const handleAdd=()=>{
-      dispatch(mainGroupActions.openModalAddMainGroup({}))
+      dispatch(userRoleActions.setModalAdd(true))
     }
   
     return (
