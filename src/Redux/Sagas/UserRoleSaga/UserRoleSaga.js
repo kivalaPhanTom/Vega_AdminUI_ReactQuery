@@ -172,12 +172,25 @@ function* handleSocketEditUserRole(action){
 function* editUserRoleSaga() {
     yield takeEvery(actionUserRole.edit, handleSocketEditUserRole);
 }
+
+function* handleSearchAndPaginationUserRoleToServer(action){
+    try {
+       const res = yield call(Service.searchAndPaginationUserRole, action.payload);
+       yield put(actionUserRole.searchAndPaginationDataSuccess(res.data.data));
+    }catch (error) {
+       yield put(actionUserRole.searchAndPaginationDataFailed(ln.messageModule.ERROR_SYSTEM));
+    }
+}
+
+function* searchAndPaginationUserRoleSaga() {
+    yield takeEvery(actionUserRole.searchAndPaginationData, handleSearchAndPaginationUserRoleToServer);
+}
 export function* userRoleSagaList() {
     yield all([
         fetchListDataUserRoleBySocket(),
         deleteUserRoleSaga(),
         createUserRoleSaga(),
         editUserRoleSaga(),
-        //   searchAndPaginationMainGroup(),
+        searchAndPaginationUserRoleSaga(),
     ]);   
 }

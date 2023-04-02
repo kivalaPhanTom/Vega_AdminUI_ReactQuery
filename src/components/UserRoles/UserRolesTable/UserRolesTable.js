@@ -9,8 +9,12 @@ import { FaPen, FaTrash } from "react-icons/fa";
 import { MessageCommon } from "../../../Common/message";
 import PaginationData from '../../../commonComponent/PaginationData/PaginationData';
 
-function StatusTable(props) {
-
+function UserRolesTable(props) {
+    const dispatch = useDispatch();
+    const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys, keySearch } = props
+    const userRoleList = useSelector((state)=> state.userRoleSlice.userRoleList)
+    const totalData = useSelector((state)=> state.userRoleSlice.totalData)
+    const pagination = useSelector((state)=> state.userRoleSlice.pagination)
     const columns = [
       {
         title: 'Mã vai trò',
@@ -76,17 +80,12 @@ function StatusTable(props) {
         },
       },
     ];
-    const dispatch = useDispatch();
-    const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const userRoleList = useSelector((state)=> state.userRoleSlice.userRoleList)
-    const totalData = useSelector((state)=> state.userRoleSlice.totalData)
-    const pagination = useSelector((state)=> state.userRoleSlice.pagination)
-
+    
     useEffect(() => {
       const dataSocket = {
         pageCurrent: pagination.pageCurrent,
         pageSize: pagination.pageSize,
-        keySearch:''
+        keySearch:keySearch
       }
       dispatch(userRoleActions.searchBySocket(dataSocket))
     },[])
@@ -95,13 +94,13 @@ function StatusTable(props) {
       const data = {
         pageCurrent: page_index,
         pageSize: page_size,
-        keySearch:''
+        keySearch:keySearch
       }
-      // dispatch(mainGroupActions.updatePagination({
-      //   pageCurrent: page_index,
-      //   pageSize: page_size
-      // }))
-      // dispatch(mainGroupActions.searchAndPaginationData(data))
+      dispatch(userRoleActions.updatePagination({
+        pageCurrent: page_index,
+        pageSize: page_size
+      }))
+      dispatch(userRoleActions.searchAndPaginationData(data))
     }
 
     const handleConfirmEditItem =(item)=>{
@@ -182,4 +181,4 @@ function StatusTable(props) {
       </>
     )
 }
-export default memo(StatusTable)
+export default memo(UserRolesTable)

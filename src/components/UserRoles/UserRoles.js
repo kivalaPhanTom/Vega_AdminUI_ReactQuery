@@ -10,13 +10,13 @@ import Filtering from './Filtering/Filtering';
 import Notify from '../Notify/Notify';
 import ConfirmDeleteUserRole from './ConfirmDeleteUserRole/ConfirmDeleteUserRole';
 
-
 function UserRoles(props) {
   const dispatch = useDispatch();
   const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  
+  const [keySearch, setKeySearch] = useState('')
+
   const handleSetSelectedRows =(value)=>{
     setSelectedRows(value)
   }
@@ -36,7 +36,7 @@ function UserRoles(props) {
     <div className={styles["tableUserRole_area"]}>
          <div className={styles["search_and_notify"]}>
                <div className={styles["search_and_notify_container"]}>
-                    <Search/>
+                    <Search keySearch={keySearch} setKeySearch = {setKeySearch}/>
                     <Filtering/>
                     <ModalAdd/>
                     <div className={styles["notify"]}>
@@ -52,6 +52,7 @@ function UserRoles(props) {
                    selectedRowKeys={selectedRowKeys}
                    handleSetSelectedRows={handleSetSelectedRows}
                    handleSetSelectedRowKeys={handleSetSelectedRowKeys}
+                   keySearch = {keySearch}
                 />
             </div>     
          </div>
