@@ -3,9 +3,12 @@ import { MethodCommon } from "../../Common/methods";
 import { useSelector, useDispatch } from 'react-redux';
 import * as authorizationActions  from "../../Redux/Actions/Authorization";
 import { USER_ROLE,METHOD_LOGIN } from "../../Common/Common_Parameter";
-import styles from "./css/index.module.css"
+import styles from "./css/LayoutAdmin.module.scss"
 import MenuAdmin from '../MenuAdmin/MenuAdmin';
 import Loading from '../Loading/Loading';
+import SearchInput from './SearchInput/SearchInput';
+import Notify from '../Notify/Notify';
+import Filtering from './Filtering/Filtering';
 
 function LayoutAdmin(props) {
   const {component_ui} =props
@@ -43,7 +46,7 @@ function LayoutAdmin(props) {
 
           </div>
           <div className={styles['mainContent']}>
-              {component_ui}
+            {component_ui}
           </div>
           
       </div>

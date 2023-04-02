@@ -1,0 +1,55 @@
+.layoutAdmin{
+    width: 100%;
+    background-color: #f1f4fb;
+    min-height: 100vh;
+}
+.menuAdminLeft{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 16%;
+}
+.componentRight{
+    /* background-color: red; */
+    width: 100%;
+}
+.componentRight{
+    width: 100%;
+    display: flex;
+}
+.emptyLeft{
+    width: 16%;
+}
+.mainContent{
+    width: 84%;
+}
+
+
+
+.mainContent{
+    padding-top: 2%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+// .search_and_notify{
+//     width: 100%;
+// }
+// .search_and_notify_container{
+//     width: 25%;
+//     float: right;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin-right: 5%;
+// }
+// .notify{
+//     position: relative;
+//     width: 25px;
+//     height: 25px;
+// }
+// .mainContent{
+//     width: 90%;
+//     margin-left: auto;
+//     margin-right: auto;
+// }

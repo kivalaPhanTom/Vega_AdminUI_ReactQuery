@@ -1,12 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
+// import * as statusActions  from "../../../Redux/Actions/Status.action";
+import * as employeesActions  from "../../../Redux/Actions/Employees";
 import { PAGINATION_DEFAULT } from "../../../Common/Common_Parameter";
 import { useDispatch } from 'react-redux';
 import SearchData from '../../SearchData/SearchData';
-import * as userRoleActions  from "../../../Redux/Actions/UserRole.action";
 
-function Search(props) {
-    const {keySearch, setKeySearch} = props
+function SearchInput(props) {
     const dispatch = useDispatch();
+    const [keySearch, setKeySearch] = useState('')
     
     const handkeSetKeySearch =(value)=>{
       setKeySearch(value)
@@ -22,11 +23,11 @@ function Search(props) {
           pageSize: page_size,
           keySearch: keySearch
         }
-        dispatch(userRoleActions.updatePagination({
+        dispatch(employeesActions.updatePagination({
           pageCurrent: page_index,
           pageSize: page_size
         }))
-        dispatch(userRoleActions.searchAndPaginationData(data))   
+        dispatch(employeesActions.searchAndPaginationData(data))
     }
 
     return (
@@ -38,4 +39,4 @@ function Search(props) {
     )
 }
 
-export default Search
+export default SearchInput
