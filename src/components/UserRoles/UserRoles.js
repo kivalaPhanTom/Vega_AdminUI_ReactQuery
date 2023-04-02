@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import styles from "./css/index.module.css"
+import styles from "./css/UserRoles.module.scss"
 import ModalAdd from './ModalAdd/ModalAdd';
 import * as userRoleActions  from "../../Redux/Actions/UserRole.action";
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { MethodCommon } from "../../Common/methods";
 import { FaPen, FaTrash } from "react-icons/fa";
 import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 import { MessageCommon } from "../../Common/message";
+import Filtering from './Filtering/Filtering';
 
 function UserRoles(props) {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ function UserRoles(props) {
   const userRoleList = useSelector((state)=> state.userRoleSlice.userRoleList)
   const totalData = useSelector((state)=> state.userRoleSlice.totalData)
   const pagination = useSelector((state)=> state.userRoleSlice.pagination)
+  const isOpenModalFiltering = useSelector((state)=> state.userRoleSlice.isOpenModalFiltering)
+
   const columns = [
       {
         title: 'Mã vai trò',
@@ -153,6 +156,9 @@ function UserRoles(props) {
   const setOpenModalAdd=()=>{
       dispatch(userRoleActions.setModalAdd(true))
   }
+  const handleSetOpenModalFiltering =(value)=>{
+    dispatch(userRoleActions.setModalFiltering(value))
+  }
   return (
     <>
       <MainContain
@@ -170,11 +176,17 @@ function UserRoles(props) {
         handleChangePagination = {handleChangePagination}
         handlSetConfirmDelete = {handlSetConfirmDelete}
         setOpenModalAdd = {setOpenModalAdd}
+        isOpenModalFitltering = {isOpenModalFiltering}
+        setModalFitlering = {handleSetOpenModalFiltering}
       />
       <ModalAdd/>
       <ModalEdit/>
       <ConfirmDeleteUserRole 
            handleConfirmDelete = {handleConfirmDelete}
+      />
+      <Filtering 
+        isOpenModalFitltering = {isOpenModalFiltering}
+        setModalFitlering = {handleSetOpenModalFiltering}
       />
     </>
    

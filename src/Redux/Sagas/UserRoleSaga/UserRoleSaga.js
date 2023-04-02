@@ -30,7 +30,7 @@ function*  handleCreateUserRoleToServer(params){
                       break;
                 case RESULT_STATUS.DATA_EXIST:
                       yield put(actionLoading.closeLoading({}))
-                      yield put(actionUserRole.createFail('Tạo vai trò thất bại'))
+                      yield put(actionUserRole.createFail('Dữ liệu đã tồn tại'))
                       break;
                 default:
                       break;

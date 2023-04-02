@@ -6,9 +6,6 @@ import { USER_ROLE,METHOD_LOGIN } from "../../Common/Common_Parameter";
 import styles from "./css/LayoutAdmin.module.scss"
 import MenuAdmin from '../MenuAdmin/MenuAdmin';
 import Loading from '../Loading/Loading';
-import SearchInput from './SearchInput/SearchInput';
-import Notify from '../Notify/Notify';
-import Filtering from './Filtering/Filtering';
 
 function LayoutAdmin(props) {
   const {component_ui} =props

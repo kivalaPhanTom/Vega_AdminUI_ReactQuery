@@ -29,10 +29,6 @@ function ModalEdit(props) {
         data.UpdatedDate = MethodCommon.getTimeStampNow()
         dispatch(userRoleActions.edit({data, pagination}))
     };
-
-    const handleCancel = () => {
-        dispatch(userRoleActions.setConfirmEdit(false))
-    };
     
     const handleCancelData =()=>{
         dispatch(userRoleActions.setConfirmEdit(false))
@@ -49,7 +45,6 @@ function ModalEdit(props) {
             title = {'Sửa vai trò'}
             isOpen = {isOpenConfirmEdit}
             handleOk = {handleOk}
-            handleCancel = {handleCancel}
             handleCancelData = {handleCancelData}
         >
             <div className={styles['modal']}>

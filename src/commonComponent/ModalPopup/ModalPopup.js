@@ -4,12 +4,13 @@ import { Button, Modal } from 'antd';
 // import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
 // import { MethodCommon } from "../../../Common/methods";
 import styles from './ModalPopup.module.scss'
+import { AiOutlineClose } from "react-icons/ai";
 // import { Input } from 'antd';
 // import { Switch } from 'antd';
 // const { TextArea } = Input;
 
 function ModalPopup(props) {
-    const {title, isOpen, handleOk, handleCancel, handleCancelData} = props
+    const {title, isOpen, handleOk, handleCancelData} = props
     // const dispatch = useDispatch();
     // const isOpenAddMainGroup = useSelector((state)=> state.mainGroupSlice.isOpenAddMainGroup)
     // const data = useSelector((state)=> state.mainGroupSlice.data)
@@ -71,7 +72,7 @@ function ModalPopup(props) {
           title={<span className={styles['title']}>{title}</span>} 
           open={isOpen} 
           onOk={handleOk}
-          onCancel={handleCancel}
+          closeIcon = {<AiOutlineClose  onClick={handleCancelData}/>}
           footer={[
                 <button key="cancel" onClick={handleCancelData} className={styles['btn_cancel']}>
                     Hủy

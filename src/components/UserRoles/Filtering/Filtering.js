@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import { BiFilterAlt } from "react-icons/bi";
-import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
+import styles from "./Filtering.module.scss"
 import { Select } from 'antd';
+import ModalPopup from '../../../commonComponent/ModalPopup/ModalPopup';
 
 const options = [];
 
@@ -15,21 +15,20 @@ for (let i = 10; i < 36; i++) {
 }
 
 function Filtering(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
- 
+  const {isOpenModalFitltering, setModalFitlering} = props
 
- const showModal = () => {
-   setIsModalOpen(true);
- };
+
+//  const showModal = () => {
+//    setIsModalOpen(true);
+//  };
 
  const handleOk = () => {
-   setIsModalOpen(false);
+  //  setIsModalOpen(false);
  };
 
- const handleCancel = () => {
-   setIsModalOpen(false);
- };
+ const handleCancelData =()=>{
 
+ }
  const [value, setValue] = useState(['a10', 'c12', 'h17', 'j19', 'k20'])
  const selectProps = {
   mode: 'multiple',
@@ -46,76 +45,50 @@ function Filtering(props) {
 };
   return (
     <>
-      <div className={styles['settingArea']}>
-        <BiFilterAlt 
-         className={styles['iconSettings']}
-         onClick={showModal}
-        />
-      </div>
-      <Modal 
-        title={<span className={styles['title']}>Bộ lọc</span>}  
-        open={isModalOpen} 
-        onOk={handleOk} 
-        onCancel={handleCancel}
-        footer={[
-          <button key="cancel" onClick={handleCancel} className={styles['btn_cancel']}>
-              Hủy
-          </button>,
-          <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
-              Lưu
-          </button>,
-    ]}
+      <ModalPopup 
+          title = {'Điều kiện lọc'}
+          isOpen = {isOpenModalFitltering}
+          handleOk = {handleOk}
+          handleCancelData = {handleCancelData}
       >
-        <div className={styles['modal_filtering']}>
+          <div className={styles['modal']}>
+              <div className={styles['createdUser']}>
+                <div className={styles['itemcontainer']}>
+                  <span>Người tạo</span>
+                  <Select 
+                    {...selectProps}
+                  />
+                </div>
+              </div>
 
-           <div className={styles['status']}>
-            <div className={styles['statusContainer']}>
-              <span>Trạng thái</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
+              <div className={styles['updatedUser']}>
+                <div className={styles['itemcontainer']}>
+                  <span>Người cập nhật</span>
+                  <Select 
+                    {...selectProps}
+                  />
+                </div>
+              </div>
+              
+              <div className={styles['createdDate']}>
+                <div className={styles['itemcontainer']}>
+                  <span>Ngày tạo</span>
+                  <Select 
+                    {...selectProps}
+                  />
+                </div>
+              </div>
 
-           <div className={styles['createdUser']}>
-            <div className={styles['createdUserContainer']}>
-              <span>Người tạo</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
-
-           <div className={styles['updatedUser']}>
-            <div className={styles['updatedUserContainer']}>
-              <span>Người cập nhật</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
-           
-           <div className={styles['createdDate']}>
-            <div className={styles['createdDateContainer']}>
-              <span>Ngày tạo</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
-
-           <div className={styles['updatedDate']}>
-            <div className={styles['updatedDateContainer']}>
-              <span>Ngày cập nhật</span>
-              <Select 
-                {...selectProps}
-              />
-            </div>
-           </div>
-
-        </div>
-        
-      </Modal>
+              <div className={styles['updatedDate']}>
+                <div className={styles['itemcontainer']}>
+                  <span>Ngày cập nhật</span>
+                  <Select 
+                    {...selectProps}
+                  />
+                </div>
+              </div>
+          </div>
+      </ModalPopup>
     </>
   )
 }

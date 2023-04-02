@@ -1,12 +1,7 @@
-// import { call, put, takeEvery, fork, all} from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-// import { Service } from '../../Services/MainGroup/MainGroup'
-// import connect from '../../Services/ConnectSocket/ConnectSocket'
 import { MessageCommon } from "../../Common/message";
 import * as actionUserRole from '../Actions/UserRole.action';
-// import { RESULT_STATUS } from "../../Common/Common_Parameter";
 // import { MethodCommon } from "../../Common/methods";
-// import * as actionLoading from '../Actions/Loading.action';
 import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 // const ln = MethodCommon.getLanguage()
 
@@ -15,13 +10,11 @@ const initialState = {
       isOpenAddUserRole:false,
       isOpenConfirmDelete:false,
       isOpenConfirmEdit:false,
-  
-    //   data:{
-    //     userRoleCode:'',
-    //         name:'',
-    //         isActive:false,
-    //         note:''
-    //   },
+      isOpenModalFiltering: false,
+      listCreatedUserFiltering:[],
+      listUpdatedUserFiltering:[],
+      createdDateFiltering:null,
+      updatedDateFiltering:null,
       dataEdit:{
             id:'',
             userRoleCode:'',
@@ -117,6 +110,37 @@ const userRoleSlice = createSlice({
             newState.pagination = newPagination
             return newState
       },
+      [actionUserRole.setModalFiltering]: (state, action) => {
+            let newState={...state}
+            newState.isOpenModalFiltering = action.payload
+            return newState
+      },
+
+      //Fitlering
+      [actionUserRole.getCreatedUserFilteringSuccess]: (state, action) => {
+            let newState={...state}
+            newState.listCreatedUserFiltering = action.payload
+            return newState
+      },
+
+      [actionUserRole.getUpdatedUserFilteringSuccess]: (state, action) => {
+            let newState={...state}
+            newState.listUpdatedUserFiltering = action.payload
+            return newState
+      },
+
+      [actionUserRole.setCreatedDateFiltering]: (state, action) => {
+            let newState={...state}
+            newState.createdDateFiltering = action.payload
+            return newState
+      },
+
+      [actionUserRole.setUpdatedFiltering]: (state, action) => {
+            let newState={...state}
+            newState.updatedDateFiltering = action.payload
+            return newState
+      },
+
     },
 });
 const { reducer } = userRoleSlice;

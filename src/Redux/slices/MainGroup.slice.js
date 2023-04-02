@@ -11,7 +11,7 @@ import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
 
 const ln = MethodCommon.getLanguage()
 const initialState = {
-     mainGroupList:[],
+      mainGroupList:[],
       isOpenAddMainGroup:false,
       isOpenConfirmDelete:false,
       isOpenConfirmEdit:false,

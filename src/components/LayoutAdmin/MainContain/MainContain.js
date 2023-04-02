@@ -7,7 +7,9 @@ import TableContain from './TableContain/TableContain';
 
 function MainContain(props) {
   const {selectedRows, selectedRowKeys, setSelectedRows, setSelectedRowKeys, keySearch, setKeySearch, setOpenModalAdd,
-    columns, dataRow, totalData, title, handleSubmitSearch, handleChangePagination, handlSetConfirmDelete} = props
+    columns, dataRow, totalData, title, handleSubmitSearch, handleChangePagination, handlSetConfirmDelete,
+    isOpenModalFitltering, setModalFitlering} = props
+ 
   return (
     <div className={styles["mainContent"]}>
         <div className={styles["search_and_notify"]}>
@@ -17,10 +19,9 @@ function MainContain(props) {
                         setKeySearch={setKeySearch}
                         handleSubmitSearch = {handleSubmitSearch}
                     />
-                    <Filtering />
-                    {/* <ModalAdd/>  */}
+                    <Filtering setModalFitlering={setModalFitlering}/>
                     <div className={styles["notify"]}>
-                    <Notify />
+                      <Notify />
                     </div>
             </div>
         </div>

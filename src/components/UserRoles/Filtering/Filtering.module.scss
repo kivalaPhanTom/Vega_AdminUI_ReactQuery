@@ -1,0 +1,12 @@
+.modal{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    >div{
+        width: 50%;
+        margin-bottom: 2%;
+    }
+}
+.itemcontainer{
+    width: 90%;
+}

@@ -14,21 +14,13 @@ function ModalAdd(props) {
     const [nameState, setNameState] = useState('')
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
 
-    useEffect(()=>{
-        resetData()
-    },[isOpenAddUserRole])
-
-    const handleOk = () => {
+    const handleOk = async() => {
         let data = {
             userRoleCode:codeState,
             userRoleName:nameState
         }
         data.CreatedDate = MethodCommon.getTimeStampNow()
-        dispatch(userRoleActions.create({data, pagination}))
-    };
-
-    const handleCancel = () => {
-        dispatch(userRoleActions.setModalAdd(false))
+        dispatch(userRoleActions.create({data, pagination}))  
     };
     
     const handleCancelData =()=>{
@@ -50,7 +42,6 @@ function ModalAdd(props) {
             title = {'Thêm vai trò'}
             isOpen = {isOpenAddUserRole}
             handleOk = {handleOk}
-            handleCancel = {handleCancel}
             handleCancelData = {handleCancelData}
         >
             <div className={styles['modal']}>

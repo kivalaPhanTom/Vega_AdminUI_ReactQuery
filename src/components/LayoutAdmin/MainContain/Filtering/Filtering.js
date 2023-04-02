@@ -15,20 +15,21 @@ for (let i = 10; i < 36; i++) {
 }
 
 function Filtering(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {setModalFitlering} = props
+  // const [isModalOpen, setIsModalOpen] = useState(false);
  
 
  const showModal = () => {
-   setIsModalOpen(true);
+  setModalFitlering(true);
  };
 
  const handleOk = () => {
-   setIsModalOpen(false);
+  setModalFitlering(false);
  };
 
- const handleCancel = () => {
-   setIsModalOpen(false);
- };
+//  const handleCancel = () => {
+//    setIsModalOpen(false);
+//  };
 
  const [value, setValue] = useState(['a10', 'c12', 'h17', 'j19', 'k20'])
  const selectProps = {
@@ -52,7 +53,7 @@ function Filtering(props) {
          onClick={showModal}
         />
       </div>
-      <Modal 
+      {/* <Modal 
         title={<span className={styles['title']}>Bộ lọc</span>}  
         open={isModalOpen} 
         onOk={handleOk} 
@@ -106,7 +107,7 @@ function Filtering(props) {
 
         </div>
         
-      </Modal>
+      </Modal> */}
     </>
   )
 }
