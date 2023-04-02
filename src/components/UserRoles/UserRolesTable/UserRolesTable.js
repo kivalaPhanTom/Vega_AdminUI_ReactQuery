@@ -106,14 +106,12 @@ function StatusTable(props) {
 
     const handleConfirmEditItem =(item)=>{
       const dataEdit = {
-          id: item.id,
-          code: item.mainGroupId,
-          name: item.mainGroupName,
-          isActive: item.mainGroupIsActive,
-          note: item.mainGroupNote
+          id: item._id,
+          userRoleCode: item.userRoleCode,
+          userRoleName: item.userRoleName,
       }
-      // dispatch(mainGroupActions.updateDataEdit(dataEdit))
-      // dispatch(mainGroupActions.openConfirmEdit())
+      dispatch(userRoleActions.updateDataEdit(dataEdit))
+      dispatch(userRoleActions.setConfirmEdit(true))
     }
 
     const handleConfirmDeleteItem=(item)=>{

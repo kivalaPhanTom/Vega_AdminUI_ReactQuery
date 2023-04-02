@@ -4,13 +4,13 @@ export const Service = {
     createUserRole,
     deleteUserRole,
     // searchAndPaginationStatus,
-    // editStatus,
+    editUserRole,
 };
 const servicePattern = {
     create:"userRole/create",
     delete: "userRole/delete",
     // searchAndPagination:"status/searchAndPagination",
-    // edit:"status/edit",
+    edit:"userRole/edit",
     // search:"status/searchDataMainGroup"
 };
 
@@ -25,8 +25,8 @@ function deleteUserRole(data) {
 // function searchAndPaginationStatus(data) {
 //     return vegaInstance.post(servicePattern.searchAndPagination, data);
 // }
-// function editStatus(data) {
-//     return vegaInstance.post(servicePattern.edit, data);
-// }
+function editUserRole(data) {
+    return vegaInstance.post(servicePattern.edit, data);
+}
 
 

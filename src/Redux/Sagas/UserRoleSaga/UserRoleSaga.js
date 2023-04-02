@@ -123,12 +123,61 @@ function* handleSocketDeleteUserRole(action){
 function* deleteUserRoleSaga() {
     yield takeEvery(actionUserRole.deleteData, handleSocketDeleteUserRole);
 }
+
+function*  handleEditUserRoleToServer(params){
+    const { socket, data, pagination} = params
+    const dataSocket ={
+          socket,
+          pagination
+    }
+    try {
+          yield put(actionLoading.loading({}))
+          const res = yield call(Service.editUserRole, data);
+          const  resultSignal = res.data.result
+          switch (resultSignal) {
+                case RESULT_STATUS.SUCCESS:
+                      yield fork(handleEmitSearchUserRole, dataSocket)
+                      yield put(actionLoading.closeLoading({}))
+                      yield put(actionUserRole.editSuccess('Cập nhật vai trò thành công'))
+                      yield put(actionUserRole.resetData({}));
+                      yield put(actionUserRole.setConfirmEdit(false));
+                      break;
+                case RESULT_STATUS.ERROR:
+                      yield put(actionLoading.closeLoading({}))
+                      yield put(actionUserRole.editFail('Cập nhật vai trò thất bại'))
+                      break;
+                case RESULT_STATUS.DATA_EXIST:
+                      yield put(actionLoading.closeLoading({}))
+                      yield put(actionUserRole.editFail('Dữ liệu đã tồn tại'))
+                      break;
+                default:
+                      break;
+          }
+         
+       } catch (error) {
+          yield put(actionUserRole.editFail('Cập nhật vai trò thất bại'))
+       }
+}
+
+function* handleSocketEditUserRole(action){
+    const { data, pagination } = action.payload
+    const socket = yield call(connect)
+    const payload ={
+          data,
+          pagination,
+          socket
+    }
+    yield fork(handleEditUserRoleToServer, payload)
+}
+function* editUserRoleSaga() {
+    yield takeEvery(actionUserRole.edit, handleSocketEditUserRole);
+}
 export function* userRoleSagaList() {
     yield all([
         fetchListDataUserRoleBySocket(),
         deleteUserRoleSaga(),
         createUserRoleSaga(),
-        //   editMainGroup(),
+        editUserRoleSaga(),
         //   searchAndPaginationMainGroup(),
     ]);   
 }

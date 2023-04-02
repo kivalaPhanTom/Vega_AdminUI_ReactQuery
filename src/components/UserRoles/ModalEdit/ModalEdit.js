@@ -1,120 +1,72 @@
-import React,{useState, useEffect, memo} from 'react'
-import styles from "./index.module.css"
-import { Button, Modal } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import * as mainGroupActions  from "../../../Redux/Actions/MainGroup.action";
-import { MethodCommon } from "../../../Common/methods";
+import React,{useState, memo, useEffect} from 'react'
+import styles from "./ModalEdit.module.scss"
 import { Input } from 'antd';
-import { Switch } from 'antd';
-const { TextArea } = Input;
+import { useSelector, useDispatch } from 'react-redux';
+import * as userRoleActions  from "../../../Redux/Actions/UserRole.action";
+import { MethodCommon } from "../../../Common/methods";
+import ModalPopup from '../../../commonComponent/ModalPopup/ModalPopup';
+
 function ModalEdit(props) {
     const dispatch = useDispatch();
-    const isOpenConfirmEdit = useSelector((state)=> state.mainGroupSlice.isOpenConfirmEdit)
-    const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
-    const dataEdit = useSelector((state)=> state.mainGroupSlice.dataEdit)
-    const { id, code, name, isActive, note } = dataEdit
-    // const [id, setID]= useState('')
-    // const [name, setName] = useState('')
-    // const [isActive, setIsActive] = useState(false)
-    // const [note, setNote] = useState('')
+    const isOpenConfirmEdit = useSelector((state)=> state.userRoleSlice.isOpenConfirmEdit)
+    const dataEdit = useSelector((state)=> state.userRoleSlice.dataEdit)
+    const pagination = useSelector((state)=> state.userRoleSlice.pagination)
+    const [codeState, setCodeState] = useState(dataEdit.userRoleCode)
+    const [nameState, setNameState] = useState(dataEdit.userRoleName)
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-    useEffect(()=>{
 
-    },[])
+    useEffect(()=>{
+        setCodeState(dataEdit.userRoleCode)
+        setNameState(dataEdit.userRoleName)
+    },[isOpenConfirmEdit])
 
     const handleOk = () => {
-        const dataSubmit ={
-            id: id,
-            mainGroupId: code,
-            mainGroupName: name,
-            mainGroupIsActive: isActive,
-            mainGroupNote: note,
-            UserUpdated: userLocalStorage.id,
-            UpdatedDate:null
+        let data = {
+            id: dataEdit.id,
+            userRoleCode:codeState,
+            userRoleName:nameState
         }
-        dispatch(mainGroupActions.editMainGroup({data:dataSubmit, pagination:pagination}))
+        data.UpdatedDate = MethodCommon.getTimeStampNow()
+        dispatch(userRoleActions.edit({data, pagination}))
     };
 
     const handleCancel = () => {
-        dispatch(mainGroupActions.closeConfirmEdit({}))
+        dispatch(userRoleActions.setConfirmEdit(false))
     };
     
+    const handleCancelData =()=>{
+        dispatch(userRoleActions.setConfirmEdit(false))
+    }
     const handleChangeCode =(e)=>{
-        let dataClone = {...dataEdit}
-        dataClone.code= e.target.value
-        dispatch(mainGroupActions.updateDataEdit(dataClone))
+        setCodeState(e.target.value)
     }
-
     const handleChangeName =(e)=>{
-        let dataClone = {...dataEdit}
-        dataClone.name= e.target.value
-        dispatch(mainGroupActions.updateDataEdit(dataClone))
-    }
-
-    const handleChangeIsActive =(value)=>{
-        let dataClone = {...dataEdit}
-        dataClone.isActive= value
-        dispatch(mainGroupActions.updateDataEdit(dataClone))
-    }
-
-    const handleChangeNote =(e)=>{
-        let dataClone = {...dataEdit}
-        dataClone.note = e.target.value
-        dispatch(mainGroupActions.updateDataEdit(dataClone))
+        setNameState(e.target.value)
     }
 
     return (
-        <>
-            <Modal 
-                title={<span className={styles['title']}>Sửa nhóm hàng</span>} 
-                open={isOpenConfirmEdit} 
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={[
-                        <button key="cancel" onClick={handleCancel} className={styles['btn_cancel']}>
-                            Hủy
-                        </button>,
-                        <button key="submit" onClick={handleOk} className={styles['btn_submit']}>
-                            Lưu
-                        </button>,
-                ]}
-            >
+        <ModalPopup 
+            title = {'Sửa vai trò'}
+            isOpen = {isOpenConfirmEdit}
+            handleOk = {handleOk}
+            handleCancel = {handleCancel}
+            handleCancelData = {handleCancelData}
+        >
+            <div className={styles['modal']}>
                 <div>
-                    <div className={styles['nameAndIdMainGroup']}>
-                        <div className={styles['id_field']}>
-                            <span>Mã nhóm hàng</span>
-                            <div>
-                                <input value={code} onChange={handleChangeCode}></input>
-                            </div>
-                        </div>
-                        <div className={styles['name_field']}>
-                            <span>Tên nhóm hàng</span>
-                            <div>
-                                <input value={name} onChange={handleChangeName}></input>
-                            </div>
-                        </div>
-                    </div>
-                
-                    
-                    <div className={styles['status_field']}>
-                        <span id= {styles['statusLabel']}>Trạng thái</span>
-                        <div>
-                        <Switch  className = {styles['switchBtn'] } checked={isActive} onChange={handleChangeIsActive} />
-                        </div>
-                    </div>
+                    <span>Mã vai trò</span>
                     <div>
-                        <span >Ghí chú</span>
-                        <div>
-                        <TextArea
-                                value={note}
-                                onChange={handleChangeNote}
-                                autoSize={{ minRows: 3, maxRows: 5 }}
-                            />
-                        </div>
+                        <Input className={styles['inputField']} value={codeState} onChange={handleChangeCode}></Input>
                     </div>
                 </div>
-            </Modal>
-        </>
+                <div>
+                    <span>Tên vai trò</span>
+                    <div>
+                        <Input className={styles['inputField']} value={nameState} onChange={handleChangeName}></Input>
+                    </div>
+                </div>
+            </div>
+        </ModalPopup>
     )
 }
 

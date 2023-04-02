@@ -14,7 +14,7 @@ const initialState = {
       userRoleList:[],
       isOpenAddUserRole:false,
       isOpenConfirmDelete:false,
-    //   isOpenConfirmEdit:false,
+      isOpenConfirmEdit:false,
   
     //   data:{
     //     userRoleCode:'',
@@ -22,14 +22,12 @@ const initialState = {
     //         isActive:false,
     //         note:''
     //   },
-    //   dataEdit:{
-    //         id:'',
-    //         code:'',
-    //         name:'',
-    //         isActive:false,
-    //         note:''
-    //   },
-    //   totalData:0,
+      dataEdit:{
+            id:'',
+            userRoleCode:'',
+            userRoleName:'',
+      },
+      totalData:0,
       pagination:{
             pageCurrent: PAGINATION_DEFAULT.pageCurrent,
             pageSize: PAGINATION_DEFAULT.pageSize,
@@ -46,11 +44,11 @@ const userRoleSlice = createSlice({
     //         newState.data = action.payload
     //         return newState
     //   },
-    //   [actionMainGroup.updateDataEdit]: (state, action) => {
-    //         let newState={...state}
-    //         newState.dataEdit = action.payload
-    //         return newState
-    //   },
+      [actionUserRole.updateDataEdit]: (state, action) => {
+            let newState={...state}
+            newState.dataEdit = action.payload
+            return newState
+      },
       [actionUserRole.searchSuccessBySocket]: (state, action) => {
             let newState={...state}
             action.payload.docs.forEach((element,index) => {
@@ -94,12 +92,12 @@ const userRoleSlice = createSlice({
       [actionUserRole.createFail]: (state, action) => {
             MessageCommon.openNotificationError(action.payload)
       },
-    //   [actionMainGroup.editMainGroupSuccess]: (state, action) => {
-    //         MessageCommon.openNotificationSuccess(action.payload)
-    //   },
-    //   [actionMainGroup.editMainGroupFail]: (state, action) => {
-    //         MessageCommon.openNotificationError(action.payload)
-    //   },
+      [actionUserRole.editSuccess]: (state, action) => {
+            MessageCommon.openNotificationSuccess(action.payload)
+      },
+      [actionUserRole.editFail]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
       [actionUserRole.setConfirmDelete]: (state, action) => {
             let newState={...state}
             newState.isOpenConfirmDelete = action.payload
@@ -110,21 +108,21 @@ const userRoleSlice = createSlice({
     //         newState.isOpenConfirmDelete = false
     //         return newState
     //   },
-    //   [actionMainGroup.openConfirmEdit]: (state, action) => {
-    //         let newState={...state}
-    //         newState.isOpenConfirmEdit = true
-    //         return newState
-    //   },
+      [actionUserRole.setConfirmEdit]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmEdit = action.payload
+            return newState
+      },
     //   [actionMainGroup.closeConfirmEdit]: (state, action) => {
     //         let newState={...state}
     //         newState.isOpenConfirmEdit = false
     //         return newState
     //   },
-    //   [actionMainGroup.resetData]: (state, action) => {
-    //         const resetState = {...initialStateClone}
-    //         resetState.pagination = state.pagination
-    //         return resetState
-    //   },
+      [actionUserRole.resetData]: (state, action) => {
+            const resetState = {...initialStateClone}
+            resetState.pagination = state.pagination
+            return resetState
+      },
     //   [actionMainGroup.updatePagination]: (state, action) => {
     //         let newState={...state}
     //         const newPagination = {

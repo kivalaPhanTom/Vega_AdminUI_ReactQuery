@@ -15,7 +15,8 @@ export const MethodCommon = {
     renderFileLangVnFile,
     convertToTimeStamp,
     converTimeStampToDate,
-    getCookie
+    getCookie,
+    getTimeStampNow
 };
 
 //save to local storage
@@ -58,7 +59,7 @@ function getLanguage(){
   //format time
   function formatTime(timestamp){
     let result = ''
-    if(timestamp !== null){
+    if(timestamp !== null && timestamp !== undefined && timestamp !==''){
       let d = new Date(timestamp);
       const year = d.getFullYear()
 
@@ -141,4 +142,9 @@ function getCookie(cname) {
     }
   }
   return "";
+}
+function getTimeStampNow(){
+  const now = new Date();
+  const nowTimeStamp = now.getTime()
+  return nowTimeStamp
 }
