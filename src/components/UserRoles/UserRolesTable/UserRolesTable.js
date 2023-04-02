@@ -13,30 +13,12 @@ function StatusTable(props) {
 
     const columns = [
       {
-        title: 'Mã ngành hàng',
-        dataIndex: 'mainGroupId',
+        title: 'Mã vai trò',
+        dataIndex: 'userRoleCode',
       },
       {
-        title: 'Tên ngành hàng',
-        dataIndex: 'mainGroupName',
-      },
-      {
-        title: 'Trạng thái',
-        dataIndex: 'mainGroupIsActive',
-        render: (status) => {
-          let resultStatus = null
-          if( status === true)
-          {
-            resultStatus =<span className={styles['active']}>Đang hoạt động</span>
-          }else{
-            resultStatus =<span className={styles['inactive']}>Ngừng hoạt động</span>
-          }
-          return resultStatus
-        }
-      },
-      {
-        title: 'Mô tả',
-        dataIndex: 'mainGroupNote',
+        title: 'Tên vai trò',
+        dataIndex: 'userRoleName',
       },
       {
         title: 'Người tạo',
@@ -96,9 +78,9 @@ function StatusTable(props) {
     ];
     const dispatch = useDispatch();
     const { selectedRows, selectedRowKeys, handleSetSelectedRows, handleSetSelectedRowKeys } =props
-    const mainGroupList = useSelector((state)=> state.mainGroupSlice.mainGroupList)
-    const totalData = useSelector((state)=> state.mainGroupSlice.totalData)
-    const pagination = useSelector((state)=> state.mainGroupSlice.pagination)
+    const userRoleList = useSelector((state)=> state.userRoleSlice.userRoleList)
+    const totalData = useSelector((state)=> state.userRoleSlice.totalData)
+    const pagination = useSelector((state)=> state.userRoleSlice.pagination)
 
     useEffect(() => {
       const dataSocket = {
@@ -106,7 +88,7 @@ function StatusTable(props) {
         pageSize: pagination.pageSize,
         keySearch:''
       }
-      // dispatch(mainGroupActions.searchMainGroupBySocket(dataSocket))
+      dispatch(userRoleActions.searchBySocket(dataSocket))
     },[])
    
     const handleChangePagination =(page_index, page_size)=>{
@@ -136,7 +118,7 @@ function StatusTable(props) {
 
     const handleConfirmDeleteItem=(item)=>{
       handleSetSelectedRows([item])
-      // dispatch(mainGroupActions.openConfirmDelete())
+      dispatch(userRoleActions.setConfirmDelete(true))
     } 
 
     const handleUpdateSelectedRows =(values)=>{
@@ -149,7 +131,7 @@ function StatusTable(props) {
 
     const handleDelete=()=>{
         if(selectedRows.length > 0 ){
-          // dispatch(mainGroupActions.openConfirmDelete())
+          dispatch(userRoleActions.setConfirmDelete(true))
         }else{
           MessageCommon.openNotificationError("Vui lòng chọn dữ liệu")
         }
@@ -161,7 +143,7 @@ function StatusTable(props) {
   
     return (
       <>
-        <div className={styles["mainGroupTable"]}>
+        <div className={styles["tableContainer"]}>
             <div className={styles["table_heaader"]}>
                     <div className={styles["table_heaader_container"]}>
                         <div className={styles["table_title"]}>
@@ -183,7 +165,7 @@ function StatusTable(props) {
             <div className={styles["table"]}>
                 <TableData
                     columns={columns}
-                    dataRow={mainGroupList}
+                    dataRow={userRoleList}
                     handleUpdateSelectedRows={handleUpdateSelectedRows}
                     selectedRows={selectedRows}
                     selectedRowKeysProp={selectedRowKeys}

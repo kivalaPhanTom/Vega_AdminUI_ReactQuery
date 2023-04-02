@@ -1,19 +1,19 @@
 // import { call, put, takeEvery, fork, all} from 'redux-saga/effects';
 import { createSlice} from "@reduxjs/toolkit";
-import { Service } from '../../Services/MainGroup/MainGroup'
-import connect from '../../Services/ConnectSocket/ConnectSocket'
+// import { Service } from '../../Services/MainGroup/MainGroup'
+// import connect from '../../Services/ConnectSocket/ConnectSocket'
 import { MessageCommon } from "../../Common/message";
 import * as actionUserRole from '../Actions/UserRole.action';
-import { RESULT_STATUS } from "../../Common/Common_Parameter";
-import { MethodCommon } from "../../Common/methods";
-import * as actionLoading from '../Actions/Loading.action';
+// import { RESULT_STATUS } from "../../Common/Common_Parameter";
+// import { MethodCommon } from "../../Common/methods";
+// import * as actionLoading from '../Actions/Loading.action';
 import { PAGINATION_DEFAULT } from "../../Common/Common_Parameter";
-const ln = MethodCommon.getLanguage()
+// const ln = MethodCommon.getLanguage()
 
 const initialState = {
       userRoleList:[],
       isOpenAddUserRole:false,
-    //   isOpenConfirmDelete:false,
+      isOpenConfirmDelete:false,
     //   isOpenConfirmEdit:false,
   
     //   data:{
@@ -51,19 +51,19 @@ const userRoleSlice = createSlice({
     //         newState.dataEdit = action.payload
     //         return newState
     //   },
-    //   [actionMainGroup.searchMainGroupSuccessBySocket]: (state, action) => {
-    //         let newState={...state}
-    //         action.payload.docs.forEach((element,index) => {
-    //               element.key = element._id
-    //         });
-    //         const { docs, total } = action.payload
-    //         newState.mainGroupList = docs
-    //         newState.totalData = total
-    //         return newState
-    //   },
-    //   [actionMainGroup.searchMainGroupFailBySocket]: (state, action) => {
-    //         MessageCommon.openNotificationError(action.payload)
-    //   },
+      [actionUserRole.searchSuccessBySocket]: (state, action) => {
+            let newState={...state}
+            action.payload.docs.forEach((element,index) => {
+                  element.key = element._id
+            });
+            const { docs, total } = action.payload
+            newState.userRoleList = docs
+            newState.totalData = total
+            return newState
+      },
+      [actionUserRole.searchFailBySocket]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
     //   [actionMainGroup.searchAndPaginationDataSuccess]: (state, action) => {
     //         let newState={...state}
     //         action.payload.docs.forEach((element,index) => {
@@ -78,39 +78,33 @@ const userRoleSlice = createSlice({
     //         MessageCommon.openNotificationError(action.payload)
     //   },
       [actionUserRole.setModalAdd]: (state, action) => {
-            console.log("action.payload:",action.payload)
             let newState={...state}
             newState.isOpenAddUserRole = action.payload
             return newState
       },
-    //   [actionMainGroup.closeModalAddMainGroup]: (state, action) => {
-    //         let newState={...state}
-    //         newState.isOpenAddMainGroup = false
-    //         return newState
-    //   },
-    //   [actionMainGroup.deleteMainGroupSuccess]: (state, action) => {
-    //         MessageCommon.openNotificationSuccess(action.payload)
-    //   },
-    //   [actionMainGroup.deleteMainGroupFail]: (state, action) => {
-    //         MessageCommon.openNotificationError(action.payload)
-    //   },
-    //   [actionMainGroup.createMainGroupSuccess]: (state, action) => {
-    //         MessageCommon.openNotificationSuccess(action.payload)
-    //   },
-    //   [actionMainGroup.createMainGroupFail]: (state, action) => {
-    //         MessageCommon.openNotificationError(action.payload)
-    //   },
+      [actionUserRole.deleteDataSuccess]: (state, action) => {
+            MessageCommon.openNotificationSuccess(action.payload)
+      },
+      [actionUserRole.deleteDataFail]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
+      [actionUserRole.createSuccess]: (state, action) => {
+            MessageCommon.openNotificationSuccess(action.payload)
+      },
+      [actionUserRole.createFail]: (state, action) => {
+            MessageCommon.openNotificationError(action.payload)
+      },
     //   [actionMainGroup.editMainGroupSuccess]: (state, action) => {
     //         MessageCommon.openNotificationSuccess(action.payload)
     //   },
     //   [actionMainGroup.editMainGroupFail]: (state, action) => {
     //         MessageCommon.openNotificationError(action.payload)
     //   },
-    //   [actionMainGroup.openConfirmDelete]: (state, action) => {
-    //         let newState={...state}
-    //         newState.isOpenConfirmDelete = true
-    //         return newState
-    //   },
+      [actionUserRole.setConfirmDelete]: (state, action) => {
+            let newState={...state}
+            newState.isOpenConfirmDelete = action.payload
+            return newState
+      },
     //   [actionMainGroup.closeConfirmDelete]: (state, action) => {
     //         let newState={...state}
     //         newState.isOpenConfirmDelete = false

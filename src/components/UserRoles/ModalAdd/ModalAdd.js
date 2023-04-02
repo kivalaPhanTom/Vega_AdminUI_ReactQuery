@@ -1,4 +1,4 @@
-import React,{useState, memo} from 'react'
+import React,{useState, memo, useEffect} from 'react'
 import styles from "./ModalAdd.module.scss"
 import { Button, Modal, Input } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,7 +18,10 @@ function ModalAdd(props) {
     const [nameState, setNameState] = useState('')
     // const { code, name, isActive, note }= data
     const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-    
+
+    useEffect(()=>{
+        resetData()
+    },[isOpenAddUserRole])
     const handleOk = () => {
         // const dataSubmit ={
         //     mainGroupId: code,

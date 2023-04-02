@@ -2,13 +2,13 @@ import React,{useState, useEffect} from 'react'
 import styles from "./css/index.module.css"
 import UserRolesTable from './UserRolesTable/UserRolesTable';
 import ModalAdd from './ModalAdd/ModalAdd';
-import * as mainGroupActions  from "../../Redux/Actions/MainGroup.action";
+import * as userRoleActions  from "../../Redux/Actions/UserRole.action";
 import { useSelector, useDispatch } from 'react-redux';
-import ConfirmDeleteMainGroup from './ConfirmDeleteMainGroup/ConfirmDeleteMainGroup';
 import ModalEdit from './ModalEdit/ModalEdit';
 import Search from './Search/Search';
 import Filtering from './Filtering/Filtering';
 import Notify from '../Notify/Notify';
+import ConfirmDeleteUserRole from './ConfirmDeleteUserRole/ConfirmDeleteUserRole';
 
 
 function UserRoles(props) {
@@ -24,12 +24,12 @@ function UserRoles(props) {
     setSelectedRowKeys(value)
   }
 
-  const handleDeleteMainGroup=()=>{
+  const handleDelete=()=>{
       let arrIdNeedDelete = []
       selectedRows.forEach((item)=>{
         arrIdNeedDelete.push(item._id)
       })
-      dispatch(mainGroupActions.deleteMainGroup({data:arrIdNeedDelete, pagination:pagination}))
+      dispatch(userRoleActions.deleteData({data:arrIdNeedDelete, pagination:pagination}))
   }
 
   return (
@@ -58,8 +58,8 @@ function UserRoles(props) {
 
          <ModalAdd/>
          <ModalEdit/>
-         <ConfirmDeleteMainGroup
-            handleDeleteMainGroup={handleDeleteMainGroup}
+         <ConfirmDeleteUserRole 
+           handleDelete = {handleDelete}
          />
     </div>
   )

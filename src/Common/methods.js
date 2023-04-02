@@ -56,14 +56,27 @@ function getLanguage(){
   }
 
   //format time
-  function formatTime(value){
-      if(value === "") {
-        return 
-      }else if (value === null) {
-        return
-      }else{
-        return moment(value).utc(0).format("DD-MM-YYYY HH:mm")
-      }
+  function formatTime(timestamp){
+    let result = ''
+    if(timestamp !== null){
+      let d = new Date(timestamp);
+      const year = d.getFullYear()
+
+      let month = d.getMonth() + 1
+      if( month < 10) month=`0${month}`
+
+      let day = d.getDate()
+      if( day < 10) day=`0${day}`
+
+      let hours = d.getHours()
+      if( hours < 10) hours=`0${hours}`
+
+      let minutes = d.getMinutes()
+      if( minutes < 10) minutes=`0${minutes}`
+
+      result = `${day}/${month}/${year} ${hours}:${minutes}`
+    } 
+    return result
   }
 
 function preventSpecialCharacters(characters){  
