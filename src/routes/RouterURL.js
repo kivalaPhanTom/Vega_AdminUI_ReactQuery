@@ -4,7 +4,7 @@ import {
     Route,
 } from 'react-router-dom'
 // import Employees from '../components/Employees/Employees';
-import LayoutAdmin from '../components/LayoutAdmin/LayoutAdmin';
+import LayoutAdmin from '../components/LayoutAdmin/LayoutAdmin'
 // import Status from '../components/ADMIN/Status/Status';
 // import UserRoles from '../components/ADMIN/UserRoles/UserRoles';
 // import Reports from '../components/ADMIN/Reports/Reports';
@@ -13,42 +13,20 @@ import LayoutAdmin from '../components/LayoutAdmin/LayoutAdmin';
 // import MainGroup from '../components/ADMIN/MainGroup/MainGroup';
 import Loading from '../components/Loading/Loading'
 
-import PrivateRoute from './PrivateRoute';
-const TIME = 1.5*1000
-const Login = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Login/Login'))
-});
-const Register = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Register/Register'))
-});
-const ForgotPassword = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/ForgotPassword/ForgotPassword'))
-});
-
-const MainGroup = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/MainGroup/MainGroup'))
-});
-
-const Products = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Products/Products'))
-});
+import PrivateRoute from './PrivateRoute'
+const Login = React.lazy(() => import('../components/Login/Login'))
+const Register = React.lazy(() => import('../components/Register/Register'))
+const ForgotPassword = React.lazy(() => import('../components/ForgotPassword/ForgotPassword'))
+const MainGroup = React.lazy(() => import('../components/MainGroup/MainGroup'))
+const Products = React.lazy(() => import('../components/Products/Products'))
 
 // const Users = React.lazy(() => {
 //   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/Users/Users'))
 // });
-const Reports = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Reports/Reports'))
-});
-
-const UserRoles = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/UserRoles/UserRoles'))
-});
-const Status = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Status/Status'))
-});
-const Employees = React.lazy(() => {
-  return new Promise( resolve=> setTimeout(resolve, TIME)).then(()=> import('../components/Employees/Employees'))
-});
+const Reports = React.lazy(()=>import('../components/Reports/Reports'))
+const UserRoles = React.lazy(() => import('../components/UserRoles/UserRoles'))
+const Status = React.lazy(() => import('../components/Status/Status'))
+const Employees = React.lazy(() => import('../components/Employees/Employees'));
 // const LayoutAdmin = React.lazy(() => {
 //   return new Promise( resolve=> setTimeout(resolve,1.5*1000)).then(()=> import('../components/LayoutAdmin/LayoutAdmin'))
 // });

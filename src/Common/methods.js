@@ -3,6 +3,7 @@ import { LANGUAGE_STATE_VI } from './Language/lang_vi'
 import { MessageCommon } from "../Common/message";
 import { LANGUAGE } from "./Common_Parameter";
 import moment from 'moment';
+import { useSearchParams } from 'react-router-dom'
 // import raw from '../langVn.txt';
 
 export const MethodCommon = {
@@ -16,7 +17,9 @@ export const MethodCommon = {
     convertToTimeStamp,
     converTimeStampToDate,
     getCookie,
-    getTimeStampNow
+    getTimeStampNow,
+    renderQueryString,
+    generateKeyForTableData
 };
 
 //save to local storage
@@ -147,4 +150,19 @@ function getTimeStampNow(){
   const now = new Date();
   const nowTimeStamp = now.getTime()
   return nowTimeStamp
+}
+function renderQueryString() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [searchParams] = useSearchParams()
+  const searchParamsObject = Object.fromEntries([...searchParams])
+  return searchParamsObject
+}
+function generateKeyForTableData(listData) {
+  const listDataClone = JSON.parse(JSON.stringify(listData))
+  if (listDataClone.length > 0) {
+    listDataClone.forEach((element) => {
+      element.key = element._id
+    });
+  }
+  return listDataClone
 }

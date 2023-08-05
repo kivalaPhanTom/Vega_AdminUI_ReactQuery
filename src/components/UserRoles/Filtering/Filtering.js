@@ -27,7 +27,7 @@ function Filtering(props) {
  };
 
  const handleCancelData =()=>{
-
+  setModalFitlering(false)
  }
  const [value, setValue] = useState(['a10', 'c12', 'h17', 'j19', 'k20'])
  const selectProps = {

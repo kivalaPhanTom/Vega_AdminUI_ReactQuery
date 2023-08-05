@@ -11,6 +11,15 @@ import statusSlice from './slices/Status.slice';
 import employeesSlice from './slices/Employees.slice';
 import userRoleSlice from './slices/UserRole.slice'
 import rootSaga from "./Sagas/RootSaga";
+import { isRejectedWithValue } from '@reduxjs/toolkit'
+
+export const rtkQueryErrorLogger = (api) => (next) => (action) => {
+  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
+  if (isRejectedWithValue(action)) {
+    console.warn('We got a rejected action!')
+  }
+  return next(action)
+}
 let sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
 const allReducer = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "./css/index.module.css"
+import styles from "./css/index.module.scss"
 import { FiSearch } from "react-icons/fi";
 import { MethodCommon } from "../../Common/methods";
 

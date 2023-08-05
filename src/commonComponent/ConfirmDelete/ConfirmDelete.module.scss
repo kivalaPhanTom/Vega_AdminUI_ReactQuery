@@ -1,26 +1,38 @@
-.btn_action{
+@mixin commonRenderButton {
+    width: 90px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.btn_action {
     display: flex;
     justify-content: end;
     align-items: center;
 }
-.btnSave>button,.btnCancel>button{
-  width: 90px;
-  height: 35px;
-  border:none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.4s;
+
+.btnSave {
+    >button {
+        @include commonRenderButton;
+        background-color: #30a95a;
+        color: white;
+
+        &:hover {
+            background-color: #5cb85c;
+        }
+    }
 }
-.btnCancel{
+
+.btnCancel {
     margin-right: 10px;
-}
-.btnSave>button{
-    background-color:#30a95a;
-    color: white;
-}
-.btnSave>button:hover{
-    background-color: #5cb85c;
-}
-.btnCancel>button:hover{
-    background-color: #bfbfbf;
+
+    >button {
+        @include commonRenderButton;
+
+        &:hover {
+            background-color: #bfbfbf;
+        }
+    }
 }

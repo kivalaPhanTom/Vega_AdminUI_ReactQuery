@@ -20,7 +20,7 @@ function deleteUserRole(data) {
     return vegaInstance.post(servicePattern.delete, data);
 }
 function searchAndPaginationUserRole(data) {
-    return vegaInstance.post(servicePattern.searchAndPagination, data);
+    return vegaInstance.get(`${servicePattern.searchAndPagination}?page=${data.page}&&limit=${data.limit}&&key=${data.key}`);
 }
 function editUserRole(data) {
     return vegaInstance.post(servicePattern.edit, data);

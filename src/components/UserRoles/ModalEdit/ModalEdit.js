@@ -1,69 +1,59 @@
-import React,{useState, memo, useEffect} from 'react'
-import styles from "./ModalEdit.module.scss"
-import { Input } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import * as userRoleActions  from "../../../Redux/Actions/UserRole.action";
-import { MethodCommon } from "../../../Common/methods";
-import ModalPopup from '../../../commonComponent/ModalPopup/ModalPopup';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { memo } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { MethodCommon } from "../../../Common/methods"
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { commonAlerError } from "../../../Common/error"
+import AddEditModalLayout from '../AddEditModalLayout'
+import { RESULT_STATUS } from "../../../Common/Common_Parameter"
+import { Service } from '../../../Services/UserRole/UserRole'
+import { handleAlertEditResultAction, setConfirmEdit } from "../../../Redux/slices/UserRole.slice"
 
-function ModalEdit(props) {
-    const dispatch = useDispatch();
-    const isOpenConfirmEdit = useSelector((state)=> state.userRoleSlice.isOpenConfirmEdit)
-    const dataEdit = useSelector((state)=> state.userRoleSlice.dataEdit)
-    const pagination = useSelector((state)=> state.userRoleSlice.pagination)
-    const [codeState, setCodeState] = useState(dataEdit.userRoleCode)
-    const [nameState, setNameState] = useState(dataEdit.userRoleName)
-    const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+function ModalEdit() {
+    const dispatch = useDispatch()
+    const queryClient = useQueryClient()
+    const isOpenConfirmEdit = useSelector((state) => state.userRoleSlice.isOpenConfirmEdit)
+    const dataEdit = useSelector((state) => state.userRoleSlice.dataEdit)
+    const lang = ''
+    const editUserRoleMutation = useMutation({
+        mutationFn: (data) => {
+            return Service.editUserRole(data)
+        },
+        onSuccess: async (res) => {
+            if (res.data.result === RESULT_STATUS.SUCCESS) handleCloseModal()
+            dispatch(handleAlertEditResultAction({
+                signal: res.data.result,
+                lang: ''
+            }))
+            queryClient.invalidateQueries(['userRoles']) //để refresh lại api gọi danh sách
+        },
+        onError: () => {
+            commonAlerError(lang)
+        },
+    })
 
-    useEffect(()=>{
-        setCodeState(dataEdit.userRoleCode)
-        setNameState(dataEdit.userRoleName)
-    },[isOpenConfirmEdit])
-
-    const handleOk = () => {
-        let data = {
-            id: dataEdit.id,
-            userRoleCode:codeState,
-            userRoleName:nameState
-        }
-        data.UpdatedDate = MethodCommon.getTimeStampNow()
-        dispatch(userRoleActions.edit({data, pagination}))
-    };
-    
-    const handleCancelData =()=>{
-        dispatch(userRoleActions.setConfirmEdit(false))
+    const handleCloseModal = () => {
+        dispatch(setConfirmEdit(false))
     }
-    const handleChangeCode =(e)=>{
-        setCodeState(e.target.value)
-    }
-    const handleChangeName =(e)=>{
-        setNameState(e.target.value)
+
+    const handleOk = async (dataSubmit) => {
+        let dataSubmitClone = { ...dataSubmit }
+        dataSubmitClone.id = dataEdit.id
+        dataSubmitClone.UpdatedDate = MethodCommon.getTimeStampNow()
+        editUserRoleMutation.mutate(dataSubmitClone)
     }
 
     return (
-        <ModalPopup 
-            title = {'Sửa vai trò'}
-            isOpen = {isOpenConfirmEdit}
-            handleOk = {handleOk}
-            handleCancelData = {handleCancelData}
-        >
-            <div className={styles['modal']}>
-                <div>
-                    <span>Mã vai trò</span>
-                    <div>
-                        <Input className={styles['inputField']} value={codeState} onChange={handleChangeCode}></Input>
-                    </div>
-                </div>
-                <div>
-                    <span>Tên vai trò</span>
-                    <div>
-                        <Input className={styles['inputField']} value={nameState} onChange={handleChangeName}></Input>
-                    </div>
-                </div>
-            </div>
-        </ModalPopup>
+        <AddEditModalLayout
+            title={'Sửa vai trò'}
+            isOpen={isOpenConfirmEdit}
+            handleOk={handleOk}
+            handleCloseModal={handleCloseModal}
+            codeState={dataEdit.userRoleCode}
+            nameState={dataEdit.userRoleName}
+            isLoading={editUserRoleMutation.isLoading}
+        />
     )
 }
-
 
 export default memo(ModalEdit)

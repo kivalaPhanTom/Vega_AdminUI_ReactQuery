@@ -30,33 +30,38 @@
 } */
 
 
-.active{
+.active {
     color: #30a95a;
     font-weight: 600;
 }
-.icon_actions{
+
+.icon_actions {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.icon_edit{
+
+.icon_edit {
     color: #faad14;
     font-size: 18px;
     margin-right: 10px;
     cursor: pointer;
     transition: 0.4;
+
+    &:hover {
+        color: #de9b16;
+        transition: 0.4;
+    }
 }
-.icon_edit:hover{
-    color: #de9b16;
-    transition: 0.4;
-}
-.icon_delete{
-    color:#d9534f;
+
+.icon_delete {
+    color: #d9534f;
     font-size: 18px;
     cursor: pointer;
     transition: 0.4;
-}
-.icon_delete:hover{
-    color:#8d2c2a; 
-    transition: 0.4; 
+
+    &:hover {
+        color: #8d2c2a;
+        transition: 0.4;
+    }
 }
