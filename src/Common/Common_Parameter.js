@@ -32,6 +32,9 @@ const PAGINATION_DEFAULT ={
 const TIME_TO_CALL_API = 2000
 const FORMAT_DATE = 'DD/MM/YYYY'
 
+const CACHETIME = 1500
+const STALETIME = 1000
+
 module.exports = {
     RESULT_STATUS ,
     METHOD_LOGIN,

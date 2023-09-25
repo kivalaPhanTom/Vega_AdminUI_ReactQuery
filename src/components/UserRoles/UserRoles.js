@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import styles from "./UserRoles.module.scss"
-import ModalAdd from './ModalAdd/ModalAdd';
-import { useSelector, useDispatch } from 'react-redux';
-import ModalEdit from './ModalEdit/ModalEdit';
-import ConfirmDeleteUserRole from './ConfirmDeleteUserRole/ConfirmDeleteUserRole';
-import MainContain from '../LayoutAdmin/MainContain/MainContain';
-import { MethodCommon } from "../../Common/methods";
-import { FaPen, FaTrash } from "react-icons/fa";
-import { PAGINATION_DEFAULT, RESULT_STATUS } from "../../Common/Common_Parameter";
-import { MessageCommon } from "../../Common/message";
-import Filtering from './Filtering/Filtering';
+import ModalAdd from './ModalAdd/ModalAdd'
+import { useSelector, useDispatch } from 'react-redux'
+import ModalEdit from './ModalEdit/ModalEdit'
+import ConfirmDeleteUserRole from './ConfirmDeleteUserRole/ConfirmDeleteUserRole'
+import MainContain from '../LayoutAdmin/MainContain/MainContain'
+import { MethodCommon } from "../../Common/methods"
+import { FaPen, FaTrash } from "react-icons/fa"
+import { PAGINATION_DEFAULT, RESULT_STATUS, CACHETIME, STALETIME } from "../../Common/Common_Parameter"
+import { MessageCommon } from "../../Common/message"
+import Filtering from './Filtering/Filtering'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Service } from '../../Services/UserRole/UserRole'
 import { setLoading } from '../../Redux/slices/Loading.slice'
@@ -38,11 +38,12 @@ function UserRoles(props) {
     queryFn: () => {
       return Service.searchAndPaginationUserRole({ page, limit, key })
     },
-    cacheTime: 15000,//15s, thời gian data được lưu trong cache
-    staleTime: 10000, //10s, là khoảng thời gian mà dữ liệu trong cache được cho là đã cũ
+    cacheTime: CACHETIME,//15s, thời gian data được lưu trong cache
+    staleTime: STALETIME, //10s, là khoảng thời gian mà dữ liệu trong cache được cho là đã cũ
     keepPreviousData: true, //giữ lại dữ liệu cũ trong quá trình fetch lại data, chứ ko để undefined khi fetch data
     retry: 0 // mặc định retry là 3 lần
   })
+  
   const deleteUserRoleMutation = useMutation({
     mutationFn: (data) => {
       return Service.deleteUserRole(data)
@@ -114,6 +115,7 @@ function UserRoles(props) {
     },
     {
       title: 'Hành động',
+      align:'center',
       render: (item) => {
         return (
           <div className={styles['icon_actions']}>
@@ -123,7 +125,7 @@ function UserRoles(props) {
         )
       },
     },
-  ];
+  ]
 
   useEffect(() => {
     handleSetLoading(userRolesQuery.isLoading)
@@ -172,7 +174,7 @@ function UserRoles(props) {
   }
 
   const handleSubmitSearch = () => {
-    handleChangePagination(PAGINATION_DEFAULT.pageCurrent, PAGINATION_DEFAULT.pageSize)
+    navigate(`?page=${PAGINATION_DEFAULT.pageCurrent}&&limit=${limit}&&key=${keySearch}`)
   }
 
   const handleChangePagination = (page_index, page_size) => {

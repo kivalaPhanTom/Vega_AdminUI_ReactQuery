@@ -5,10 +5,10 @@ import { forgotPasswordSaga } from "../slices/ForgotPassword.slice"
 import { checkAuthenticationSaga } from "../slices/Authorization.slice"
 import { changePasswordSaga } from "../slices/ChangePassword.slice"
 import { mainGroupSagaList} from "../slices/MainGroup.slice"
-import { statusSagaList} from "../slices/Status.slice"
+// import { statusSagaList} from "../slices/Status.slice"
 import { employeesSagaList} from "../slices/Employees.slice"
 
-import { userRoleSagaList} from "./UserRoleSaga/UserRoleSaga"
+// import { userRoleSagaList} from "./UserRoleSaga/UserRoleSaga"
 
 const sagasList = [
     loginTrandition(),
@@ -17,9 +17,9 @@ const sagasList = [
     checkAuthenticationSaga(),
     changePasswordSaga(),
     mainGroupSagaList(),
-    statusSagaList(),
+    // statusSagaList(),
     employeesSagaList(),
-    userRoleSagaList(),
+    // userRoleSagaList(),
 
 ]
 export default function* () {

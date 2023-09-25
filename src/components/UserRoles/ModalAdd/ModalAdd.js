@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Service } from '../../../Services/UserRole/UserRole'
 import { commonAlerError } from "../../../Common/error"
 import { handleAlertAddResultAction, setModalAdd } from "../../../Redux/slices/UserRole.slice"
-import AddEditModalLayout from '../AddEditModalLayout';
+import AddEditModalLayout from '../AddEditModalLayout'
 import { RESULT_STATUS } from "../../../Common/Common_Parameter"
 
 function ModalAdd() {

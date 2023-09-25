@@ -17,13 +17,11 @@ const servicePattern = {
 function createStatus(data) {
     return vegaInstance.post(servicePattern.create, data);
 }
-
 function deleteStatus(data) {
     return vegaInstance.post(servicePattern.delete, data);
 }
-
 function searchAndPaginationStatus(data) {
-    return vegaInstance.post(servicePattern.searchAndPagination, data);
+    return vegaInstance.get(`${servicePattern.searchAndPagination}?page=${data.page}&&limit=${data.limit}&&key=${data.key}`);
 }
 function editStatus(data) {
     return vegaInstance.post(servicePattern.edit, data);

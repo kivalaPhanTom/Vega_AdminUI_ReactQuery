@@ -1,45 +1,31 @@
-import React, {memo} from 'react'
-import {Modal } from 'antd';
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import styles from "./index.module.css"
-import * as statusActions  from "../../../Redux/Actions/Status.action";
+import ConfirmDelete from '../../../commonComponent/ConfirmDelete/ConfirmDelete';
+import { setConfirmDelete } from "../../../Redux/slices/Status.slice"
 
 function ConfirmDeleteStatus(props) {
   
   const dispatch = useDispatch();
-  const { handleDeleteMainGroup} =props
+  const { handleConfirmDelete} =props
   const isOpenConfirmDelete = useSelector((state)=> state.statusSlice.isOpenConfirmDelete)
 
   const handleOk = () => {
-      handleDeleteMainGroup()
+    handleConfirmDelete()
   };
 
   const handleCancel = () => {
-    dispatch(statusActions.closeConfirmDelete())
+    dispatch(setConfirmDelete(false))
   };
 
   return (
     <>
-      <Modal 
-          title={'Bạn muốn xóa ?'} 
-          open={isOpenConfirmDelete} 
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={null}
-      >
-         <div className={styles['btn_action']}>
-             <div className={styles['btnCancel']}>
-                <button onClick={handleCancel}>Hủy</button>
-             </div>
-             <div className={styles['btnSave']}>
-                <button onClick={handleOk}>Xóa</button>
-             </div>
-         </div>
-      </Modal>
+     <ConfirmDelete 
+        handleOk = {handleOk}
+        handleCancel = {handleCancel}
+        isOpen = {isOpenConfirmDelete}
+      />
     </>
   )
 }
-
-
 
 export default ConfirmDeleteStatus

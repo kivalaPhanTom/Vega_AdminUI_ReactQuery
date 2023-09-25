@@ -1,51 +1,88 @@
 import React,{useEffect, memo} from 'react'
-import styles from "./index.module.css"
-import { Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import * as statusActions  from "../../../Redux/Actions/Status.action";
 import { MethodCommon } from "../../../Common/methods";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import AddEditModalLayout from '../AddEditModalLayout'
+import { Service } from '../../../Services/Status/Status'
+import { commonAlerError } from "../../../Common/error"
+import { setConfirmEdit, handleAlertEditResultAction } from "../../../Redux/slices/Status.slice"
+import { RESULT_STATUS } from "../../../Common/Common_Parameter"
 
 function ModalEdit(props) {
     const dispatch = useDispatch();
     const isOpenConfirmEdit = useSelector((state)=> state.statusSlice.isOpenConfirmEdit)
-    const pagination = useSelector((state)=> state.statusSlice.pagination)
+    // const pagination = useSelector((state)=> state.statusSlice.pagination)
     const dataEdit = useSelector((state)=> state.statusSlice.dataEdit)
     const { id, code, name } = dataEdit
-    const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
-    useEffect(()=>{
+    // const userLocalStorage = MethodCommon.getLocalStorage('UserVega')
+    const lang = ''
+    const queryClient = useQueryClient()
 
-    },[])
+    const editStatusMutation = useMutation({
+        mutationFn: (data) => {
+            return Service.editStatus(data)
+        },
+        onSuccess: async (res) => {
+            if (res.data.result === RESULT_STATUS.SUCCESS) handleCloseModal()
+            dispatch(handleAlertEditResultAction({
+                signal: res.data.result,
+                lang: ''
+            }))
+            queryClient.invalidateQueries(['status']) //để refresh lại api gọi danh sách
+        },
+        onError: () => {
+            commonAlerError(lang)
+        },
+    })
 
-    const handleOk = () => {
-        const dataSubmit ={
-            id: id,
-            statusId: code,
-            statusName: name,
-            UserUpdated: userLocalStorage.id,
-            UpdatedDate:null
-        }
-        dispatch(statusActions.edit({data:dataSubmit, pagination:pagination}))
-    };
+    const handleOk = async (dataSubmit) => {
+        let dataSubmitClone = { ...dataSubmit }
+        dataSubmitClone.id = dataEdit.id
+        dataSubmitClone.UpdatedDate = MethodCommon.getTimeStampNow()
+        editStatusMutation.mutate(dataSubmitClone)
+    }
 
-    const handleCancel = () => {
-        dispatch(statusActions.closeConfirmEdit({}))
-    };
+    // const handleOk = () => {
+    //     const dataSubmit ={
+    //         id: id,
+    //         statusId: code,
+    //         statusName: name,
+    //         UserUpdated: userLocalStorage.id,
+    //         UpdatedDate:null
+    //     }
+    //     dispatch(statusActions.edit({data:dataSubmit, pagination:pagination}))
+    // };
+
+    // const handleCancel = () => {
+    //     dispatch(statusActions.closeConfirmEdit({}))
+    // };
     
-    const handleChangeCode =(e)=>{
-        let dataClone = {...dataEdit}
-        dataClone.code= e.target.value
-        dispatch(statusActions.updateDataEdit(dataClone))
-    }
+    // const handleChangeCode =(e)=>{
+    //     let dataClone = {...dataEdit}
+    //     dataClone.code= e.target.value
+    //     dispatch(statusActions.updateDataEdit(dataClone))
+    // }
 
-    const handleChangeName =(e)=>{
-        let dataClone = {...dataEdit}
-        dataClone.name= e.target.value
-        dispatch(statusActions.updateDataEdit(dataClone))
+    // const handleChangeName =(e)=>{
+    //     let dataClone = {...dataEdit}
+    //     dataClone.name= e.target.value
+    //     dispatch(statusActions.updateDataEdit(dataClone))
+    // }
+    const handleCloseModal = () => {
+        dispatch(setConfirmEdit(false))
     }
-
     return (
         <>
-            <Modal 
+        <AddEditModalLayout
+            title={'Sửa trạng thái'}
+            isOpen={isOpenConfirmEdit}
+            handleOk={handleOk}
+            handleCloseModal={handleCloseModal}
+            codeState={code}
+            nameState={name}
+            isLoading={editStatusMutation.isLoading}
+        />
+            {/* <Modal 
                 title={<span className={styles['title']}>Sửa trạng thái</span>} 
                 open={isOpenConfirmEdit} 
                 onOk={handleOk}
@@ -75,7 +112,7 @@ function ModalEdit(props) {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
         </>
     )
 }
